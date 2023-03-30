@@ -26,7 +26,7 @@ namespace OOP_CourseWork.Models
             _cost = 0;
             _isPayed = false;
             _isRefunded = false;
-    }
+        }
 
         public Payment(int id, Client user, double cost)
         {

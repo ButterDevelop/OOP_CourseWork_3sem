@@ -15,6 +15,9 @@ namespace OOP_CourseWork.Controls
         public static readonly string UsersDBPath = "users.csv";
         public static readonly string BrandsDBPath = "brands.csv";
         public static readonly string CarsDBPath = "cars.csv";
+        public static readonly string OrdersDBPath = "orders.csv";
+        public static readonly string PaymentsDBPath = "payments.csv";
+        public static readonly string BankTransactionsDBPath = "banktransactions.csv";
         public static List<User>            Users = new List<User>();
         public static List<CarBrand>        CarBrands = new List<CarBrand>();
         public static List<Car>             Cars = new List<Car>();
