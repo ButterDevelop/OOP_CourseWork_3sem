@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOP_CourseWork.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,14 +26,41 @@ namespace OOP_CourseWork.Models
 
         }
 
-        public void GetFinancialReport(DateTime date1, DateTime date2)
-        {
-            //
-        }
 
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        public double GetPotentionalFinancialReport(DateTime date1, DateTime date2)
+        {
+            var serviceTransactions = SaveLoadControl.ServiceReports.Where(x => x.StartedDate >= date1 &&
+                                                                                 ((x.FinishedDate == DateTime.MinValue && x.StartedDate.AddDays(x.PlannedCompletionDays) <= date2)
+                                                                                 || (x.FinishedDate != DateTime.MinValue && x.FinishedDate <= date2)));
+
+            return GetFinancialReport(date1, date2) - serviceTransactions.Sum(x => x.Cost);
+        }
+
+        public double GetFinancialReport(DateTime date1, DateTime date2)
+        {
+            var plusTransactions = SaveLoadControl.BankTransactions.Where(x => x.IsFinished && 
+                                                                          x.ToCardNumberOrBankAccountNumber == BankTransaction.OurOrganizationBankAccountNumber && 
+                                                                          x.CreatedTime >= date1 &&
+                                                                          x.CreatedTime <= date2);
+            var minusTransactions = SaveLoadControl.BankTransactions.Where(x => x.IsFinished &&
+                                                                           x.FromCardNumberOrBankAccountNumber == BankTransaction.OurOrganizationBankAccountNumber &&
+                                                                           x.CreatedTime >= date1 &&
+                                                                           x.CreatedTime <= date2);
+
+            return plusTransactions.Sum(x => x.TotalAmount) - minusTransactions.Sum(x => x.TotalAmount);
+        }
+
+        public bool PutCarOnService(Car car, string description, int daysPlanned)
+        {
+            ServiceReport serviceReport = new ServiceReport(SaveLoadControl.ServiceReports.Count, description, daysPlanned, car);
+            SaveLoadControl.ServiceReports.Add(serviceReport);
+
+            return true;
         }
     }
 }

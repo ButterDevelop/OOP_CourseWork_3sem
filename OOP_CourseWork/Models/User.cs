@@ -156,5 +156,25 @@ namespace OOP_CourseWork.Models
             }
             return false;
         }
+
+        public bool ChangeEmail(string oldPassword, string newEmail, string newEmailConfirmation)
+        {
+            if (IsPasswordCorrect(oldPassword) && newEmail == newEmailConfirmation)
+            {
+                _email = newEmail;
+                return true;
+            }
+            return false;
+        }
+
+        public bool ChangePhoneNumber(string oldPassword, string newPhoneNumber, string newPhoneNumberConfirmation)
+        {
+            if (IsPasswordCorrect(oldPassword) && newPhoneNumber == newPhoneNumberConfirmation)
+            {
+                _phone = newPhoneNumber;
+                return true;
+            }
+            return false;
+        }
     }
 }

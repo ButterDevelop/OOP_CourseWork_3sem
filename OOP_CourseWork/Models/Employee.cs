@@ -1,6 +1,8 @@
-﻿using System;
+﻿using OOP_CourseWork.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +15,8 @@ namespace OOP_CourseWork.Models
         private int      _hoursWorked;
         private DateTime _dateHired;
         private DateTime _dateFired;
+        private DateTime _dateLastSalaryPayed;
+        private string   _bankAccountNumber;
         private double   _salaryPerHour;
         private bool     _isWorkingNow;
 
@@ -20,7 +24,8 @@ namespace OOP_CourseWork.Models
         {
             _ordersProccessed = _hoursWorked = 0;
             _dateHired = DateTime.Now;
-            _dateFired = DateTime.Now;
+            _dateFired = DateTime.MinValue;
+            _bankAccountNumber = string.Empty;
             _salaryPerHour = 0;
             _isWorkingNow = true;
         }
@@ -28,22 +33,23 @@ namespace OOP_CourseWork.Models
         public Employee(int id, string username, string password, string fullname, string email, string phone)
             : base(id, username, password, fullname, email, phone, RolesContainer.Employee)
         {
-            _ordersProccessed = 0;
-            _hoursWorked = 0;
+            _ordersProccessed = _hoursWorked = 0;
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
+            _bankAccountNumber = string.Empty;
             _salaryPerHour = 0;
             _isWorkingNow = true;
         }
 
         public Employee(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated,
-                        int ordersProccessed, int hoursWorked, DateTime dateHired, DateTime dateFired, double salaryPerHour, bool isWorkingNow) 
+                        int ordersProccessed, int hoursWorked, DateTime dateHired, DateTime dateFired, string bankAccountNumber, double salaryPerHour, bool isWorkingNow) 
             : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Employee, accountDeactivated)
         {
             _ordersProccessed = ordersProccessed;
             _hoursWorked = hoursWorked;
             _dateHired = dateHired;
             _dateFired = dateFired;
+            _bankAccountNumber = bankAccountNumber;
             _salaryPerHour = salaryPerHour;
             _isWorkingNow = isWorkingNow;
         }
@@ -80,6 +86,22 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public DateTime DateLastSalaryPayed
+        {
+            get
+            {
+                return _dateLastSalaryPayed;
+            }
+        }
+
+        public string BankAccountNumber
+        {
+            get
+            {
+                return _bankAccountNumber;
+            }
+        }
+
         public bool IsWorkingNow
         {
             get
@@ -109,14 +131,30 @@ namespace OOP_CourseWork.Models
             return base.ToString() + ";" + _ordersProccessed + ";" + _hoursWorked + ";" + _dateHired + ";" + _dateFired + ";" + _isWorkingNow;
         }
 
-        public void FireEmployee()
+        public bool FireEmployee()
         {
             if (_isWorkingNow)
             {
+                if (!PaySalary()) return false;
                 _dateFired = DateTime.Now;
                 _isWorkingNow = false;
                 base.DeactivateAccount();
+                return true;
             }
+            return false;
+        }
+
+        public bool PaySalary()
+        {
+            BankTransaction bankTransaction = new BankTransaction(_bankAccountNumber, Salary);
+
+            if (!bankTransaction.Deposit()) return false;
+
+            _hoursWorked = 0;
+            _ordersProccessed = 0;
+            _dateLastSalaryPayed = DateTime.Now;
+
+            return true;
         }
     }
 }

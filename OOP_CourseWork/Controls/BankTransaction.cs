@@ -9,59 +9,84 @@ namespace OOP_CourseWork.Controls
 {
     internal class BankTransaction
     {
+        public static readonly string ServiceCentreBankAccountNumber = "BY20 OLMP 3135 0000 0010 0000 0933";
+        public static readonly string OurOrganizationBankAccountNumber = "BY20 OLMP 3136 0000 0020 0010 9045";
         public static readonly int TransactionTries = 3;
         public static readonly int MinutesForTransaction = 15;
 
-        private string   _cardNumber;
+        private int      _id;
+        private string   _fromCardNumberOrBankAccountNumber;
+        private string   _toCardNumberOrBankAccountNumber;
         private DateTime _createdTime;
         private DateTime _payedTime;
         private DateTime _cancelledTime;
         private double   _totalAmount;
         private int      _totalTries;
-        private bool     _isPayed;
+        private bool     _isFinished;
         private bool     _isCancelled;
 
         public BankTransaction()
         {
-            _cardNumber = string.Empty;
+            _id = 0;
+            _fromCardNumberOrBankAccountNumber = _toCardNumberOrBankAccountNumber = string.Empty;
             _createdTime = DateTime.Now;
             _payedTime = DateTime.MinValue;
             _cancelledTime = DateTime.MinValue;
             _totalAmount = 0;
             _totalTries = 0;
-            _isPayed = false;
+            _isFinished = false;
             _isCancelled = false;
         }
 
-        public BankTransaction(string cardNumber, double totalAmount)
+        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, double totalAmount)
         {
-            _cardNumber = cardNumber;
+            _id = id;
+            _fromCardNumberOrBankAccountNumber = fromCardNumberOrBankAccountNumber;
+            _toCardNumberOrBankAccountNumber = toCardNumberOrBankAccountNumber;
             _createdTime = DateTime.Now;
             _payedTime = DateTime.MinValue;
             _cancelledTime = DateTime.MinValue;
             _totalAmount = totalAmount;
             _totalTries = 0;
-            _isPayed = false;
+            _isFinished = false;
             _isCancelled = false;
         }
 
-        public BankTransaction(string cardNumber, DateTime createdTime, DateTime payedTime, DateTime cancelledTime, double totalAmount, int totalTries, bool isPayed, bool isCancelled)
+        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, DateTime createdTime, DateTime payedTime, DateTime cancelledTime, double totalAmount, int totalTries, bool isPayed, bool isCancelled)
         {
-            _cardNumber = cardNumber;
+            _id = id;
+            _fromCardNumberOrBankAccountNumber = fromCardNumberOrBankAccountNumber;
+            _toCardNumberOrBankAccountNumber = toCardNumberOrBankAccountNumber;
             _createdTime = createdTime;
             _payedTime = payedTime;
             _cancelledTime = cancelledTime;
             _totalAmount = totalAmount;
             _totalTries = totalTries;
-            _isPayed = isPayed;
+            _isFinished = isPayed;
             _isCancelled = isCancelled;
         }
 
-        public string CardNumber
+        public int Id
         {
             get
             {
-                return _cardNumber;
+                return _id;
+            }
+        }
+
+        public string FromCardNumberOrBankAccountNumber
+        {
+            get
+            {
+                return _fromCardNumberOrBankAccountNumber;
+            }
+        }
+
+        public string ToCardNumberOrBankAccountNumber
+        {
+            get
+            {
+                return _toCardNumberOrBankAccountNumber;
             }
         }
 
@@ -105,11 +130,11 @@ namespace OOP_CourseWork.Controls
             }
         }
 
-        public bool IsPayed
+        public bool IsFinished
         {
             get
             {
-                return _isPayed;
+                return _isFinished;
             }
         }
 
@@ -122,8 +147,8 @@ namespace OOP_CourseWork.Controls
         }
 
 
-        // Симуляция запроса в банк
-        public bool Debit(string CVV_CVC_code)
+        // Симуляция запроса в банк. В зависимости от адреса выходящего и входящего будем понимать, пришли или ушли деньги относительно нашего счёта
+        public bool Debit(string secretCode)
         {
             if (DateTime.Now >= _createdTime.AddMinutes(MinutesForTransaction))
             {
@@ -137,12 +162,12 @@ namespace OOP_CourseWork.Controls
                 return false;
             }
 
-            if (_isPayed) return false;
+            if (_isFinished) return false;
 
-            if (_cardNumber.Substring(_cardNumber.Length - 3) != CVV_CVC_code) return false;
+            if (_fromCardNumberOrBankAccountNumber.Substring(_fromCardNumberOrBankAccountNumber.Length - 3) != secretCode) return false;
 
             _payedTime = DateTime.Now;
-            _isPayed = true;
+            _isFinished = true;
 
             return true;
         }

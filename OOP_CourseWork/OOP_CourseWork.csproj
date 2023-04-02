@@ -63,6 +63,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\RolesContainer.cs" />
+    <Compile Include="Models\ServiceReport.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

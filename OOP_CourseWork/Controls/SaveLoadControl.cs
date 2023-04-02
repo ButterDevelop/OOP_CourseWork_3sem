@@ -18,12 +18,14 @@ namespace OOP_CourseWork.Controls
         public static readonly string OrdersDBPath = "orders.csv";
         public static readonly string PaymentsDBPath = "payments.csv";
         public static readonly string BankTransactionsDBPath = "banktransactions.csv";
+        public static readonly string ServiceReportsDBPath = "banktransactions.csv";
         public static List<User>            Users = new List<User>();
         public static List<CarBrand>        CarBrands = new List<CarBrand>();
         public static List<Car>             Cars = new List<Car>();
         public static List<Order>           Orders = new List<Order>();
         public static List<Payment>         Payments = new List<Payment>();
         public static List<BankTransaction> BankTransactions = new List<BankTransaction>();
+        public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();
 
         public static bool SaveUsers()
         {
@@ -98,13 +100,14 @@ namespace OOP_CourseWork.Controls
                         int hoursWorked = int.Parse(splited[10]);
                         DateTime dateHired = DateTime.Parse(splited[11]);
                         DateTime dateFired = DateTime.Parse(splited[12]);
-                        double salaryPerHour = double.Parse(splited[13]);
-                        bool isWorkingNow = bool.Parse(splited[14]);
+                        string cardNumberOrBankAccountNumber = splited[13];
+                        double salaryPerHour = double.Parse(splited[14]);
+                        bool isWorkingNow = bool.Parse(splited[15]);
 
                         if (ordersProccessed < 0 || hoursWorked < 0) continue;
 
                         Employee employee = new Employee(id, username, salt, hashedPassword, fullname, email, phone, accountDeactivated, 
-                                                         ordersProccessed, hoursWorked, dateHired, dateFired, salaryPerHour, isWorkingNow);
+                                                         ordersProccessed, hoursWorked, dateHired, dateFired, cardNumberOrBankAccountNumber, salaryPerHour, isWorkingNow);
                         users.Add(employee);
                     } else 
                     if (role == "Admin")

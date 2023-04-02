@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOP_CourseWork.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -92,6 +93,14 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _lastServiceTime;
+            }
+        }
+
+        public bool IsOnServiceNow
+        {
+            get
+            {
+                return SaveLoadControl.ServiceReports.FirstOrDefault(x => !x.IsFinished && x.ServicedCar.Id == _id) != null;
             }
         }
     }
