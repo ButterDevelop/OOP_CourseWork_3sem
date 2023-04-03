@@ -9,23 +9,34 @@ namespace OOP_CourseWork.Models
 {
     internal class Admin : User
     {
+        private int _totalCarServiced;
+
         public Admin() : base() 
         {
-            
+            _totalCarServiced = 0;
         }
 
         public Admin(int id, string username, string password, string fullname, string email, string phone)
             : base(id, username, password, fullname, email, phone, RolesContainer.Admin)
         {
-
+            _totalCarServiced = 0;
         }
 
-        public Admin(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated) 
+        public Admin(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated,
+                     int totalCarServiced) 
             : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Admin, accountDeactivated)
         {
-
+            _totalCarServiced = totalCarServiced;
         }
 
+
+        public int TotalCarServiced
+        {
+            get
+            {
+                return _totalCarServiced;
+            }
+        }
 
         public override string ToString()
         {
@@ -59,6 +70,8 @@ namespace OOP_CourseWork.Models
         {
             ServiceReport serviceReport = new ServiceReport(SaveLoadControl.ServiceReports.Count, description, daysPlanned, car);
             SaveLoadControl.ServiceReports.Add(serviceReport);
+
+            ++_totalCarServiced;
 
             return true;
         }

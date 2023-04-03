@@ -1,17 +1,21 @@
-﻿using OOP_CourseWork.Models;
+﻿using Newtonsoft.Json;
+using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OOP_CourseWork.Controls
 {
     internal class SaveLoadControl
     {
+        public static readonly string DBPath = "db.json";
         public static readonly string UsersDBPath = "users.csv";
         public static readonly string BrandsDBPath = "brands.csv";
         public static readonly string CarsDBPath = "cars.csv";
@@ -19,13 +23,13 @@ namespace OOP_CourseWork.Controls
         public static readonly string PaymentsDBPath = "payments.csv";
         public static readonly string BankTransactionsDBPath = "banktransactions.csv";
         public static readonly string ServiceReportsDBPath = "banktransactions.csv";
-        public static List<User>            Users = new List<User>();
-        public static List<CarBrand>        CarBrands = new List<CarBrand>();
-        public static List<Car>             Cars = new List<Car>();
-        public static List<Order>           Orders = new List<Order>();
-        public static List<Payment>         Payments = new List<Payment>();
-        public static List<BankTransaction> BankTransactions = new List<BankTransaction>();
-        public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();
+        public static List<User>            Users = new List<User>();                       //simple
+        public static List<CarBrand>        CarBrands = new List<CarBrand>();               //simple
+        public static List<Car>             Cars = new List<Car>();                         //complicated
+        public static List<Order>           Orders = new List<Order>();                     //complicated
+        public static List<Payment>         Payments = new List<Payment>();                 //complicated
+        public static List<BankTransaction> BankTransactions = new List<BankTransaction>(); //simple
+        public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();     //complicated
 
         public static bool SaveUsers()
         {
@@ -112,7 +116,11 @@ namespace OOP_CourseWork.Controls
                     } else 
                     if (role == "Admin")
                     {
-                        Admin admin = new Admin(id, username, salt, hashedPassword, fullname, email, phone, accountDeactivated);
+                        int totalCarServiced = int.Parse(splited[9]);
+
+                        if (totalCarServiced < 0) continue;
+
+                        Admin admin = new Admin(id, username, salt, hashedPassword, fullname, email, phone, accountDeactivated, totalCarServiced);
                         users.Add(admin);
                     }
                 }
@@ -125,6 +133,52 @@ namespace OOP_CourseWork.Controls
             Users = users;
 
             return true;
+        }
+
+        public static bool SaveJSON()
+        {
+            try
+            {
+                JSON_export2.Root export = new JSON_export2.Root();
+                export.Users = Users;
+                export.CarBrands = CarBrands;
+                export.Cars = Cars;
+                export.Orders = Orders;
+                export.Payments = Payments;
+                export.BankTransactions = BankTransactions;
+                export.ServiceReports = ServiceReports;
+
+                var json = JsonConvert.SerializeObject(export);
+                File.WriteAllText(DBPath, json);
+
+                return true;
+            } catch
+            {
+                return false;
+            }
+        }
+
+        public static bool LoadJSON()
+        {
+            try
+            {
+                string data = File.ReadAllText(DBPath);
+                JSON_export2.Root deserialized = JsonConvert.DeserializeObject<JSON_export2.Root>(data);
+
+                Users = deserialized.Users;
+                CarBrands = deserialized.CarBrands;
+                Cars = deserialized.Cars;
+                Orders = deserialized.Orders;
+                Payments = deserialized.Payments;
+                BankTransactions = deserialized.BankTransactions;
+                ServiceReports = deserialized.ServiceReports;
+
+                return true;
+            } catch (Exception ex)
+            {
+                MessageBox.Show("LoadJSON exception: " + ex.ToString());
+                return false;
+            }
         }
     }
 }

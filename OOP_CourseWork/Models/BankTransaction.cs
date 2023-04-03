@@ -5,12 +5,13 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOP_CourseWork.Controls
+namespace OOP_CourseWork.Models
 {
     internal class BankTransaction
     {
         public static readonly string ServiceCentreBankAccountNumber = "BY20 OLMP 3135 0000 0010 0000 0933";
         public static readonly string OurOrganizationBankAccountNumber = "BY20 OLMP 3136 0000 0020 0010 9045";
+        public static readonly string OurOrganizationSecretCode = "045";
         public static readonly int TransactionTries = 3;
         public static readonly int MinutesForTransaction = 15;
 

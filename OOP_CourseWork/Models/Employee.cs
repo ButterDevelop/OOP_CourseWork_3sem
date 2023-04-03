@@ -146,9 +146,11 @@ namespace OOP_CourseWork.Models
 
         public bool PaySalary()
         {
-            BankTransaction bankTransaction = new BankTransaction(_bankAccountNumber, Salary);
+            BankTransaction bankTransaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, BankTransaction.OurOrganizationBankAccountNumber,
+                                                                  _bankAccountNumber, Salary);
+            SaveLoadControl.BankTransactions.Add(bankTransaction);
 
-            if (!bankTransaction.Deposit()) return false;
+            if (!bankTransaction.Debit(BankTransaction.OurOrganizationSecretCode)) return false;
 
             _hoursWorked = 0;
             _ordersProccessed = 0;

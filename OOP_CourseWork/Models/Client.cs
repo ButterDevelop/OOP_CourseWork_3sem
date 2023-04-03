@@ -112,7 +112,9 @@ namespace OOP_CourseWork.Models
 
         public bool BalanceDeposit(double totalAmount, string CVV_CVC_code)
         {
-            BankTransaction transaction = new BankTransaction(_cardNumber, totalAmount);
+            BankTransaction transaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, _cardNumber, 
+                                                              BankTransaction.OurOrganizationBankAccountNumber, totalAmount);
+            SaveLoadControl.BankTransactions.Add(transaction);
             return BalanceDeposit(transaction, CVV_CVC_code);
         }
         public bool BalanceDeposit(BankTransaction transaction, string CVV_CVC_code)

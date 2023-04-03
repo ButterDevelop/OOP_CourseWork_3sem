@@ -9,3 +9,6 @@ C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.CoreCompileInputs.cache
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.exe
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.pdb
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\Newtonsoft.Json.dll
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\Newtonsoft.Json.xml
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.CopyComplete
