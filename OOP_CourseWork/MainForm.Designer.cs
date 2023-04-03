@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonLoadDB = new System.Windows.Forms.Button();
             this.buttonSaveDB = new System.Windows.Forms.Button();
             this.buttonCreateSomeData = new System.Windows.Forms.Button();
@@ -95,6 +96,7 @@
             this.Controls.Add(this.buttonCreateSomeData);
             this.Controls.Add(this.buttonSaveDB);
             this.Controls.Add(this.buttonLoadDB);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
