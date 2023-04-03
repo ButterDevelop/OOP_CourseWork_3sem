@@ -60,6 +60,10 @@ namespace OOP_CourseWork.Models
             {
                 return _id;
             }
+            set
+            {
+                _id = value;
+            }
         }
 
         public string UserName
@@ -67,6 +71,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _username;
+            }
+            set
+            {
+                _username = value;
             }
         }
 
@@ -76,6 +84,10 @@ namespace OOP_CourseWork.Models
             {
                 return _salt;
             }
+            set
+            {
+                _salt = value;
+            }
         }
 
         public string HashedPassword
@@ -83,6 +95,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _hashedPassword;
+            }
+            set
+            {
+                _hashedPassword = value;
             }
         }
 
@@ -92,6 +108,10 @@ namespace OOP_CourseWork.Models
             {
                 return _fullname;
             }
+            set
+            {
+                _fullname = value;
+            }
         }
 
         public string Email
@@ -99,6 +119,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _email;
+            }
+            set
+            {
+                _email = value;
             }
         }
 
@@ -108,6 +132,10 @@ namespace OOP_CourseWork.Models
             {
                 return _phone;
             }
+            set
+            {
+                _phone = value;
+            }
         }
 
         public RolesContainer Role
@@ -116,6 +144,10 @@ namespace OOP_CourseWork.Models
             {
                 return _role;
             }
+            set
+            {
+                _role = value;
+            }
         }
 
         public bool AccountDeactivated
@@ -123,6 +155,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _accountDeactivated;
+            }
+            set
+            {
+                _accountDeactivated = value;
             }
         }
 

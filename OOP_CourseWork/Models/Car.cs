@@ -45,7 +45,11 @@ namespace OOP_CourseWork.Models
             get 
             { 
                 return _id; 
-            } 
+            }
+            set
+            {
+                _id = value;
+            }
         }
 
         public CarBrand Brand
@@ -53,6 +57,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _brand;
+            }
+            set
+            {
+                _brand = value;
             }
         }
 
@@ -62,6 +70,10 @@ namespace OOP_CourseWork.Models
             {
                 return _model;
             }
+            set
+            {
+                _model = value;
+            }
         }
 
         public double PricePerHour
@@ -69,6 +81,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _pricePerHour;
+            }
+            set
+            {
+                _pricePerHour = value;
             }
         }
 
@@ -78,6 +94,10 @@ namespace OOP_CourseWork.Models
             {
                 return _productionYear;
             }
+            set
+            {
+                _productionYear = value;
+            }
         }
 
         public DateTime BuyTime
@@ -86,6 +106,10 @@ namespace OOP_CourseWork.Models
             {
                 return _buyTime;
             }
+            set
+            {
+                _buyTime = value;
+            }
         }
 
         public DateTime LastServiceTime
@@ -93,6 +117,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _lastServiceTime;
+            }
+            set
+            {
+                _lastServiceTime = value;
             }
         }
 

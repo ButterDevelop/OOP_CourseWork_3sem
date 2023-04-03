@@ -73,6 +73,10 @@ namespace OOP_CourseWork.Models
             {
                 return _id;
             }
+            set
+            {
+                _id = value;
+            }
         }
 
         public string FromCardNumberOrBankAccountNumber
@@ -80,6 +84,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _fromCardNumberOrBankAccountNumber;
+            }
+            set
+            {
+                _fromCardNumberOrBankAccountNumber = value;
             }
         }
 
@@ -89,6 +97,10 @@ namespace OOP_CourseWork.Models
             {
                 return _toCardNumberOrBankAccountNumber;
             }
+            set
+            {
+                _toCardNumberOrBankAccountNumber = value;
+            }
         }
 
         public DateTime CreatedTime
@@ -96,6 +108,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _createdTime;
+            }
+            set
+            {
+                _createdTime = value;
             }
         }
 
@@ -105,6 +121,10 @@ namespace OOP_CourseWork.Models
             {
                 return _payedTime;
             }
+            set
+            {
+                _payedTime = value;
+            }
         }
 
         public DateTime CancelledTime
@@ -112,6 +132,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _cancelledTime;
+            }
+            set
+            {
+                _cancelledTime = value;
             }
         }
 
@@ -121,6 +145,10 @@ namespace OOP_CourseWork.Models
             {
                 return _totalAmount;
             }
+            set
+            {
+                _totalAmount = value;
+            }
         }
 
         public int TotalTries
@@ -128,6 +156,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _totalTries;
+            }
+            set
+            {
+                _totalTries = value;
             }
         }
 
@@ -137,6 +169,10 @@ namespace OOP_CourseWork.Models
             {
                 return _isFinished;
             }
+            set
+            {
+                _isFinished = value;
+            }
         }
 
         public bool IsCancelled
@@ -144,6 +180,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _isCancelled;
+            }
+            set
+            {
+                _isCancelled = value;
             }
         }
 

@@ -65,6 +65,10 @@ namespace OOP_CourseWork.Models
             {
                 return _id;
             }
+            set
+            {
+                _id = value;
+            }
         }
 
         public DateTime OrderCreatedTime
@@ -72,6 +76,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _orderCreatedTime;
+            }
+            set
+            {
+                _orderCreatedTime = value;
             }
         }
 
@@ -81,6 +89,10 @@ namespace OOP_CourseWork.Models
             {
                 return _orderPayedTime;
             }
+            set
+            {
+                _orderPayedTime = value;
+            }
         }
 
         public DateTime OrderBookingTime
@@ -88,6 +100,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _orderBookingTime;
+            }
+            set
+            {
+                _orderBookingTime = value;
             }
         }
 
@@ -97,6 +113,10 @@ namespace OOP_CourseWork.Models
             {
                 return _orderReturnedTime;
             }
+            set
+            {
+                _orderReturnedTime = value;
+            }
         }
 
         public DateTime OrderCancelledTime
@@ -104,6 +124,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _orderCancelledTime;
+            }
+            set
+            {
+                _orderCancelledTime = value;
             }
         }
 
@@ -113,6 +137,10 @@ namespace OOP_CourseWork.Models
             {
                 return _orderedCar;
             }
+            set
+            {
+                _orderedCar = value;
+            }
         }
 
         public int OrderHours
@@ -120,6 +148,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _orderedHours;
+            }
+            set
+            {
+                _orderedHours = value;
             }
         }
 
@@ -129,6 +161,10 @@ namespace OOP_CourseWork.Models
             {
                 return _orderPayment;
             }
+            set
+            {
+                _orderPayment = value;
+            }
         }
 
         public bool IsCancelled
@@ -136,6 +172,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _isCancelled;
+            }
+            set
+            {
+                _isCancelled = value;
             }
         }
 

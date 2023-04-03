@@ -1,4 +1,5 @@
-﻿using OOP_CourseWork.Controls;
+﻿using Newtonsoft.Json;
+using OOP_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +64,10 @@ namespace OOP_CourseWork.Models
             {
                 return _id;
             }
+            set
+            {
+                _id = value;
+            }
         }
 
         public string Description
@@ -71,8 +76,13 @@ namespace OOP_CourseWork.Models
             {
                 return _description;
             }
+            set
+            {
+                _description = value;
+            }
         }
 
+        [JsonIgnore]
         public double Cost
         {
             get
@@ -87,6 +97,10 @@ namespace OOP_CourseWork.Models
             {
                 return _startedDate;
             }
+            set
+            {
+                _startedDate = value;
+            }
         }
 
         public DateTime FinishedDate
@@ -94,6 +108,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _finishedDate;
+            }
+            set
+            {
+                _finishedDate = value;
             }
         }
 
@@ -103,6 +121,10 @@ namespace OOP_CourseWork.Models
             {
                 return _isFinished;
             }
+            set
+            {
+                _isFinished = value;
+            }
         }
 
         public int PlannedCompletionDays
@@ -111,6 +133,10 @@ namespace OOP_CourseWork.Models
             {
                 return _plannedCompletionDays;
             }
+            set
+            {
+                _plannedCompletionDays = value;
+            }
         }
 
         public Car ServicedCar
@@ -118,6 +144,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _servicedCar;
+            }
+            set
+            {
+                _servicedCar = value;
             }
         }
 

@@ -30,6 +30,7 @@ namespace OOP_CourseWork.Controls
         public static List<Payment>         Payments = new List<Payment>();                 //complicated
         public static List<BankTransaction> BankTransactions = new List<BankTransaction>(); //simple
         public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();     //complicated
+        public static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         public static bool SaveUsers()
         {
@@ -139,7 +140,7 @@ namespace OOP_CourseWork.Controls
         {
             try
             {
-                JSON_export2.Root export = new JSON_export2.Root();
+                JSON_export.Root export = new JSON_export.Root();
                 export.Users = Users;
                 export.CarBrands = CarBrands;
                 export.Cars = Cars;
@@ -148,7 +149,7 @@ namespace OOP_CourseWork.Controls
                 export.BankTransactions = BankTransactions;
                 export.ServiceReports = ServiceReports;
 
-                var json = JsonConvert.SerializeObject(export);
+                var json = JsonConvert.SerializeObject(export, settingsJSON);
                 File.WriteAllText(DBPath, json);
 
                 return true;
@@ -163,7 +164,7 @@ namespace OOP_CourseWork.Controls
             try
             {
                 string data = File.ReadAllText(DBPath);
-                JSON_export2.Root deserialized = JsonConvert.DeserializeObject<JSON_export2.Root>(data);
+                JSON_export.Root deserialized = JsonConvert.DeserializeObject<JSON_export.Root>(data, settingsJSON);
 
                 Users = deserialized.Users;
                 CarBrands = deserialized.CarBrands;
@@ -173,10 +174,28 @@ namespace OOP_CourseWork.Controls
                 BankTransactions = deserialized.BankTransactions;
                 ServiceReports = deserialized.ServiceReports;
 
+                // Исправляем проблему дублирования. Присваиваем объекты из массива, новосозданные (дублированные) объекты удаляются.
+                foreach (var a in Cars)
+                {
+                    a.Brand = SaveLoadControl.CarBrands[a.Brand.Id];
+                }
+                foreach (var a in Orders)
+                {
+                    a.OrderedCar = SaveLoadControl.Cars[a.OrderedCar.Id];
+                    a.OrderPayment = SaveLoadControl.Payments[a.OrderPayment.Id];
+                }
+                foreach (var a in Payments)
+                {
+                    a.User = (Client)SaveLoadControl.Users[a.User.Id];
+                }
+                foreach (var a in ServiceReports)
+                {
+                    a.ServicedCar = SaveLoadControl.Cars[a.ServicedCar.Id];
+                }
+
                 return true;
-            } catch (Exception ex)
+            } catch
             {
-                MessageBox.Show("LoadJSON exception: " + ex.ToString());
                 return false;
             }
         }

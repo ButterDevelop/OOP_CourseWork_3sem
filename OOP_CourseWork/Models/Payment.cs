@@ -55,7 +55,11 @@ namespace OOP_CourseWork.Models
             get 
             { 
                 return _id; 
-            } 
+            }
+            set
+            {
+                _id = value;
+            }
         }
 
         public DateTime CreatedTime
@@ -63,6 +67,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _createdTime;
+            }
+            set
+            {
+                _createdTime = value;
             }
         }
 
@@ -72,6 +80,10 @@ namespace OOP_CourseWork.Models
             {
                 return _payedTime;
             }
+            set
+            {
+                _payedTime = value;
+            }
         }
 
         public Client User
@@ -79,6 +91,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _user;
+            }
+            set
+            {
+                _user = value;
             }
         }
 
@@ -88,6 +104,10 @@ namespace OOP_CourseWork.Models
             {
                 return _cost;
             }
+            set
+            {
+                _cost = value;
+            }
         }
 
         public bool IsPayed
@@ -96,6 +116,10 @@ namespace OOP_CourseWork.Models
             {
                 return _isPayed;
             }
+            set
+            {
+                _isPayed = value;
+            }
         }
     
         public bool IsRefunded
@@ -103,6 +127,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _isRefunded;
+            }
+            set
+            {
+                _isRefunded = value;
             }
         }
         

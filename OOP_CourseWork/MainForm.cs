@@ -64,10 +64,12 @@ namespace OOP_CourseWork
         {
             try
             {
-                MessageBox.Show(SaveLoadControl.Users[0].Email);
-            } catch
+                MessageBox.Show(((Client)SaveLoadControl.Users[0]).ToString());
+                MessageBox.Show(((Employee)SaveLoadControl.Users[1]).ToString());
+                MessageBox.Show(((Admin)SaveLoadControl.Users[2]).ToString());
+            } catch (Exception ex)
             {
-                MessageBox.Show("no content");
+                MessageBox.Show("no content: " + ex.ToString());
             }
         }
 

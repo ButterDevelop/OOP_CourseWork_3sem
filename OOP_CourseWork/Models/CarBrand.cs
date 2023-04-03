@@ -31,6 +31,10 @@ namespace OOP_CourseWork.Models
             { 
                 return _id; 
             }
+            set
+            {
+                _id = value;
+            }
         }
 
         public string Name
@@ -39,6 +43,10 @@ namespace OOP_CourseWork.Models
             { 
                 return _name; 
             }
+            set
+            {
+                _name = value;
+            }
         }
 
         public string Description
@@ -46,6 +54,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _description;
+            }
+            set
+            {
+                _description = value;
             }
         }
     }

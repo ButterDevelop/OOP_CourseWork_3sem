@@ -1,4 +1,5 @@
-﻿using OOP_CourseWork.Controls;
+﻿using Newtonsoft.Json;
+using OOP_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,10 @@ namespace OOP_CourseWork.Models
             {
                 return _driverLicense;
             }
+            set
+            {
+                _driverLicense = value;
+            }
         }
 
         public string Passport
@@ -61,6 +66,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _passport;
+            }
+            set
+            {
+                _passport = value;
             }
         }
 
@@ -70,6 +79,10 @@ namespace OOP_CourseWork.Models
             {
                 return _cardNumber;
             }
+            set
+            {
+                _cardNumber = value;
+            }
         }
 
         public double Balance
@@ -77,6 +90,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _balance;
+            }
+            set
+            {
+                _balance = value;
             }
         }
 
@@ -86,6 +103,10 @@ namespace OOP_CourseWork.Models
             {
                 return _sumRating;
             }
+            set
+            {
+                _sumRating = value;
+            }
         }
 
         public int OrderCount
@@ -94,8 +115,13 @@ namespace OOP_CourseWork.Models
             {
                 return _ordersCount;
             }
+            set
+            {
+                _ordersCount = value;
+            }
         }
 
+        [JsonIgnore]
         public double Rating
         {
             get

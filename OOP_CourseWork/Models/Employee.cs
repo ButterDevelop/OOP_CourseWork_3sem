@@ -1,4 +1,5 @@
-﻿using OOP_CourseWork.Controls;
+﻿using Newtonsoft.Json;
+using OOP_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,10 @@ namespace OOP_CourseWork.Models
             {
                 return _ordersProccessed;
             }
+            set
+            {
+                _ordersProccessed = value;
+            }
         }
 
         public int HoursWorked
@@ -67,6 +72,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _hoursWorked;
+            }
+            set
+            {
+                _hoursWorked = value;
             }
         }
 
@@ -76,6 +85,10 @@ namespace OOP_CourseWork.Models
             {
                 return _dateHired;
             }
+            set
+            {
+                _dateHired = value;
+            }
         }
 
         public DateTime DateFired
@@ -83,6 +96,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _dateFired;
+            }
+            set
+            {
+                _dateFired = value;
             }
         }
 
@@ -92,6 +109,10 @@ namespace OOP_CourseWork.Models
             {
                 return _dateLastSalaryPayed;
             }
+            set
+            {
+                _dateLastSalaryPayed = value;
+            }
         }
 
         public string BankAccountNumber
@@ -99,6 +120,10 @@ namespace OOP_CourseWork.Models
             get
             {
                 return _bankAccountNumber;
+            }
+            set
+            {
+                _bankAccountNumber = value;
             }
         }
 
@@ -108,6 +133,10 @@ namespace OOP_CourseWork.Models
             {
                 return _isWorkingNow;
             }
+            set
+            {
+                _isWorkingNow = value;
+            }
         }
 
         public double SalaryPerHour
@@ -116,8 +145,13 @@ namespace OOP_CourseWork.Models
             {
                 return _salaryPerHour;
             }
+            set
+            {
+                _salaryPerHour = value;
+            }
         }
 
+        [JsonIgnore]
         public double Salary
         {
             get
@@ -125,6 +159,7 @@ namespace OOP_CourseWork.Models
                 return (_salaryPerHour * _hoursWorked) + _ordersProccessed;
             }
         }
+
 
         public override string ToString()
         {
