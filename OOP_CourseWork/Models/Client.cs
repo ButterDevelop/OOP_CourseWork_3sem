@@ -37,9 +37,9 @@ namespace OOP_CourseWork.Models
             _ordersCount = 0;
         }
 
-        public Client(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated,
+        public Client(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool isAccountSetupCompleted, bool accountDeactivated,
                       string driverLicense, string passport, string cardNumber, double balance, double sumRating, int ordersCount) 
-            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Client, accountDeactivated)
+            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Client, isAccountSetupCompleted, accountDeactivated)
         {
             _driverLicense = driverLicense;
             _passport = passport;

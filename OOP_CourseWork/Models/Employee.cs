@@ -42,9 +42,9 @@ namespace OOP_CourseWork.Models
             _isWorkingNow = true;
         }
 
-        public Employee(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated,
+        public Employee(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool isAccountSetupCompleted, bool accountDeactivated,
                         int ordersProccessed, int hoursWorked, DateTime dateHired, DateTime dateFired, string bankAccountNumber, double salaryPerHour, bool isWorkingNow) 
-            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Employee, accountDeactivated)
+            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Employee, isAccountSetupCompleted, accountDeactivated)
         {
             _ordersProccessed = ordersProccessed;
             _hoursWorked = hoursWorked;

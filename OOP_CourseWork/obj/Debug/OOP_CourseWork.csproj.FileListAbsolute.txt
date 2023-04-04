@@ -3,7 +3,6 @@ C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\OOP_CourseWork.pdb
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.AssemblyReference.cache
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.SuggestedBindingRedirects.cache
-C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.MainForm.resources
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.Properties.Resources.resources
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.GenerateResource.cache
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.CoreCompileInputs.cache
@@ -12,3 +11,5 @@ C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\Newtonsoft.Json.dll
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\bin\Debug\Newtonsoft.Json.xml
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.csproj.CopyComplete
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.LoginForm.resources
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.ClientForm.resources

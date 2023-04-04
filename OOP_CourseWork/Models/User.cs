@@ -18,6 +18,7 @@ namespace OOP_CourseWork.Models
         private string         _email;
         private string         _phone;
         private RolesContainer _role;
+        private bool           _isAccountSetupCompleted;
         private bool           _accountDeactivated;
 
         public User() 
@@ -25,10 +26,11 @@ namespace OOP_CourseWork.Models
             _id = 0;
             _username = _salt = _hashedPassword = _fullname = _email = _phone = string.Empty;
             _accountDeactivated = false;
+            _isAccountSetupCompleted = false;
             _role = new RolesContainer();
         }
 
-        public User(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, RolesContainer role, bool accountDeactivated)
+        public User(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, RolesContainer role, bool isAccountSetupCompleted, bool accountDeactivated)
         {
             _id = id;
             _username = username;
@@ -38,6 +40,7 @@ namespace OOP_CourseWork.Models
             _email = email;
             _phone = phone;
             _role = role;
+            _isAccountSetupCompleted = isAccountSetupCompleted;
             _accountDeactivated = accountDeactivated;
         }
 
@@ -51,6 +54,7 @@ namespace OOP_CourseWork.Models
             _email = email;
             _phone = phone;
             _role = role;
+            _isAccountSetupCompleted = false;
             _accountDeactivated = false;
         }
 
@@ -150,6 +154,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public bool IsAccountSetupCompleted
+        {
+            get
+            {
+                return _isAccountSetupCompleted;
+            }
+            set
+            {
+                _isAccountSetupCompleted = value;
+            }
+        }
+
         public bool AccountDeactivated
         {
             get
@@ -166,6 +182,12 @@ namespace OOP_CourseWork.Models
         public override string ToString()
         {
             return _role.ToString() + ";" + _id + ";" + _username + ";" + _salt + ";" + _hashedPassword + ";" + _fullname + ";" + _email + ";" + _phone + ";" + _accountDeactivated;
+        }
+
+
+        public void CompleteAccountSetup()
+        {
+            _isAccountSetupCompleted = true;
         }
 
         public void ActivateAccount()

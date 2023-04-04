@@ -31,7 +31,9 @@ namespace OOP_CourseWork.Controls
         public static List<BankTransaction> BankTransactions = new List<BankTransaction>(); //simple
         public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();     //complicated
         public static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-
+        public static User CurrentUser = null;
+        
+        /*
         public static bool SaveUsers()
         {
             string result = "";
@@ -135,6 +137,7 @@ namespace OOP_CourseWork.Controls
 
             return true;
         }
+        */
 
         public static bool SaveJSON()
         {

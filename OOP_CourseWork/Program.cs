@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OOP_CourseWork.Controls;
+using OOP_CourseWork.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,8 @@ namespace OOP_CourseWork
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            UtilsControl.StartNeccesaryForm();
         }
     }
 }

@@ -1,42 +1,58 @@
-﻿using OOP_CourseWork.Controls;
-using OOP_CourseWork.Models;
+﻿using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OOP_CourseWork
+namespace OOP_CourseWork.Controls
 {
-    public partial class MainForm : Form
+    internal class UtilsControl
     {
-        public MainForm()
+        public static void StartNeccesaryForm()
         {
-            InitializeComponent();
+            Application.Run(new LoginForm());
+
+            if (SaveLoadControl.CurrentUser is Client)
+            {
+                Application.Run(new ClientForm());
+            }
+            else
+            if (SaveLoadControl.CurrentUser is Employee)
+            {
+                //Application.Run(new EmployeeForm());
+            }
+            else
+            if (SaveLoadControl.CurrentUser is Admin)
+            {
+                //Application.Run(new AdminForm());
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
 
-        private void buttonLoadDB_Click(object sender, EventArgs e)
+
+        public static void LoadDB_Click()
         {
             SaveLoadControl.LoadJSON();
         }
 
-        private void buttonSaveDB_Click(object sender, EventArgs e)
+        public static void SaveDB_Click()
         {
             SaveLoadControl.SaveJSON();
         }
 
-        private void buttonCreateSomeData_Click(object sender, EventArgs e)
+        public static void CreateSomeData()
         {
-            SaveLoadControl.CarBrands.Add(new CarBrand(0, "Мицубиси",    "Японская компания"));
+            SaveLoadControl.CarBrands.Add(new CarBrand(0, "Мицубиси", "Японская компания"));
             SaveLoadControl.CarBrands.Add(new CarBrand(1, "Вольксваген", "Немецкая компания"));
-            SaveLoadControl.CarBrands.Add(new CarBrand(2, "Джили",       "Китайская компания"));
-            SaveLoadControl.CarBrands.Add(new CarBrand(3, "Форд",        "Американская компания"));
+            SaveLoadControl.CarBrands.Add(new CarBrand(2, "Джили", "Китайская компания"));
+            SaveLoadControl.CarBrands.Add(new CarBrand(3, "Форд", "Американская компания"));
 
-            SaveLoadControl.Cars.Add(new Car(0, SaveLoadControl.CarBrands[0], "Аутландер", 10, 
+            SaveLoadControl.Cars.Add(new Car(0, SaveLoadControl.CarBrands[0], "Аутландер", 10,
                                      new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)));
             SaveLoadControl.Cars.Add(new Car(1, SaveLoadControl.CarBrands[1], "Поло", 20,
                                      new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02)));
@@ -54,26 +70,27 @@ namespace OOP_CourseWork
 
             SaveLoadControl.Payments.Add(new Payment(0, DateTime.Today, DateTime.Now, (Client)SaveLoadControl.Users[0], 10, true, false));
 
-            SaveLoadControl.BankTransactions.Add(new BankTransaction(0, ((Client)SaveLoadControl.Users[0]).CardNumber, 
+            SaveLoadControl.BankTransactions.Add(new BankTransaction(0, ((Client)SaveLoadControl.Users[0]).CardNumber,
                                                                      BankTransaction.OurOrganizationBankAccountNumber, 10));
 
             SaveLoadControl.Orders.Add(new Order(0, 0, SaveLoadControl.Cars[0], (Client)SaveLoadControl.Users[0], DateTime.Now, 1));
         }
 
-        private void buttonCheckData_Click(object sender, EventArgs e)
+        public static void CheckData()
         {
             try
             {
                 MessageBox.Show(((Client)SaveLoadControl.Users[0]).ToString());
                 MessageBox.Show(((Employee)SaveLoadControl.Users[1]).ToString());
                 MessageBox.Show(((Admin)SaveLoadControl.Users[2]).ToString());
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("no content: " + ex.ToString());
             }
         }
 
-        private void buttonClearData_Click(object sender, EventArgs e)
+        public static void ClearData()
         {
             SaveLoadControl.Users.Clear();
             SaveLoadControl.CarBrands.Clear();

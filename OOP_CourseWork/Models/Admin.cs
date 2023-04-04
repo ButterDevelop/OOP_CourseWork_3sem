@@ -11,22 +11,25 @@ namespace OOP_CourseWork.Models
     {
         private int _totalCarsServiced;
 
-        public Admin() : base() 
+        public Admin() : base()
         {
             _totalCarsServiced = 0;
+            base.CompleteAccountSetup();
         }
 
         public Admin(int id, string username, string password, string fullname, string email, string phone)
             : base(id, username, password, fullname, email, phone, RolesContainer.Admin)
         {
             _totalCarsServiced = 0;
+            base.CompleteAccountSetup();
         }
 
-        public Admin(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool accountDeactivated,
+        public Admin(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool isAccountSetupCompleted, bool accountDeactivated,
                      int totalCarServiced) 
-            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Admin, accountDeactivated)
+            : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Admin, isAccountSetupCompleted, accountDeactivated)
         {
             _totalCarsServiced = totalCarServiced;
+            base.CompleteAccountSetup();
         }
 
 
