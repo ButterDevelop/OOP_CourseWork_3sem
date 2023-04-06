@@ -25,6 +25,15 @@ namespace OOP_CourseWork.Models
             _ordersCount = 0;
         }
 
+        public Client(int id, string username, string password, string fullname, string email, string phone)
+            : base(id, username, password, fullname, email, phone, RolesContainer.Client)
+        {
+            _driverLicense = _passport = _cardNumber = string.Empty;
+            _balance = 0;
+            _sumRating = 0;
+            _ordersCount = 0;
+        }
+
         public Client(int id, string username, string password, string fullname, string email, string phone,
                       string driverLicense, string passport, string cardNumber)
             : base(id, username, password, fullname, email, phone, RolesContainer.Client)

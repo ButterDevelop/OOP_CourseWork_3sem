@@ -17,6 +17,13 @@ namespace OOP_CourseWork.Models
             base.CompleteAccountSetup();
         }
 
+        public Admin(User user) : base(user.Id, user.UserName, user.Salt, user.HashedPassword, user.FullName, user.Email,
+                                       user.Phone, RolesContainer.Employee, user.IsAccountSetupCompleted, user.AccountDeactivated)
+        {
+            _totalCarsServiced = 0;
+            base.CompleteAccountSetup();
+        }
+
         public Admin(int id, string username, string password, string fullname, string email, string phone)
             : base(id, username, password, fullname, email, phone, RolesContainer.Admin)
         {

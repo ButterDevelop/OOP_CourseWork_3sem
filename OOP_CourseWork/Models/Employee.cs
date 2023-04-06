@@ -31,6 +31,17 @@ namespace OOP_CourseWork.Models
             _isWorkingNow = true;
         }
 
+        public Employee(User user) : base(user.Id, user.UserName, user.Salt, user.HashedPassword, user.FullName, user.Email,
+                                          user.Phone, RolesContainer.Employee, user.IsAccountSetupCompleted, user.AccountDeactivated)
+        {
+            _ordersProccessed = _hoursWorked = 0;
+            _dateHired = DateTime.Now;
+            _dateFired = DateTime.MinValue;
+            _bankAccountNumber = string.Empty;
+            _salaryPerHour = 0;
+            _isWorkingNow = true;
+        }
+
         public Employee(int id, string username, string password, string fullname, string email, string phone)
             : base(id, username, password, fullname, email, phone, RolesContainer.Employee)
         {

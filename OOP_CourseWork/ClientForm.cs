@@ -18,7 +18,7 @@ namespace OOP_CourseWork
         {
             InitializeComponent();
 
-            MessageBox.Show(SaveLoadControl.CurrentUser.ToString());
+            //
         }
     }
 }

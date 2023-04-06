@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,8 +11,37 @@ namespace OOP_CourseWork.Controls
 {
     internal class UtilsControl
     {
+        public enum PasswordScore
+        {
+            Blank = 0,
+            VeryWeak = 1,
+            Weak = 2,
+            Medium = 3,
+            Strong = 4,
+            VeryStrong = 5
+        }
+
+        public static PasswordScore CheckPasswordStrength(string password)
+        {
+            int score = 0;
+
+            if (password.Length < 1) return PasswordScore.Blank;
+            if (password.Length < 4) return PasswordScore.Weak;
+
+            if (password.Length >= 8) ++score;
+            if (password.Length >= 12) ++score;
+            if (Regex.Match(password, "\\d+", RegexOptions.ECMAScript).Success) ++score;
+            if (Regex.Match(password, "[a-zа-я]", RegexOptions.ECMAScript).Success && 
+                Regex.Match(password, "[A-ZА-Я]", RegexOptions.ECMAScript).Success) ++score;
+            if (Regex.Match(password, "[!@#$%^&*?_~.,\\-£+()]", RegexOptions.ECMAScript).Success) ++score;
+
+            return (PasswordScore)score;
+        }
+
         public static void StartNeccesaryForm()
         {
+            SaveLoadControl.LoadJSON();
+
             Application.Run(new LoginForm());
 
             if (SaveLoadControl.CurrentUser is Client)
@@ -32,17 +62,6 @@ namespace OOP_CourseWork.Controls
             {
                 Environment.Exit(0);
             }
-        }
-
-
-        public static void LoadDB_Click()
-        {
-            SaveLoadControl.LoadJSON();
-        }
-
-        public static void SaveDB_Click()
-        {
-            SaveLoadControl.SaveJSON();
         }
 
         public static void CreateSomeData()
@@ -76,20 +95,6 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.Orders.Add(new Order(0, 0, SaveLoadControl.Cars[0], (Client)SaveLoadControl.Users[0], DateTime.Now, 1));
         }
 
-        public static void CheckData()
-        {
-            try
-            {
-                MessageBox.Show(((Client)SaveLoadControl.Users[0]).ToString());
-                MessageBox.Show(((Employee)SaveLoadControl.Users[1]).ToString());
-                MessageBox.Show(((Admin)SaveLoadControl.Users[2]).ToString());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("no content: " + ex.ToString());
-            }
-        }
-
         public static void ClearData()
         {
             SaveLoadControl.Users.Clear();
@@ -99,6 +104,7 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.Payments.Clear();
             SaveLoadControl.BankTransactions.Clear();
             SaveLoadControl.ServiceReports.Clear();
+            //SaveLoadControl.CurrentUser = null;
         }
     }
 }
