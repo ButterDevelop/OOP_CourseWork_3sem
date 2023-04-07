@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace OOP_CourseWork.Models
 {
@@ -169,6 +170,19 @@ namespace OOP_CourseWork.Models
             if (_balance < amount) return false;
             _balance -= amount;
             return true;
+        }
+
+        public bool ChangeSettings(string password, string driverLicense, string passport, string cardNumber)
+        {
+            if (IsPasswordCorrect(password))
+            {
+                _driverLicense = driverLicense;
+                _passport = passport;
+                _cardNumber = cardNumber;
+
+                return true;
+            }
+            return false;
         }
     }
 }

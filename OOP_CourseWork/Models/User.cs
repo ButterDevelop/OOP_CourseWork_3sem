@@ -215,9 +215,9 @@ namespace OOP_CourseWork.Models
             return false;
         }
 
-        public bool ChangeEmail(string oldPassword, string newEmail, string newEmailConfirmation)
+        public bool ChangeEmail(string oldPassword, string newEmail)
         {
-            if (IsPasswordCorrect(oldPassword) && newEmail == newEmailConfirmation)
+            if (IsPasswordCorrect(oldPassword))
             {
                 _email = newEmail;
                 return true;
@@ -225,9 +225,9 @@ namespace OOP_CourseWork.Models
             return false;
         }
 
-        public bool ChangePhoneNumber(string oldPassword, string newPhoneNumber, string newPhoneNumberConfirmation)
+        public bool ChangePhoneNumber(string oldPassword, string newPhoneNumber)
         {
-            if (IsPasswordCorrect(oldPassword) && newPhoneNumber == newPhoneNumberConfirmation)
+            if (IsPasswordCorrect(oldPassword))
             {
                 _phone = newPhoneNumber;
                 return true;

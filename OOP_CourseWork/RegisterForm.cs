@@ -77,7 +77,7 @@ namespace OOP_CourseWork
 
         private void textBoxFullname_TextChanged(object sender, EventArgs e)
         {
-            var r = new Regex("^\\S*\\s\\S*\\s\\S*$");
+            var r = new Regex("^\\S+\\s\\S+\\s\\S+$");
             if (r.IsMatch(textBoxFullname.Text))
             {
                 textBoxFullname.BackColor = AllowedColor;
