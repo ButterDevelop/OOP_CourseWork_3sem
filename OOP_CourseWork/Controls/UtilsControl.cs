@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -42,6 +43,9 @@ namespace OOP_CourseWork.Controls
         {
             SaveLoadControl.LoadJSON();
 
+            new Thread(() => SaveLoadControl.SaveWithCheck()).Start();
+            Thread.Sleep(250);
+
             Application.Run(new LoginForm());
 
             if (SaveLoadControl.CurrentUser is Client)
@@ -60,6 +64,7 @@ namespace OOP_CourseWork.Controls
             }
             else
             {
+                SaveLoadControl.SaveJSON();
                 Environment.Exit(0);
             }
         }
@@ -90,7 +95,7 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.Payments.Add(new Payment(0, DateTime.Today, DateTime.Now, (Client)SaveLoadControl.Users[0], 10, true, false));
 
             SaveLoadControl.BankTransactions.Add(new BankTransaction(0, ((Client)SaveLoadControl.Users[0]).CardNumber,
-                                                                     BankTransaction.OurOrganizationBankAccountNumber, 10));
+                                                                     BankTransaction.OurOrganizationBankAccountNumber, 10, SaveLoadControl.CurrentUser));
 
             SaveLoadControl.Orders.Add(new Order(0, 0, SaveLoadControl.Cars[0], (Client)SaveLoadControl.Users[0], DateTime.Now, 1));
         }

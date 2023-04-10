@@ -149,13 +149,17 @@ namespace OOP_CourseWork.Models
         public bool BalanceDeposit(double totalAmount, string CVV_CVC_code)
         {
             BankTransaction transaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, _cardNumber, 
-                                                              BankTransaction.OurOrganizationBankAccountNumber, totalAmount);
+                                                              BankTransaction.OurOrganizationBankAccountNumber, totalAmount, this);
             SaveLoadControl.BankTransactions.Add(transaction);
-            return BalanceDeposit(transaction, CVV_CVC_code);
+
+            bool result = BalanceDeposit(transaction, CVV_CVC_code);
+            if (!result) transaction.Cancel();
+
+            return result;
         }
         public bool BalanceDeposit(BankTransaction transaction, string CVV_CVC_code)
         {
-            if (transaction.Debit(CVV_CVC_code) && !BalanceIncrease(transaction.TotalAmount)) return true;
+            if (transaction.Debit(CVV_CVC_code) && BalanceIncrease(transaction.TotalAmount)) return true;
             return false;
         }
 

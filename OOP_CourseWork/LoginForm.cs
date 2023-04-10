@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -45,7 +46,7 @@ namespace OOP_CourseWork
                 }
             }
 
-            if (textBoxUsername.TextLength != 0 && SaveLoadControl.Users.FirstOrDefault(x => x.UserName == textBoxUsername.Text) is null)
+            if (textBoxUsername.TextLength != 0 && SaveLoadControl.Users.FirstOrDefault(x => x.UserName == textBoxUsername.Text && !x.AccountDeactivated) is null)
             {
                 textBoxUsername.BackColor = DeniedColor;
             }
@@ -80,6 +81,7 @@ namespace OOP_CourseWork
         {
             if (_wasLogedIn != "yes")
             {
+                SaveLoadControl.SaveJSON();
                 Environment.Exit(0);
             }
         }

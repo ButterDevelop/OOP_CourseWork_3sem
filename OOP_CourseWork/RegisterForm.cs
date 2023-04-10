@@ -134,6 +134,7 @@ namespace OOP_CourseWork
                 this.Hide();
             } else
             {
+                SaveLoadControl.SaveJSON();
                 Application.Restart();
             }
         }

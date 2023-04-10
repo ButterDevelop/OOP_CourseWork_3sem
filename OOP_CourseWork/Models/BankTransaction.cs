@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OOP_CourseWork.Models
 {
@@ -18,6 +19,7 @@ namespace OOP_CourseWork.Models
         private int      _id;
         private string   _fromCardNumberOrBankAccountNumber;
         private string   _toCardNumberOrBankAccountNumber;
+        private User     _user;
         private DateTime _createdTime;
         private DateTime _payedTime;
         private DateTime _cancelledTime;
@@ -39,11 +41,12 @@ namespace OOP_CourseWork.Models
             _isCancelled = false;
         }
 
-        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, double totalAmount)
+        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, double totalAmount, User user)
         {
             _id = id;
             _fromCardNumberOrBankAccountNumber = fromCardNumberOrBankAccountNumber;
             _toCardNumberOrBankAccountNumber = toCardNumberOrBankAccountNumber;
+            _user = user;
             _createdTime = DateTime.Now;
             _payedTime = DateTime.MinValue;
             _cancelledTime = DateTime.MinValue;
@@ -53,11 +56,12 @@ namespace OOP_CourseWork.Models
             _isCancelled = false;
         }
 
-        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, DateTime createdTime, DateTime payedTime, DateTime cancelledTime, double totalAmount, int totalTries, bool isPayed, bool isCancelled)
+        public BankTransaction(int id, string fromCardNumberOrBankAccountNumber, string toCardNumberOrBankAccountNumber, User user, DateTime createdTime, DateTime payedTime, DateTime cancelledTime, double totalAmount, int totalTries, bool isPayed, bool isCancelled)
         {
             _id = id;
             _fromCardNumberOrBankAccountNumber = fromCardNumberOrBankAccountNumber;
             _toCardNumberOrBankAccountNumber = toCardNumberOrBankAccountNumber;
+            _user = user;
             _createdTime = createdTime;
             _payedTime = payedTime;
             _cancelledTime = cancelledTime;
@@ -100,6 +104,18 @@ namespace OOP_CourseWork.Models
             set
             {
                 _toCardNumberOrBankAccountNumber = value;
+            }
+        }
+
+        public User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                _user = value;
             }
         }
 

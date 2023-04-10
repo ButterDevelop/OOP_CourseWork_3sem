@@ -160,7 +160,8 @@ namespace OOP_CourseWork.Models
             BankTransaction bankTransaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, 
                                                                   BankTransaction.OurOrganizationBankAccountNumber, 
                                                                   BankTransaction.ServiceCentreBankAccountNumber, 
-                                                                  Cost);
+                                                                  Cost,
+                                                                  null);
             SaveLoadControl.BankTransactions.Add(bankTransaction);
         }
 

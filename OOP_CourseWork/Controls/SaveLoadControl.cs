@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,14 +16,12 @@ namespace OOP_CourseWork.Controls
 {
     internal class SaveLoadControl
     {
-        public static readonly string DBPath = "db.json";
-        public static readonly string UsersDBPath = "users.csv";
-        public static readonly string BrandsDBPath = "brands.csv";
-        public static readonly string CarsDBPath = "cars.csv";
-        public static readonly string OrdersDBPath = "orders.csv";
-        public static readonly string PaymentsDBPath = "payments.csv";
-        public static readonly string BankTransactionsDBPath = "banktransactions.csv";
-        public static readonly string ServiceReportsDBPath = "banktransactions.csv";
+        public static readonly int SaveRefreshRateMilliseconds = 1000;
+
+        private static readonly string DBPath = "db.json";
+        private static string oldDBString = "";
+        private static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
         public static List<User>            Users = new List<User>();                       //simple
         public static List<CarBrand>        CarBrands = new List<CarBrand>();               //simple
         public static List<Car>             Cars = new List<Car>();                         //complicated
@@ -30,10 +29,40 @@ namespace OOP_CourseWork.Controls
         public static List<Payment>         Payments = new List<Payment>();                 //complicated
         public static List<BankTransaction> BankTransactions = new List<BankTransaction>(); //simple
         public static List<ServiceReport>   ServiceReports = new List<ServiceReport>();     //complicated
-        public static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
         public static User CurrentUser = null;
 
+        public static void SaveWithCheck()
+        {
+            while (true)
+            {
+                string newDBString = GenerateDataForSaving();
+                if (newDBString != oldDBString)
+                {
+                    SaveJSON();
+                    oldDBString = newDBString;
+                }
+
+                Thread.Sleep(SaveRefreshRateMilliseconds);
+            }
+        }
+
         public static bool SaveJSON()
+        {
+            try
+            {
+                var json = GenerateDataForSaving();
+                if (json == "-1") return false;
+                File.WriteAllText(DBPath, json);
+
+                return true;
+            } catch
+            {
+                return false;
+            }
+        }
+
+        public static string GenerateDataForSaving()
         {
             try
             {
@@ -47,12 +76,12 @@ namespace OOP_CourseWork.Controls
                 export.ServiceReports = ServiceReports;
 
                 var json = JsonConvert.SerializeObject(export, settingsJSON);
-                File.WriteAllText(DBPath, json);
 
-                return true;
-            } catch
+                return json;
+            }
+            catch
             {
-                return false;
+                return "-1";
             }
         }
 
@@ -61,6 +90,7 @@ namespace OOP_CourseWork.Controls
             try
             {
                 string data = File.ReadAllText(DBPath);
+                oldDBString = data;
                 JSON_export.Root deserialized = JsonConvert.DeserializeObject<JSON_export.Root>(data, settingsJSON);
 
                 Users = deserialized.Users;

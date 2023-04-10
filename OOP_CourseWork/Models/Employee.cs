@@ -193,7 +193,7 @@ namespace OOP_CourseWork.Models
         public bool PaySalary()
         {
             BankTransaction bankTransaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, BankTransaction.OurOrganizationBankAccountNumber,
-                                                                  _bankAccountNumber, Salary);
+                                                                  _bankAccountNumber, Salary, null);
             SaveLoadControl.BankTransactions.Add(bankTransaction);
 
             if (!bankTransaction.Debit(BankTransaction.OurOrganizationSecretCode)) return false;
