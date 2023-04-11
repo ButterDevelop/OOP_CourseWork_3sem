@@ -44,11 +44,19 @@ namespace OOP_CourseWork
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxPayment_CardNumber = new System.Windows.Forms.TextBox();
             this.listViewPayments = new System.Windows.Forms.ListView();
+            this.columnHeaderPayment_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_CardNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_CreatedTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_Cost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_IsFinished = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_IsCancelled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStripListView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemListView_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListView_Copy_CardNumber = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListView_Copy_CreatedDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListView_Copy_Cost = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListView_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListView_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.textBoxSettings_Password = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -74,33 +82,25 @@ namespace OOP_CourseWork
             this.labelPassport = new System.Windows.Forms.Label();
             this.textBoxSettings_Passport = new System.Windows.Forms.TextBox();
             this.labelDriverLicense = new System.Windows.Forms.Label();
+            this.imageListTabControlClient = new System.Windows.Forms.ImageList(this.components);
             this.toolTipEmail = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipPhoneNumber = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipCardNumber = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipPassword = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSecretCode = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipCost = new System.Windows.Forms.ToolTip(this.components);
-            this.columnHeaderPayment_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStripListView = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemListView_Copy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_CardNumber = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_CreatedDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_Cost = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
             this.labelBalanceText = new System.Windows.Forms.Label();
             this.labelBalanceNumber = new System.Windows.Forms.Label();
-            this.imageListTabControlClient = new System.Windows.Forms.ImageList(this.components);
             this.tabControlClient.SuspendLayout();
             this.tabPagePayments.SuspendLayout();
-            this.tabPageSettings.SuspendLayout();
             this.contextMenuStripListView.SuspendLayout();
+            this.tabPageSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlClient
             // 
-            this.tabControlClient.Controls.Add(this.tabPageMakeOrder);
             this.tabControlClient.Controls.Add(this.tabPageOrdersList);
+            this.tabControlClient.Controls.Add(this.tabPageMakeOrder);
             this.tabControlClient.Controls.Add(this.tabPagePayments);
             this.tabControlClient.Controls.Add(this.tabPageSettings);
             this.tabControlClient.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -265,6 +265,11 @@ namespace OOP_CourseWork
             this.listViewPayments.UseCompatibleStateImageBehavior = false;
             this.listViewPayments.View = System.Windows.Forms.View.Details;
             // 
+            // columnHeaderPayment_SpaceColumn
+            // 
+            this.columnHeaderPayment_SpaceColumn.Text = "Space Column";
+            this.columnHeaderPayment_SpaceColumn.Width = 0;
+            // 
             // columnHeaderPayment_CardNumber
             // 
             this.columnHeaderPayment_CardNumber.Text = "Номер карты";
@@ -294,6 +299,69 @@ namespace OOP_CourseWork
             this.columnHeaderPayment_IsCancelled.Text = "Оплата отменена";
             this.columnHeaderPayment_IsCancelled.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeaderPayment_IsCancelled.Width = 170;
+            // 
+            // contextMenuStripListView
+            // 
+            this.contextMenuStripListView.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextMenuStripListView.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemListView_Copy,
+            this.toolStripMenuItemListView_Copy_CardNumber,
+            this.toolStripMenuItemListView_Copy_CreatedDate,
+            this.toolStripMenuItemListView_Copy_Cost,
+            this.toolStripMenuItemListView_Copy_IsFinished,
+            this.toolStripMenuItemListView_Copy_IsCancelled});
+            this.contextMenuStripListView.Name = "contextMenuStripListView";
+            this.contextMenuStripListView.Size = new System.Drawing.Size(414, 196);
+            // 
+            // toolStripMenuItemListView_Copy
+            // 
+            this.toolStripMenuItemListView_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripMenuItemListView_Copy.Name = "toolStripMenuItemListView_Copy";
+            this.toolStripMenuItemListView_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemListView_Copy.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy.Text = "Скопировать";
+            this.toolStripMenuItemListView_Copy.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Click);
+            // 
+            // toolStripMenuItemListView_Copy_CardNumber
+            // 
+            this.toolStripMenuItemListView_Copy_CardNumber.Name = "toolStripMenuItemListView_Copy_CardNumber";
+            this.toolStripMenuItemListView_Copy_CardNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.toolStripMenuItemListView_Copy_CardNumber.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy_CardNumber.Text = "Скопировать номер карты";
+            this.toolStripMenuItemListView_Copy_CardNumber.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CardNumber_Click);
+            // 
+            // toolStripMenuItemListView_Copy_CreatedDate
+            // 
+            this.toolStripMenuItemListView_Copy_CreatedDate.Name = "toolStripMenuItemListView_Copy_CreatedDate";
+            this.toolStripMenuItemListView_Copy_CreatedDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.toolStripMenuItemListView_Copy_CreatedDate.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy_CreatedDate.Text = "Скопировать время оплаты";
+            this.toolStripMenuItemListView_Copy_CreatedDate.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CreatedDate_Click);
+            // 
+            // toolStripMenuItemListView_Copy_Cost
+            // 
+            this.toolStripMenuItemListView_Copy_Cost.Name = "toolStripMenuItemListView_Copy_Cost";
+            this.toolStripMenuItemListView_Copy_Cost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.toolStripMenuItemListView_Copy_Cost.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy_Cost.Text = "Скопировать сумму оплаты";
+            this.toolStripMenuItemListView_Copy_Cost.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Cost_Click);
+            // 
+            // toolStripMenuItemListView_Copy_IsFinished
+            // 
+            this.toolStripMenuItemListView_Copy_IsFinished.Name = "toolStripMenuItemListView_Copy_IsFinished";
+            this.toolStripMenuItemListView_Copy_IsFinished.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.toolStripMenuItemListView_Copy_IsFinished.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy_IsFinished.Text = "Скопировать \"Оплата прошла\"";
+            this.toolStripMenuItemListView_Copy_IsFinished.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsFinished_Click);
+            // 
+            // toolStripMenuItemListView_Copy_IsCancelled
+            // 
+            this.toolStripMenuItemListView_Copy_IsCancelled.Name = "toolStripMenuItemListView_Copy_IsCancelled";
+            this.toolStripMenuItemListView_Copy_IsCancelled.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.toolStripMenuItemListView_Copy_IsCancelled.Size = new System.Drawing.Size(413, 32);
+            this.toolStripMenuItemListView_Copy_IsCancelled.Text = "Скопировать \"Оплата отменена\"";
+            this.toolStripMenuItemListView_Copy_IsCancelled.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsCancelled_Click);
             // 
             // tabPageSettings
             // 
@@ -615,6 +683,15 @@ namespace OOP_CourseWork
             this.labelDriverLicense.Text = "Ваш пароль:";
             this.labelDriverLicense.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // imageListTabControlClient
+            // 
+            this.imageListTabControlClient.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTabControlClient.ImageStream")));
+            this.imageListTabControlClient.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTabControlClient.Images.SetKeyName(0, "MakeAnOrder.png");
+            this.imageListTabControlClient.Images.SetKeyName(1, "OrderList.png");
+            this.imageListTabControlClient.Images.SetKeyName(2, "BalanceTopUp.png");
+            this.imageListTabControlClient.Images.SetKeyName(3, "Settings.png");
+            // 
             // toolTipEmail
             // 
             this.toolTipEmail.AutomaticDelay = 250;
@@ -663,74 +740,6 @@ namespace OOP_CourseWork
             this.toolTipCost.ReshowDelay = 50;
             this.toolTipCost.ToolTipTitle = "Сумма пополнения";
             // 
-            // columnHeaderPayment_SpaceColumn
-            // 
-            this.columnHeaderPayment_SpaceColumn.Text = "Space Column";
-            this.columnHeaderPayment_SpaceColumn.Width = 0;
-            // 
-            // contextMenuStripListView
-            // 
-            this.contextMenuStripListView.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contextMenuStripListView.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemListView_Copy,
-            this.toolStripMenuItemListView_Copy_CardNumber,
-            this.toolStripMenuItemListView_Copy_CreatedDate,
-            this.toolStripMenuItemListView_Copy_Cost,
-            this.toolStripMenuItemListView_Copy_IsFinished,
-            this.toolStripMenuItemListView_Copy_IsCancelled});
-            this.contextMenuStripListView.Name = "contextMenuStripListView";
-            this.contextMenuStripListView.Size = new System.Drawing.Size(414, 196);
-            // 
-            // toolStripMenuItemListView_Copy
-            // 
-            this.toolStripMenuItemListView_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripMenuItemListView_Copy.Name = "toolStripMenuItemListView_Copy";
-            this.toolStripMenuItemListView_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemListView_Copy.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy.Text = "Скопировать";
-            this.toolStripMenuItemListView_Copy.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Click);
-            // 
-            // toolStripMenuItemListView_Copy_CardNumber
-            // 
-            this.toolStripMenuItemListView_Copy_CardNumber.Name = "toolStripMenuItemListView_Copy_CardNumber";
-            this.toolStripMenuItemListView_Copy_CardNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.toolStripMenuItemListView_Copy_CardNumber.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy_CardNumber.Text = "Скопировать номер карты";
-            this.toolStripMenuItemListView_Copy_CardNumber.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CardNumber_Click);
-            // 
-            // toolStripMenuItemListView_Copy_CreatedDate
-            // 
-            this.toolStripMenuItemListView_Copy_CreatedDate.Name = "toolStripMenuItemListView_Copy_CreatedDate";
-            this.toolStripMenuItemListView_Copy_CreatedDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.toolStripMenuItemListView_Copy_CreatedDate.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy_CreatedDate.Text = "Скопировать время оплаты";
-            this.toolStripMenuItemListView_Copy_CreatedDate.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CreatedDate_Click);
-            // 
-            // toolStripMenuItemListView_Copy_Cost
-            // 
-            this.toolStripMenuItemListView_Copy_Cost.Name = "toolStripMenuItemListView_Copy_Cost";
-            this.toolStripMenuItemListView_Copy_Cost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.toolStripMenuItemListView_Copy_Cost.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy_Cost.Text = "Скопировать сумму оплаты";
-            this.toolStripMenuItemListView_Copy_Cost.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Cost_Click);
-            // 
-            // toolStripMenuItemListView_Copy_IsFinished
-            // 
-            this.toolStripMenuItemListView_Copy_IsFinished.Name = "toolStripMenuItemListView_Copy_IsFinished";
-            this.toolStripMenuItemListView_Copy_IsFinished.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
-            this.toolStripMenuItemListView_Copy_IsFinished.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy_IsFinished.Text = "Скопировать \"Оплата прошла\"";
-            this.toolStripMenuItemListView_Copy_IsFinished.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsFinished_Click);
-            // 
-            // toolStripMenuItemListView_Copy_IsCancelled
-            // 
-            this.toolStripMenuItemListView_Copy_IsCancelled.Name = "toolStripMenuItemListView_Copy_IsCancelled";
-            this.toolStripMenuItemListView_Copy_IsCancelled.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
-            this.toolStripMenuItemListView_Copy_IsCancelled.Size = new System.Drawing.Size(413, 32);
-            this.toolStripMenuItemListView_Copy_IsCancelled.Text = "Скопировать \"Оплата отменена\"";
-            this.toolStripMenuItemListView_Copy_IsCancelled.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsCancelled_Click);
-            // 
             // labelBalanceText
             // 
             this.labelBalanceText.AutoSize = true;
@@ -753,15 +762,6 @@ namespace OOP_CourseWork
             this.labelBalanceNumber.TabIndex = 28;
             this.labelBalanceNumber.Text = "0.00";
             this.labelBalanceNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // imageListTabControlClient
-            // 
-            this.imageListTabControlClient.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTabControlClient.ImageStream")));
-            this.imageListTabControlClient.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTabControlClient.Images.SetKeyName(0, "MakeAnOrder.png");
-            this.imageListTabControlClient.Images.SetKeyName(1, "OrderList.png");
-            this.imageListTabControlClient.Images.SetKeyName(2, "BalanceTopUp.png");
-            this.imageListTabControlClient.Images.SetKeyName(3, "Settings.png");
             // 
             // ClientForm
             // 
@@ -786,9 +786,9 @@ namespace OOP_CourseWork
             this.tabControlClient.ResumeLayout(false);
             this.tabPagePayments.ResumeLayout(false);
             this.tabPagePayments.PerformLayout();
+            this.contextMenuStripListView.ResumeLayout(false);
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
-            this.contextMenuStripListView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

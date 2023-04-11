@@ -45,6 +45,8 @@ namespace OOP_CourseWork
 
             tabControlClient.SelectedIndexChanged += TabControlClient_SelectedIndexChanged;
 
+            listViewPayments.ColumnWidthChanging += ListViewPayments_ColumnWidthChanging;
+
             this.FormClosing += ClientForm_FormClosing;
         }
 
@@ -81,12 +83,12 @@ namespace OOP_CourseWork
 
         private void TabControlClient_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControlClient.SelectedIndex == 0) //Вкладка "Сделать заказ"
+            if (tabControlClient.SelectedIndex == 0) //Вкладка "Список заказов"
             {
                 
             }
             else
-            if (tabControlClient.SelectedIndex == 1) //Вкладка "Список заказов"
+            if (tabControlClient.SelectedIndex == 1) //Вкладка "Сделать заказ"
             {
 
             }
@@ -392,6 +394,12 @@ namespace OOP_CourseWork
             }
             RefreshBalanceNumber();
             RefreshPaymentsList();
+        }
+
+        private void ListViewPayments_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = listViewPayments.Columns[e.ColumnIndex].Width;
         }
 
         public void RefreshPaymentsList()
