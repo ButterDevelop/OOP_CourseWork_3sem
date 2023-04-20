@@ -8,6 +8,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -42,6 +43,16 @@ namespace OOP_CourseWork
             toolTipSecretCode.SetToolTip(textBoxPayments_SecretCode, "Введите секретный номер карты.\nОн состоит из трёх цифр.");
             toolTipCost.SetToolTip(textBoxPayments_Cost, "Введите сумму пополнения Вашего баланса на нашем сервисе.\n" +
                                                          "Сумма округляется автоматически до двух знаков после запятой.");
+
+            toolTipOrderHours.SetToolTip(textBoxMakeAnOrder_BookingHours, "Введите количество часов, на которые хотите арендовать автомобиль.\n" + 
+                                                                          "Не может превышать 192-х часов (8 суток).");
+
+            toolTipOrderBookingDateTime.SetToolTip(dateTimePickerMakeAnOrder_BookingDate, "Укажите время, на которое бронируете автомобиль.\n" + 
+                                                                                          "Это будет время начала Вашего заказа.");
+            toolTipOrderBookingDateTime.SetToolTip(dateTimePickerMakeAnOrder_BookingTime, "Укажите время, на которое бронируете автомобиль.\n" +
+                                                                                          "Это будет время начала Вашего заказа.");
+
+            toolTipOrderBookingEndDateTime.SetToolTip(textBoxMakeAnOrder_BookingEndTime,  "Время окончания заказа, рассчитанное с помощью указанных Вами параметров.");
 
             tabControlClient.SelectedIndexChanged += TabControlClient_SelectedIndexChanged;
 
@@ -90,7 +101,8 @@ namespace OOP_CourseWork
             else
             if (tabControlClient.SelectedIndex == 1) //Вкладка "Сделать заказ"
             {
-
+                SetDefaultMakeAnOrderValues();
+                RefreshMakeAnOrderList();
             }
             else
             if (tabControlClient.SelectedIndex == 2) //Вкладка "Пополнение баланса"
@@ -528,6 +540,108 @@ namespace OOP_CourseWork
                 Clipboard.SetText(result);
             }
             catch { }
+        }
+
+        #endregion
+
+        #region Make an order
+
+        public void RefreshMakeAnOrderList()
+        {
+            listViewMakeAnOrder.Items.Clear();
+
+            var cars = SaveLoadControl.Cars.Where(x => (!x.IsOnServiceNow && !x.IsOrderedNow) || true).OrderBy(x => x.PricePerHour).ToArray();
+
+            ImageList imageListLarge = new ImageList();
+            imageListLarge.ImageSize = new Size(252, 168);
+            for (int i = 0; i < cars.Count(); i++) imageListLarge.Images.Add(Image.FromFile("car.png"));
+            listViewMakeAnOrder.LargeImageList = imageListLarge;
+
+            foreach (var car in cars)
+            {
+                string title = "";
+                title += car.Brand.Name + " ";
+                title += car.Model + ", ";
+                title += car.ProductionYear.Year.ToString() + "-го года выпуска, ";
+                title += car.PricePerHour.ToString().Replace(",", ".") + " рублей в час";
+
+                ListViewItem item = new ListViewItem(title);
+                //item.UseItemStyleForSubItems = false;
+                item.ImageIndex = 0;
+                listViewMakeAnOrder.Items.Add(item);
+            }
+
+            listViewMakeAnOrder.Refresh();
+        }
+
+        public void SetDefaultMakeAnOrderValues()
+        {
+            dateTimePickerMakeAnOrder_BookingDate.MinDate = DateTime.Now.AddSeconds(-1);
+            dateTimePickerMakeAnOrder_BookingDate.MaxDate = DateTime.Now.AddDays(7);
+            dateTimePickerMakeAnOrder_BookingTime.MinDate = DateTime.Now.AddSeconds(-1);
+            dateTimePickerMakeAnOrder_BookingDate.Value = DateTime.Now;
+            dateTimePickerMakeAnOrder_BookingTime.Value = DateTime.Now;
+            SetBookingEndDate();
+        }
+
+        public void SetBookingEndDate()
+        {
+            int hours = 0;
+            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192) return; //999999
+
+            textBoxMakeAnOrder_BookingEndTime.Text = new DateTime(dateTimePickerMakeAnOrder_BookingDate.Value.Year,
+                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Month,
+                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Day,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Second).AddHours(hours).ToString();
+        }
+
+        private void textBoxMakeAnOrder_BookingHours_TextChanged(object sender, EventArgs e)
+        {
+            int hours = 0;
+            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192) //999999
+            {
+                textBoxMakeAnOrder_BookingHours.BackColor = DeniedColor;
+            }
+            else
+            {
+                textBoxMakeAnOrder_BookingHours.BackColor = AllowedColor;
+            }
+            SetBookingEndDate();
+        }
+
+        private void dateTimePickerMakeAnOrder_BookingDate_ValueChanged(object sender, EventArgs e)
+        {
+            SetBookingEndDate();
+        }
+
+        private void dateTimePickerMakeAnOrder_BookingTime_ValueChanged(object sender, EventArgs e)
+        {
+            SetBookingEndDate();
+        }
+
+        private void buttonMakeAnOrder_CreateOrder_Click(object sender, EventArgs e)
+        {
+            textBoxMakeAnOrder_BookingHours_TextChanged(null, null);
+
+            if (textBoxMakeAnOrder_BookingHours.BackColor == DeniedColor)
+            {
+                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка при попытке сделать заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (listViewMakeAnOrder.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали, что хотите заказать!", "Ошибка при попытке сделать заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show($"Вы уверены, что хотите сделать заказ автомобиля " +
+                                         $"\"{listViewMakeAnOrder.SelectedItems[0].Text}\"?", "Подтверждение заказа", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
+
+            //
         }
 
         #endregion

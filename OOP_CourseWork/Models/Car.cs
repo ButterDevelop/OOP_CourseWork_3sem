@@ -131,5 +131,13 @@ namespace OOP_CourseWork.Models
                 return SaveLoadControl.ServiceReports.FirstOrDefault(x => !x.IsFinished && x.ServicedCar.Id == _id) != null;
             }
         }
+
+        public bool IsOrderedNow
+        {
+            get
+            {
+                return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) == null;
+            }
+        }
     }
 }
