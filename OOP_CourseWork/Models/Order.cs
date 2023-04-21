@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOP_CourseWork.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace OOP_CourseWork.Models
             _isCancelled = false;
         }
 
-        public Order(int id, int paymentId, Car orderedCar, Client user, DateTime orderBookingTime, int orderedHours)
+        public Order(int id, Payment payment, Car orderedCar, Client user, DateTime orderBookingTime, int orderedHours)
         {
             _id = id;
             _orderCreatedTime = DateTime.Now;
@@ -41,7 +42,22 @@ namespace OOP_CourseWork.Models
             _orderReturnedTime = DateTime.MinValue;
             _orderCancelledTime = DateTime.MinValue;
             _orderedCar = orderedCar;
-            _orderPayment = new Payment(paymentId, user, orderedHours * orderedCar.PricePerHour);
+            _orderPayment = payment;
+            SaveLoadControl.Payments.Add(_orderPayment);
+            _isCancelled = false;
+        }
+
+        public Order(int id, Car orderedCar, Client user, DateTime orderBookingTime, int orderedHours)
+        {
+            _id = id;
+            _orderCreatedTime = DateTime.Now;
+            _orderPayedTime = DateTime.MinValue;
+            _orderBookingTime = orderBookingTime;
+            _orderReturnedTime = DateTime.MinValue;
+            _orderCancelledTime = DateTime.MinValue;
+            _orderedCar = orderedCar;
+            _orderPayment = new Payment(SaveLoadControl.Payments.Count, user, orderedHours * orderedCar.PricePerHour);
+            SaveLoadControl.Payments.Add(_orderPayment);
             _isCancelled = false;
         }
 

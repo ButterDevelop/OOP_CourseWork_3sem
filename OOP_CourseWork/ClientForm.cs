@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
@@ -14,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace OOP_CourseWork
 {
@@ -22,6 +23,8 @@ namespace OOP_CourseWork
     {
         public static readonly Color AllowedColor = Color.AliceBlue;
         public static readonly Color DeniedColor = Color.FromArgb(255, 200, 220);
+        public Size ImageSize = new Size(252, 168);
+        public static List<Image> CarsOrderImages = new List<Image>();
 
         public ClientForm()
         {
@@ -59,6 +62,8 @@ namespace OOP_CourseWork
             listViewPayments.ColumnWidthChanging += ListViewPayments_ColumnWidthChanging;
 
             this.FormClosing += ClientForm_FormClosing;
+
+            LoadCarsOrderImages();
         }
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -546,15 +551,60 @@ namespace OOP_CourseWork
 
         #region Make an order
 
+        public Image DrawTextOnImage(Image image, Size imageSize, string text, int fontSize)
+        {
+            using (Graphics g = Graphics.FromImage(image))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                g.RotateTransform(45);
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                GraphicsPath p = new GraphicsPath();
+                var fontFamily = FontFamily.Families.FirstOrDefault(x => x.Name == "Tahoma");
+                p.AddString(
+                    text,
+                    fontFamily is null ? FontFamily.GenericSansSerif : fontFamily,
+                    (int)FontStyle.Bold,
+                    g.DpiY * fontSize / 72,
+                    new PointF((float)(imageSize.Width / 1.7), -1 * imageSize.Height / 4),
+                    sf);
+                g.DrawPath(Pens.DarkGray, p);
+                g.FillPath(Brushes.DarkGray, p);
+                g.DrawString(text, new Font("Tahoma", fontSize, FontStyle.Bold), Brushes.Red, new PointF((float)(imageSize.Width / 1.7), -1 * imageSize.Height / 4), sf);
+            }
+
+            return image;
+        }
+
         public void RefreshMakeAnOrderList()
         {
             listViewMakeAnOrder.Items.Clear();
 
-            var cars = SaveLoadControl.Cars.Where(x => (!x.IsOnServiceNow && !x.IsOrderedNow) || true).OrderBy(x => x.PricePerHour).ToArray();
+            var cars = SaveLoadControl.Cars.OrderBy(x => x.PricePerHour).ToArray();
 
             ImageList imageListLarge = new ImageList();
-            imageListLarge.ImageSize = new Size(252, 168);
-            for (int i = 0; i < cars.Count(); i++) imageListLarge.Images.Add(Image.FromFile("car.png"));
+            imageListLarge.ImageSize = ImageSize;
+            for (int i = 0; i < cars.Count(); i++)
+            {
+                Image image = new Bitmap(CarsOrderImages[i], ImageSize);
+                
+                if (SaveLoadControl.Cars[cars[i].Id].IsOnServiceNow)
+                {
+                    image = DrawTextOnImage(image, ImageSize, "Сейчас на\nобслуживании", 13);
+                } 
+                else
+                if (SaveLoadControl.Cars[cars[i].Id].IsOrderedNow)
+                {
+                    image = DrawTextOnImage(image, ImageSize, "Уже\nзаказана", 16);
+                }
+
+                imageListLarge.Images.Add(image);
+            }
             listViewMakeAnOrder.LargeImageList = imageListLarge;
 
             foreach (var car in cars)
@@ -566,8 +616,10 @@ namespace OOP_CourseWork
                 title += car.PricePerHour.ToString().Replace(",", ".") + " рублей в час";
 
                 ListViewItem item = new ListViewItem(title);
-                //item.UseItemStyleForSubItems = false;
-                item.ImageIndex = 0;
+                item.Tag = car.Id;
+                item.UseItemStyleForSubItems = false;
+                item.ForeColor = (car.IsOrderedNow || car.IsOnServiceNow) ? Color.Red : Color.Green;
+                item.ImageIndex = listViewMakeAnOrder.Items.Count;
                 listViewMakeAnOrder.Items.Add(item);
             }
 
@@ -637,11 +689,59 @@ namespace OOP_CourseWork
                 return;
             }
 
-            var result = MessageBox.Show($"Вы уверены, что хотите сделать заказ автомобиля " +
+            var result = MessageBox.Show($"Вы уверены, что хотите заказать автомобиль " +
                                          $"\"{listViewMakeAnOrder.SelectedItems[0].Text}\"?", "Подтверждение заказа", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
 
-            //
+            int hours = 0;
+            Regex regex = new Regex("Машина\\s\\#(\\d*)\\,\\s");
+            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192 || listViewMakeAnOrder.SelectedItems[0].Tag is null)
+            {
+                MessageBox.Show("Во время создания заказа произола ошибка! Попробуйте позже.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int carId = (int)listViewMakeAnOrder.SelectedItems[0].Tag;
+            Car car = SaveLoadControl.Cars[carId];
+
+            if (car.IsOrderedNow || car.IsOnServiceNow)
+            {
+                MessageBox.Show("Данный автомобиль сейчас недоступен для заказа. Причина указана на фотографии.", "Невозможно заказать автомобиль!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DateTime bookingDateTime = new DateTime(dateTimePickerMakeAnOrder_BookingDate.Value.Year,
+                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Month,
+                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Day,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
+                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Second);
+            if ((bookingDateTime - DateTime.Now).TotalMinutes < 30) bookingDateTime = DateTime.Now.AddMinutes(30);
+
+            Payment payment = new Payment(SaveLoadControl.Payments.Count, (Client)SaveLoadControl.CurrentUser, hours * car.PricePerHour);
+            if (!payment.Pay())
+            {
+                MessageBox.Show("Заказ НЕ был создан, его не удалось оплатить! Кажется, у Вас недостаточно средств на балансе.", "Ошибка оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Order order = new Order(SaveLoadControl.Orders.Count, payment, car, (Client)SaveLoadControl.CurrentUser, bookingDateTime, hours);
+            SaveLoadControl.Orders.Add(order);
+
+            RefreshBalanceNumber();
+            RefreshMakeAnOrderList();
+
+            dateTimePickerMakeAnOrder_BookingDate.Value = bookingDateTime;
+            dateTimePickerMakeAnOrder_BookingTime.Value = bookingDateTime;
+            MessageBox.Show($"Заказ был успешно создан! Начало времени бронирования: {bookingDateTime}.", "Заказ создан успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public void LoadCarsOrderImages()
+        {
+            CarsOrderImages.Clear();
+            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
+            {
+                CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
+            }
         }
 
         #endregion

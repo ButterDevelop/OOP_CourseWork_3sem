@@ -76,11 +76,11 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.CarBrands.Add(new CarBrand(2, "Джили", "Китайская компания"));
             SaveLoadControl.CarBrands.Add(new CarBrand(3, "Форд", "Американская компания"));
 
-            SaveLoadControl.Cars.Add(new Car(0, SaveLoadControl.CarBrands[0], "Аутландер", 10,
+            SaveLoadControl.Cars.Add(new Car(0, SaveLoadControl.CarBrands[0], "Аутландер", "4718 AX-3", 10,
                                      new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)));
-            SaveLoadControl.Cars.Add(new Car(1, SaveLoadControl.CarBrands[1], "Поло", 20,
+            SaveLoadControl.Cars.Add(new Car(1, SaveLoadControl.CarBrands[1], "Поло", "5819 AA-3", 20,
                                      new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02)));
-            SaveLoadControl.Cars.Add(new Car(2, SaveLoadControl.CarBrands[2], "Кулрэй", 30,
+            SaveLoadControl.Cars.Add(new Car(2, SaveLoadControl.CarBrands[2], "Кулрэй", "1523 IP-3", 30,
                                      new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03)));
 
             SaveLoadControl.ServiceReports.Add(new ServiceReport(0, "Плановая проверка", 3, SaveLoadControl.Cars[0]));
@@ -97,7 +97,7 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.BankTransactions.Add(new BankTransaction(0, ((Client)SaveLoadControl.Users[0]).CardNumber,
                                                                      BankTransaction.OurOrganizationBankAccountNumber, 10, SaveLoadControl.CurrentUser));
 
-            SaveLoadControl.Orders.Add(new Order(0, 0, SaveLoadControl.Cars[0], (Client)SaveLoadControl.Users[0], DateTime.Now, 1));
+            SaveLoadControl.Orders.Add(new Order(0, SaveLoadControl.Payments[0], SaveLoadControl.Cars[0], (Client)SaveLoadControl.Users[0], DateTime.Now, 1));
         }
 
         public static void ClearData()

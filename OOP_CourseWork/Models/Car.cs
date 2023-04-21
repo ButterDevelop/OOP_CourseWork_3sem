@@ -12,6 +12,7 @@ namespace OOP_CourseWork.Models
         private int      _id;
         private CarBrand _brand;
         private string   _model;
+        private string   _carLicensePlate;
         private double   _pricePerHour;
         private DateTime _productionYear;
         private DateTime _buyTime;
@@ -21,19 +22,20 @@ namespace OOP_CourseWork.Models
         {
             _id = 0;
             _brand = new CarBrand();
-            _model = string.Empty;
+            _model = _carLicensePlate = string.Empty;
             _productionYear = DateTime.MinValue;
             _buyTime = DateTime.MinValue;
             _lastServiceTime = DateTime.MinValue;
             _pricePerHour = 0;
         }
 
-        public Car(int id, CarBrand brand, string model, double pricePerHour, 
+        public Car(int id, CarBrand brand, string model, string carLicensePlate, double pricePerHour, 
                    DateTime productionYear, DateTime buyTime, DateTime lastServiceTime)
         {
             _id = id;
             _brand = brand;
             _model = model;
+            _carLicensePlate = carLicensePlate;
             _productionYear = productionYear;
             _buyTime = buyTime;
             _lastServiceTime = lastServiceTime;
@@ -73,6 +75,18 @@ namespace OOP_CourseWork.Models
             set
             {
                 _model = value;
+            }
+        }
+
+        public string CarLicensePlate
+        {
+            get
+            {
+                return _carLicensePlate;
+            }
+            set
+            {
+                _carLicensePlate = value;
             }
         }
 
@@ -136,7 +150,7 @@ namespace OOP_CourseWork.Models
         {
             get
             {
-                return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) == null;
+                return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) != null;
             }
         }
     }

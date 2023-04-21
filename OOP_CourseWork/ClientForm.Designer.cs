@@ -44,6 +44,11 @@ namespace OOP_CourseWork
             this.buttonMakeAnOrder_CreateOrder = new System.Windows.Forms.Button();
             this.textBoxMakeAnOrder_BookingHours = new System.Windows.Forms.TextBox();
             this.listViewMakeAnOrder = new System.Windows.Forms.ListView();
+            this.columnHeaderMakeAnOrder_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderMakeAnOrder_BrandName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderMakeAnOrder_ModelName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderMakeAnOrder_ProductionYear = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderMakeAnOrder_PricePerHour = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPagePayments = new System.Windows.Forms.TabPage();
             this.buttonPayments_CreatePayment = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -103,11 +108,6 @@ namespace OOP_CourseWork
             this.toolTipOrderHours = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderBookingDateTime = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderBookingEndDateTime = new System.Windows.Forms.ToolTip(this.components);
-            this.columnHeaderMakeAnOrder_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderMakeAnOrder_BrandName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderMakeAnOrder_ModelName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderMakeAnOrder_ProductionYear = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderMakeAnOrder_PricePerHour = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControlClient.SuspendLayout();
             this.tabPageMakeOrder.SuspendLayout();
             this.tabPagePayments.SuspendLayout();
@@ -277,6 +277,31 @@ namespace OOP_CourseWork
             this.listViewMakeAnOrder.Size = new System.Drawing.Size(955, 497);
             this.listViewMakeAnOrder.TabIndex = 6;
             this.listViewMakeAnOrder.UseCompatibleStateImageBehavior = false;
+            // 
+            // columnHeaderMakeAnOrder_SpaceColumn
+            // 
+            this.columnHeaderMakeAnOrder_SpaceColumn.Text = "";
+            this.columnHeaderMakeAnOrder_SpaceColumn.Width = 0;
+            // 
+            // columnHeaderMakeAnOrder_BrandName
+            // 
+            this.columnHeaderMakeAnOrder_BrandName.Text = "Марка автомобиля";
+            this.columnHeaderMakeAnOrder_BrandName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // columnHeaderMakeAnOrder_ModelName
+            // 
+            this.columnHeaderMakeAnOrder_ModelName.Text = "Модель автомобиля";
+            this.columnHeaderMakeAnOrder_ModelName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // columnHeaderMakeAnOrder_ProductionYear
+            // 
+            this.columnHeaderMakeAnOrder_ProductionYear.Text = "Год выпуска авто";
+            this.columnHeaderMakeAnOrder_ProductionYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // columnHeaderMakeAnOrder_PricePerHour
+            // 
+            this.columnHeaderMakeAnOrder_PricePerHour.Text = "Цена в час";
+            this.columnHeaderMakeAnOrder_PricePerHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tabPagePayments
             // 
@@ -922,31 +947,6 @@ namespace OOP_CourseWork
             this.toolTipOrderBookingEndDateTime.InitialDelay = 250;
             this.toolTipOrderBookingEndDateTime.ReshowDelay = 50;
             this.toolTipOrderBookingEndDateTime.ToolTipTitle = "Время окончания";
-            // 
-            // columnHeaderMakeAnOrder_SpaceColumn
-            // 
-            this.columnHeaderMakeAnOrder_SpaceColumn.Text = "";
-            this.columnHeaderMakeAnOrder_SpaceColumn.Width = 0;
-            // 
-            // columnHeaderMakeAnOrder_BrandName
-            // 
-            this.columnHeaderMakeAnOrder_BrandName.Text = "Марка автомобиля";
-            this.columnHeaderMakeAnOrder_BrandName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // columnHeaderMakeAnOrder_ModelName
-            // 
-            this.columnHeaderMakeAnOrder_ModelName.Text = "Модель автомобиля";
-            this.columnHeaderMakeAnOrder_ModelName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // columnHeaderMakeAnOrder_ProductionYear
-            // 
-            this.columnHeaderMakeAnOrder_ProductionYear.Text = "Год выпуска авто";
-            this.columnHeaderMakeAnOrder_ProductionYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // columnHeaderMakeAnOrder_PricePerHour
-            // 
-            this.columnHeaderMakeAnOrder_PricePerHour.Text = "Цена в час";
-            this.columnHeaderMakeAnOrder_PricePerHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ClientForm
             // 
