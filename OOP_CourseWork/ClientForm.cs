@@ -57,9 +57,14 @@ namespace OOP_CourseWork
 
             toolTipOrderBookingEndDateTime.SetToolTip(textBoxMakeAnOrder_BookingEndTime,  "Время окончания заказа, рассчитанное с помощью указанных Вами параметров.");
 
+            toolTipOrderListCarPicture.SetToolTip(pictureBoxCarPicture, "Фотография автомобиля выбранного заказа.");
+
             tabControlClient.SelectedIndexChanged += TabControlClient_SelectedIndexChanged;
 
             listViewPayments.ColumnWidthChanging += ListViewPayments_ColumnWidthChanging;
+            listViewOrderList.ColumnWidthChanging += ListViewOrderList_ColumnWidthChanging;
+
+            listViewOrderList.ItemSelectionChanged += ListViewOrderList_ItemSelectionChanged;
 
             this.FormClosing += ClientForm_FormClosing;
 
@@ -83,6 +88,7 @@ namespace OOP_CourseWork
         {
             RefreshBalanceNumber();
             UpdateSettingsTab();
+            RefreshOrderList();
             
             if (!SaveLoadControl.CurrentUser.IsAccountSetupCompleted) tabControlClient.SelectTab(3); //Переходим на вкладку "Настройки"
             tabControlClient.Deselecting += TabControlClient_Deselecting;
@@ -101,7 +107,7 @@ namespace OOP_CourseWork
         {
             if (tabControlClient.SelectedIndex == 0) //Вкладка "Список заказов"
             {
-                
+                RefreshOrderList();
             }
             else
             if (tabControlClient.SelectedIndex == 1) //Вкладка "Сделать заказ"
@@ -742,6 +748,270 @@ namespace OOP_CourseWork
             {
                 CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
             }
+        }
+
+        #endregion
+
+        #region Order list
+
+        public void RefreshOrderList()
+        {
+            /*SaveLoadControl.Orders.Clear();
+            SaveLoadControl.Payments.Clear();
+            ((Client)SaveLoadControl.CurrentUser).BalanceIncrease(20);*/
+
+            listViewOrderList.Items.Clear();
+
+            var orders = SaveLoadControl.Orders.Where(x => x.OrderPayment.User.Id == SaveLoadControl.CurrentUser.Id)
+                                               .OrderByDescending(x => x.OrderBookingTime).ToArray();
+
+            int counter = 0;
+            foreach (var order in orders)
+            {
+                string[] arr = new string[7];
+                arr[0] = "";
+                arr[1] = (++counter).ToString();
+                arr[2] = order.OrderBookingTime.ToString();
+                arr[3] = order.OrderHours.ToString();
+                arr[4] = order.OrderBookingTime.AddHours(order.OrderHours).ToString();
+                arr[5] = order.IsCancelled ? "Отменён" : (order.OrderBookingTime.AddHours(order.OrderHours) <= DateTime.Now ? "Закончен" : "Активен");
+                arr[6] = order.OrderPayment.Cost.ToString("N2").Replace(",", ".");
+
+                ListViewItem item = new ListViewItem(arr);
+                item.Tag = order.Id;
+                item.UseItemStyleForSubItems = false;
+                item.ForeColor = order.IsCancelled ? Color.Red : Color.Green;
+                listViewOrderList.Items.Add(item);
+            }
+
+            listViewOrderList.Refresh();
+        }
+
+        private void ListViewOrderList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = listViewOrderList.Columns[e.ColumnIndex].Width;
+        }
+
+        private void ListViewOrderList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (listViewOrderList.SelectedItems.Count != 0)
+            {
+                if (listViewOrderList.SelectedItems[0].Tag is null) return;
+                var orderId = (int)listViewOrderList.SelectedItems[0].Tag;
+                var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
+                if (order is null) return;
+
+                if (!order.IsCancelled && order.OrderBookingTime > DateTime.Now)
+                    buttonOrderList_CancelOrder.Enabled = true;
+                else
+                    buttonOrderList_CancelOrder.Enabled = false;
+
+                if (!order.IsCancelled && order.OrderBookingTime.AddHours(order.OrderHours) >= DateTime.Now)
+                    buttonOrderList_OpenCarLocationMap.Enabled = true;
+                else
+                    buttonOrderList_OpenCarLocationMap.Enabled = false;
+
+                pictureBoxCarPicture.Image = new Bitmap(CarsOrderImages[order.OrderedCar.Id], pictureBoxCarPicture.Size);
+                textBoxOrderList_CarBrand.Text = order.OrderedCar.Brand.Name;
+                textBoxOrderList_CarModel.Text = order.OrderedCar.Model;
+                textBoxOrderList_ProductionYear.Text = order.OrderedCar.ProductionYear.ToString("yyyy");
+                textBoxOrderList_PricePerHour.Text = order.OrderedCar.PricePerHour.ToString("N2").Replace(",", ".");
+                textBoxOrderList_CarLicensePlate.Text = order.OrderedCar.CarLicensePlate;
+                textBoxOrderList_LastServiceDate.Text = order.OrderedCar.LastServiceTime.ToString("d");
+            } else
+            {
+                pictureBoxCarPicture.Image = null;
+                textBoxOrderList_CarBrand.Text = "";
+                textBoxOrderList_CarModel.Text = "";
+                textBoxOrderList_ProductionYear.Text = "";
+                textBoxOrderList_PricePerHour.Text = "";
+                textBoxOrderList_CarLicensePlate.Text = "";
+                textBoxOrderList_LastServiceDate.Text = "";
+                buttonOrderList_CancelOrder.Enabled = false;
+                buttonOrderList_OpenCarLocationMap.Enabled = false;
+            }
+        }
+
+        private void buttonOrderList_CancelOrder_Click(object sender, EventArgs e)
+        {
+            if (listViewOrderList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали заказа, чтобы его отменить!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (listViewOrderList.SelectedItems[0].Tag is null) return;
+            var orderId = (int)listViewOrderList.SelectedItems[0].Tag;
+            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
+            if (order is null) return;
+
+            if (order.IsCancelled)
+            {
+                MessageBox.Show("Заказ уже отменён! Нельзя отменить его ещё раз!", "Заказ уже отменён.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                buttonOrderList_CancelOrder.Enabled = false;
+                return;
+            }
+
+            if (order.OrderBookingTime <= DateTime.Now)
+            {
+                MessageBox.Show("Время брони наступило, заказ уже открыт! Невозможно отменить его!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                buttonOrderList_CancelOrder.Enabled = false;
+                return;
+            }
+
+            if (order.Cancel())
+            {
+                MessageBox.Show("Заказ был отменён успешно! Сумма заказа была возвращена на Ваш баланс.", "Успешная отмена заказа!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Не удалось отменить заказ по какой-то причине! Попробуйте ещё раз!", "Не удалось отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            RefreshOrderList();
+            RefreshBalanceNumber();
+        }
+
+        private void buttonOrderList_OpenCarLocationMap_Click(object sender, EventArgs e)
+        {
+            if (listViewOrderList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали заказа, чтобы открыть местоположение машины!", "Невозможно найти машину!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (listViewOrderList.SelectedItems[0].Tag is null) return;
+            var orderId = (int)listViewOrderList.SelectedItems[0].Tag;
+            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
+            if (order is null) return;
+
+            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
+            {
+                MessageBox.Show("Заказ уже закончен или отменён! Невозможно просмотреть местоположение автомобиля!", "Невозможно найти автомобиль!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                buttonOrderList_OpenCarLocationMap.Enabled = false;
+                return;
+            }
+
+            //
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[1].Text + "\t" +
+                              item.SubItems[2].Text + "\t" +
+                              item.SubItems[3].Text + "\t" +
+                              item.SubItems[4].Text + "\t" +
+                              item.SubItems[5].Text + "\t" +
+                              item.SubItems[6].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_ID_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[1].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_BookingTime_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[2].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_BookingHours_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[3].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_OrderEndTime_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[4].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_OrderStatus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[5].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewOrderList_Copy_OrderCost_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewOrderList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[6].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
         }
 
         #endregion

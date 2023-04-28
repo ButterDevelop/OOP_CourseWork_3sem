@@ -34,6 +34,38 @@ namespace OOP_CourseWork
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.tabControlClient = new System.Windows.Forms.TabControl();
             this.tabPageOrdersList = new System.Windows.Forms.TabPage();
+            this.buttonOrderList_OpenCarLocationMap = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_LastServiceDate = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_CarLicensePlate = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_PricePerHour = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_ProductionYear = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_CarModel = new System.Windows.Forms.TextBox();
+            this.labelOrderList_CarOrderInfo = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBoxOrderList_CarBrand = new System.Windows.Forms.TextBox();
+            this.pictureBoxCarPicture = new System.Windows.Forms.PictureBox();
+            this.buttonOrderList_CancelOrder = new System.Windows.Forms.Button();
+            this.listViewOrderList = new System.Windows.Forms.ListView();
+            this.columnHeaderOrderList_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_BookingDateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_Hours = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_OrderEndDateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrderList_OrderCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStripListViewOrderList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemListViewOrderList_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_ID = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMakeOrder = new System.Windows.Forms.TabPage();
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxMakeAnOrder_BookingEndTime = new System.Windows.Forms.TextBox();
@@ -64,13 +96,13 @@ namespace OOP_CourseWork
             this.columnHeaderPayment_Cost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_IsFinished = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPayment_IsCancelled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStripListView = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemListView_Copy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_CardNumber = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_CreatedDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_Cost = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListView_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripListViewPayments = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemListViewPayments_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewPayments_Copy_Cost = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.textBoxSettings_Password = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -108,10 +140,14 @@ namespace OOP_CourseWork
             this.toolTipOrderHours = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderBookingDateTime = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderBookingEndDateTime = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipOrderListCarPicture = new System.Windows.Forms.ToolTip(this.components);
             this.tabControlClient.SuspendLayout();
+            this.tabPageOrdersList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCarPicture)).BeginInit();
+            this.contextMenuStripListViewOrderList.SuspendLayout();
             this.tabPageMakeOrder.SuspendLayout();
             this.tabPagePayments.SuspendLayout();
-            this.contextMenuStripListView.SuspendLayout();
+            this.contextMenuStripListViewPayments.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,6 +174,23 @@ namespace OOP_CourseWork
             this.tabPageOrdersList.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageOrdersList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.tabPageOrdersList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageOrdersList.Controls.Add(this.buttonOrderList_OpenCarLocationMap);
+            this.tabPageOrdersList.Controls.Add(this.label18);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_LastServiceDate);
+            this.tabPageOrdersList.Controls.Add(this.label17);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_CarLicensePlate);
+            this.tabPageOrdersList.Controls.Add(this.label16);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_PricePerHour);
+            this.tabPageOrdersList.Controls.Add(this.label15);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_ProductionYear);
+            this.tabPageOrdersList.Controls.Add(this.label14);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_CarModel);
+            this.tabPageOrdersList.Controls.Add(this.labelOrderList_CarOrderInfo);
+            this.tabPageOrdersList.Controls.Add(this.label13);
+            this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_CarBrand);
+            this.tabPageOrdersList.Controls.Add(this.pictureBoxCarPicture);
+            this.tabPageOrdersList.Controls.Add(this.buttonOrderList_CancelOrder);
+            this.tabPageOrdersList.Controls.Add(this.listViewOrderList);
             this.tabPageOrdersList.ImageKey = "OrderList.png";
             this.tabPageOrdersList.Location = new System.Drawing.Point(4, 34);
             this.tabPageOrdersList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -147,6 +200,312 @@ namespace OOP_CourseWork
             this.tabPageOrdersList.TabIndex = 0;
             this.tabPageOrdersList.Text = "Список заказов ";
             this.tabPageOrdersList.UseVisualStyleBackColor = true;
+            // 
+            // buttonOrderList_OpenCarLocationMap
+            // 
+            this.buttonOrderList_OpenCarLocationMap.Enabled = false;
+            this.buttonOrderList_OpenCarLocationMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOrderList_OpenCarLocationMap.Location = new System.Drawing.Point(387, 197);
+            this.buttonOrderList_OpenCarLocationMap.Name = "buttonOrderList_OpenCarLocationMap";
+            this.buttonOrderList_OpenCarLocationMap.Size = new System.Drawing.Size(175, 40);
+            this.buttonOrderList_OpenCarLocationMap.TabIndex = 21;
+            this.buttonOrderList_OpenCarLocationMap.Text = "Местоположение";
+            this.buttonOrderList_OpenCarLocationMap.UseVisualStyleBackColor = true;
+            this.buttonOrderList_OpenCarLocationMap.Click += new System.EventHandler(this.buttonOrderList_OpenCarLocationMap_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(768, 119);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(190, 25);
+            this.label18.TabIndex = 20;
+            this.label18.Text = "Дата обслуживания: ";
+            // 
+            // textBoxOrderList_LastServiceDate
+            // 
+            this.textBoxOrderList_LastServiceDate.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_LastServiceDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_LastServiceDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_LastServiceDate.Location = new System.Drawing.Point(773, 148);
+            this.textBoxOrderList_LastServiceDate.Name = "textBoxOrderList_LastServiceDate";
+            this.textBoxOrderList_LastServiceDate.ReadOnly = true;
+            this.textBoxOrderList_LastServiceDate.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_LastServiceDate.TabIndex = 19;
+            this.textBoxOrderList_LastServiceDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(591, 119);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(155, 25);
+            this.label17.TabIndex = 18;
+            this.label17.Text = "Номерной знак: ";
+            // 
+            // textBoxOrderList_CarLicensePlate
+            // 
+            this.textBoxOrderList_CarLicensePlate.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_CarLicensePlate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_CarLicensePlate.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_CarLicensePlate.Location = new System.Drawing.Point(580, 148);
+            this.textBoxOrderList_CarLicensePlate.Name = "textBoxOrderList_CarLicensePlate";
+            this.textBoxOrderList_CarLicensePlate.ReadOnly = true;
+            this.textBoxOrderList_CarLicensePlate.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_CarLicensePlate.TabIndex = 17;
+            this.textBoxOrderList_CarLicensePlate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(423, 120);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(112, 25);
+            this.label16.TabIndex = 16;
+            this.label16.Text = "Цена в час: ";
+            // 
+            // textBoxOrderList_PricePerHour
+            // 
+            this.textBoxOrderList_PricePerHour.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_PricePerHour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_PricePerHour.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_PricePerHour.Location = new System.Drawing.Point(387, 148);
+            this.textBoxOrderList_PricePerHour.Name = "textBoxOrderList_PricePerHour";
+            this.textBoxOrderList_PricePerHour.ReadOnly = true;
+            this.textBoxOrderList_PricePerHour.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_PricePerHour.TabIndex = 15;
+            this.textBoxOrderList_PricePerHour.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(801, 54);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(124, 25);
+            this.label15.TabIndex = 14;
+            this.label15.Text = "Год выпуска: ";
+            // 
+            // textBoxOrderList_ProductionYear
+            // 
+            this.textBoxOrderList_ProductionYear.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_ProductionYear.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_ProductionYear.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_ProductionYear.Location = new System.Drawing.Point(773, 82);
+            this.textBoxOrderList_ProductionYear.Name = "textBoxOrderList_ProductionYear";
+            this.textBoxOrderList_ProductionYear.ReadOnly = true;
+            this.textBoxOrderList_ProductionYear.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_ProductionYear.TabIndex = 13;
+            this.textBoxOrderList_ProductionYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(602, 54);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(132, 25);
+            this.label14.TabIndex = 12;
+            this.label14.Text = "Модель авто: ";
+            // 
+            // textBoxOrderList_CarModel
+            // 
+            this.textBoxOrderList_CarModel.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_CarModel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_CarModel.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_CarModel.Location = new System.Drawing.Point(580, 82);
+            this.textBoxOrderList_CarModel.Name = "textBoxOrderList_CarModel";
+            this.textBoxOrderList_CarModel.ReadOnly = true;
+            this.textBoxOrderList_CarModel.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_CarModel.TabIndex = 11;
+            this.textBoxOrderList_CarModel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // labelOrderList_CarOrderInfo
+            // 
+            this.labelOrderList_CarOrderInfo.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelOrderList_CarOrderInfo.Location = new System.Drawing.Point(373, 14);
+            this.labelOrderList_CarOrderInfo.Name = "labelOrderList_CarOrderInfo";
+            this.labelOrderList_CarOrderInfo.Size = new System.Drawing.Size(588, 25);
+            this.labelOrderList_CarOrderInfo.TabIndex = 10;
+            this.labelOrderList_CarOrderInfo.Text = "Информация об автомобиле в выбранном заказе:";
+            this.labelOrderList_CarOrderInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(416, 54);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(119, 25);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Марка авто: ";
+            // 
+            // textBoxOrderList_CarBrand
+            // 
+            this.textBoxOrderList_CarBrand.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxOrderList_CarBrand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxOrderList_CarBrand.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxOrderList_CarBrand.Location = new System.Drawing.Point(387, 82);
+            this.textBoxOrderList_CarBrand.Name = "textBoxOrderList_CarBrand";
+            this.textBoxOrderList_CarBrand.ReadOnly = true;
+            this.textBoxOrderList_CarBrand.Size = new System.Drawing.Size(175, 31);
+            this.textBoxOrderList_CarBrand.TabIndex = 8;
+            this.textBoxOrderList_CarBrand.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // pictureBoxCarPicture
+            // 
+            this.pictureBoxCarPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxCarPicture.Location = new System.Drawing.Point(7, 7);
+            this.pictureBoxCarPicture.Name = "pictureBoxCarPicture";
+            this.pictureBoxCarPicture.Size = new System.Drawing.Size(360, 240);
+            this.pictureBoxCarPicture.TabIndex = 7;
+            this.pictureBoxCarPicture.TabStop = false;
+            // 
+            // buttonOrderList_CancelOrder
+            // 
+            this.buttonOrderList_CancelOrder.Enabled = false;
+            this.buttonOrderList_CancelOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOrderList_CancelOrder.Location = new System.Drawing.Point(773, 197);
+            this.buttonOrderList_CancelOrder.Name = "buttonOrderList_CancelOrder";
+            this.buttonOrderList_CancelOrder.Size = new System.Drawing.Size(175, 40);
+            this.buttonOrderList_CancelOrder.TabIndex = 6;
+            this.buttonOrderList_CancelOrder.Text = "Отмена заказа";
+            this.buttonOrderList_CancelOrder.UseVisualStyleBackColor = true;
+            this.buttonOrderList_CancelOrder.Click += new System.EventHandler(this.buttonOrderList_CancelOrder_Click);
+            // 
+            // listViewOrderList
+            // 
+            this.listViewOrderList.BackColor = System.Drawing.Color.AliceBlue;
+            this.listViewOrderList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listViewOrderList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderOrderList_SpaceColumn,
+            this.columnHeaderOrderList_ID,
+            this.columnHeaderOrderList_BookingDateTime,
+            this.columnHeaderOrderList_Hours,
+            this.columnHeaderOrderList_OrderEndDateTime,
+            this.columnHeaderOrderList_Status,
+            this.columnHeaderOrderList_OrderCost});
+            this.listViewOrderList.ContextMenuStrip = this.contextMenuStripListViewOrderList;
+            this.listViewOrderList.FullRowSelect = true;
+            this.listViewOrderList.GridLines = true;
+            this.listViewOrderList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listViewOrderList.HideSelection = false;
+            this.listViewOrderList.Location = new System.Drawing.Point(6, 253);
+            this.listViewOrderList.Name = "listViewOrderList";
+            this.listViewOrderList.Size = new System.Drawing.Size(955, 344);
+            this.listViewOrderList.TabIndex = 5;
+            this.listViewOrderList.UseCompatibleStateImageBehavior = false;
+            this.listViewOrderList.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderOrderList_SpaceColumn
+            // 
+            this.columnHeaderOrderList_SpaceColumn.Text = "Space Column";
+            this.columnHeaderOrderList_SpaceColumn.Width = 0;
+            // 
+            // columnHeaderOrderList_ID
+            // 
+            this.columnHeaderOrderList_ID.Text = "№";
+            this.columnHeaderOrderList_ID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_ID.Width = 80;
+            // 
+            // columnHeaderOrderList_BookingDateTime
+            // 
+            this.columnHeaderOrderList_BookingDateTime.Text = "Время бронирования";
+            this.columnHeaderOrderList_BookingDateTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_BookingDateTime.Width = 210;
+            // 
+            // columnHeaderOrderList_Hours
+            // 
+            this.columnHeaderOrderList_Hours.Text = "Часы аренды";
+            this.columnHeaderOrderList_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_Hours.Width = 140;
+            // 
+            // columnHeaderOrderList_OrderEndDateTime
+            // 
+            this.columnHeaderOrderList_OrderEndDateTime.Text = "Окончание заказа";
+            this.columnHeaderOrderList_OrderEndDateTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_OrderEndDateTime.Width = 200;
+            // 
+            // columnHeaderOrderList_Status
+            // 
+            this.columnHeaderOrderList_Status.Text = "Статус заказа";
+            this.columnHeaderOrderList_Status.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_Status.Width = 180;
+            // 
+            // columnHeaderOrderList_OrderCost
+            // 
+            this.columnHeaderOrderList_OrderCost.Text = "Сумма заказа";
+            this.columnHeaderOrderList_OrderCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderOrderList_OrderCost.Width = 140;
+            // 
+            // contextMenuStripListViewOrderList
+            // 
+            this.contextMenuStripListViewOrderList.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextMenuStripListViewOrderList.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStripListViewOrderList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemListViewOrderList_Copy,
+            this.toolStripMenuItemListViewOrderList_Copy_ID,
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime,
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours,
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime,
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus,
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost});
+            this.contextMenuStripListViewOrderList.Name = "contextMenuStripListView";
+            this.contextMenuStripListViewOrderList.Size = new System.Drawing.Size(474, 228);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripMenuItemListViewOrderList_Copy.Name = "toolStripMenuItemListViewOrderList_Copy";
+            this.toolStripMenuItemListViewOrderList_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemListViewOrderList_Copy.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy.Text = "Скопировать";
+            this.toolStripMenuItemListViewOrderList_Copy.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_ID
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_ID.Name = "toolStripMenuItemListViewOrderList_Copy_ID";
+            this.toolStripMenuItemListViewOrderList_Copy_ID.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.toolStripMenuItemListViewOrderList_Copy_ID.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_ID.Text = "Скопировать номер заказа";
+            this.toolStripMenuItemListViewOrderList_Copy_ID.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_ID_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_BookingTime
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime.Name = "toolStripMenuItemListViewOrderList_Copy_BookingTime";
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime.Text = "Скопировать время бронирования";
+            this.toolStripMenuItemListViewOrderList_Copy_BookingTime.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_BookingTime_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_BookingHours
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours.Name = "toolStripMenuItemListViewOrderList_Copy_BookingHours";
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours.Text = "Скопировать часы аренды";
+            this.toolStripMenuItemListViewOrderList_Copy_BookingHours.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_BookingHours_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_OrderEndTime
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime.Name = "toolStripMenuItemListViewOrderList_Copy_OrderEndTime";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime.Text = "Скопировать время окончания заказа";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_OrderEndTime_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_OrderStatus
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus.Name = "toolStripMenuItemListViewOrderList_Copy_OrderStatus";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus.Text = "Скопировать статус заказа";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderStatus.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_OrderStatus_Click);
+            // 
+            // toolStripMenuItemListViewOrderList_Copy_OrderCost
+            // 
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost.Name = "toolStripMenuItemListViewOrderList_Copy_OrderCost";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost.Size = new System.Drawing.Size(473, 32);
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost.Text = "Скопировать сумму заказа";
+            this.toolStripMenuItemListViewOrderList_Copy_OrderCost.Click += new System.EventHandler(this.toolStripMenuItemListViewOrderList_Copy_OrderCost_Click);
             // 
             // tabPageMakeOrder
             // 
@@ -414,7 +773,7 @@ namespace OOP_CourseWork
             this.columnHeaderPayment_Cost,
             this.columnHeaderPayment_IsFinished,
             this.columnHeaderPayment_IsCancelled});
-            this.listViewPayments.ContextMenuStrip = this.contextMenuStripListView;
+            this.listViewPayments.ContextMenuStrip = this.contextMenuStripListViewPayments;
             this.listViewPayments.FullRowSelect = true;
             this.listViewPayments.GridLines = true;
             this.listViewPayments.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -461,68 +820,68 @@ namespace OOP_CourseWork
             this.columnHeaderPayment_IsCancelled.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeaderPayment_IsCancelled.Width = 170;
             // 
-            // contextMenuStripListView
+            // contextMenuStripListViewPayments
             // 
-            this.contextMenuStripListView.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contextMenuStripListView.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemListView_Copy,
-            this.toolStripMenuItemListView_Copy_CardNumber,
-            this.toolStripMenuItemListView_Copy_CreatedDate,
-            this.toolStripMenuItemListView_Copy_Cost,
-            this.toolStripMenuItemListView_Copy_IsFinished,
-            this.toolStripMenuItemListView_Copy_IsCancelled});
-            this.contextMenuStripListView.Name = "contextMenuStripListView";
-            this.contextMenuStripListView.Size = new System.Drawing.Size(426, 196);
+            this.contextMenuStripListViewPayments.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextMenuStripListViewPayments.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStripListViewPayments.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemListViewPayments_Copy,
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber,
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate,
+            this.toolStripMenuItemListViewPayments_Copy_Cost,
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished,
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled});
+            this.contextMenuStripListViewPayments.Name = "contextMenuStripListView";
+            this.contextMenuStripListViewPayments.Size = new System.Drawing.Size(426, 196);
             // 
-            // toolStripMenuItemListView_Copy
+            // toolStripMenuItemListViewPayments_Copy
             // 
-            this.toolStripMenuItemListView_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripMenuItemListView_Copy.Name = "toolStripMenuItemListView_Copy";
-            this.toolStripMenuItemListView_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemListView_Copy.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy.Text = "Скопировать";
-            this.toolStripMenuItemListView_Copy.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Click);
+            this.toolStripMenuItemListViewPayments_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripMenuItemListViewPayments_Copy.Name = "toolStripMenuItemListViewPayments_Copy";
+            this.toolStripMenuItemListViewPayments_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemListViewPayments_Copy.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy.Text = "Скопировать";
+            this.toolStripMenuItemListViewPayments_Copy.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Click);
             // 
-            // toolStripMenuItemListView_Copy_CardNumber
+            // toolStripMenuItemListViewPayments_Copy_CardNumber
             // 
-            this.toolStripMenuItemListView_Copy_CardNumber.Name = "toolStripMenuItemListView_Copy_CardNumber";
-            this.toolStripMenuItemListView_Copy_CardNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.toolStripMenuItemListView_Copy_CardNumber.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy_CardNumber.Text = "Скопировать номер карты";
-            this.toolStripMenuItemListView_Copy_CardNumber.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CardNumber_Click);
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Name = "toolStripMenuItemListViewPayments_Copy_CardNumber";
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Text = "Скопировать номер карты";
+            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CardNumber_Click);
             // 
-            // toolStripMenuItemListView_Copy_CreatedDate
+            // toolStripMenuItemListViewPayments_Copy_CreatedDate
             // 
-            this.toolStripMenuItemListView_Copy_CreatedDate.Name = "toolStripMenuItemListView_Copy_CreatedDate";
-            this.toolStripMenuItemListView_Copy_CreatedDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.toolStripMenuItemListView_Copy_CreatedDate.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy_CreatedDate.Text = "Скопировать время оплаты";
-            this.toolStripMenuItemListView_Copy_CreatedDate.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CreatedDate_Click);
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Name = "toolStripMenuItemListViewPayments_Copy_CreatedDate";
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Text = "Скопировать время оплаты";
+            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CreatedDate_Click);
             // 
-            // toolStripMenuItemListView_Copy_Cost
+            // toolStripMenuItemListViewPayments_Copy_Cost
             // 
-            this.toolStripMenuItemListView_Copy_Cost.Name = "toolStripMenuItemListView_Copy_Cost";
-            this.toolStripMenuItemListView_Copy_Cost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.toolStripMenuItemListView_Copy_Cost.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy_Cost.Text = "Скопировать сумму оплаты";
-            this.toolStripMenuItemListView_Copy_Cost.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Cost_Click);
+            this.toolStripMenuItemListViewPayments_Copy_Cost.Name = "toolStripMenuItemListViewPayments_Copy_Cost";
+            this.toolStripMenuItemListViewPayments_Copy_Cost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.toolStripMenuItemListViewPayments_Copy_Cost.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy_Cost.Text = "Скопировать сумму оплаты";
+            this.toolStripMenuItemListViewPayments_Copy_Cost.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Cost_Click);
             // 
-            // toolStripMenuItemListView_Copy_IsFinished
+            // toolStripMenuItemListViewPayments_Copy_IsFinished
             // 
-            this.toolStripMenuItemListView_Copy_IsFinished.Name = "toolStripMenuItemListView_Copy_IsFinished";
-            this.toolStripMenuItemListView_Copy_IsFinished.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
-            this.toolStripMenuItemListView_Copy_IsFinished.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy_IsFinished.Text = "Скопировать \"Оплата прошла\"";
-            this.toolStripMenuItemListView_Copy_IsFinished.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsFinished_Click);
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Name = "toolStripMenuItemListViewPayments_Copy_IsFinished";
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Text = "Скопировать \"Оплата прошла\"";
+            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsFinished_Click);
             // 
-            // toolStripMenuItemListView_Copy_IsCancelled
+            // toolStripMenuItemListViewPayments_Copy_IsCancelled
             // 
-            this.toolStripMenuItemListView_Copy_IsCancelled.Name = "toolStripMenuItemListView_Copy_IsCancelled";
-            this.toolStripMenuItemListView_Copy_IsCancelled.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
-            this.toolStripMenuItemListView_Copy_IsCancelled.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListView_Copy_IsCancelled.Text = "Скопировать \"Оплата отменена\"";
-            this.toolStripMenuItemListView_Copy_IsCancelled.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsCancelled_Click);
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Name = "toolStripMenuItemListViewPayments_Copy_IsCancelled";
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Size = new System.Drawing.Size(425, 32);
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Text = "Скопировать \"Оплата отменена\"";
+            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsCancelled_Click);
             // 
             // tabPageSettings
             // 
@@ -948,6 +1307,14 @@ namespace OOP_CourseWork
             this.toolTipOrderBookingEndDateTime.ReshowDelay = 50;
             this.toolTipOrderBookingEndDateTime.ToolTipTitle = "Время окончания";
             // 
+            // toolTipOrderListCarPicture
+            // 
+            this.toolTipOrderListCarPicture.AutomaticDelay = 250;
+            this.toolTipOrderListCarPicture.AutoPopDelay = 5000;
+            this.toolTipOrderListCarPicture.InitialDelay = 250;
+            this.toolTipOrderListCarPicture.ReshowDelay = 50;
+            this.toolTipOrderListCarPicture.ToolTipTitle = "Время окончания";
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -966,14 +1333,18 @@ namespace OOP_CourseWork
             this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "ClientForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ClientForm";
+            this.Text = "CarSharingBY - клиент";
             this.Load += new System.EventHandler(this.ClientForm_Load);
             this.tabControlClient.ResumeLayout(false);
+            this.tabPageOrdersList.ResumeLayout(false);
+            this.tabPageOrdersList.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCarPicture)).EndInit();
+            this.contextMenuStripListViewOrderList.ResumeLayout(false);
             this.tabPageMakeOrder.ResumeLayout(false);
             this.tabPageMakeOrder.PerformLayout();
             this.tabPagePayments.ResumeLayout(false);
             this.tabPagePayments.PerformLayout();
-            this.contextMenuStripListView.ResumeLayout(false);
+            this.contextMenuStripListViewPayments.ResumeLayout(false);
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
             this.ResumeLayout(false);
@@ -1032,13 +1403,13 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ToolTip toolTipCost;
         private System.Windows.Forms.ColumnHeader columnHeaderPayment_CardNumber;
         private System.Windows.Forms.ColumnHeader columnHeaderPayment_SpaceColumn;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripListView;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy_CardNumber;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy_CreatedDate;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy_Cost;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy_IsFinished;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListView_Copy_IsCancelled;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripListViewPayments;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_CardNumber;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_CreatedDate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_Cost;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_IsFinished;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_IsCancelled;
         private System.Windows.Forms.Label labelBalanceText;
         private System.Windows.Forms.Label labelBalanceNumber;
         private System.Windows.Forms.ImageList imageListTabControlClient;
@@ -1059,6 +1430,39 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ColumnHeader columnHeaderMakeAnOrder_ModelName;
         private System.Windows.Forms.ColumnHeader columnHeaderMakeAnOrder_ProductionYear;
         private System.Windows.Forms.ColumnHeader columnHeaderMakeAnOrder_PricePerHour;
+        private System.Windows.Forms.ListView listViewOrderList;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_SpaceColumn;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_BookingDateTime;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_OrderEndDateTime;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_Hours;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_Status;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_OrderCost;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrderList_ID;
+        private System.Windows.Forms.Button buttonOrderList_CancelOrder;
+        private System.Windows.Forms.PictureBox pictureBoxCarPicture;
+        private System.Windows.Forms.ToolTip toolTipOrderListCarPicture;
+        private System.Windows.Forms.Label labelOrderList_CarOrderInfo;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBoxOrderList_CarBrand;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBoxOrderList_CarModel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBoxOrderList_ProductionYear;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxOrderList_PricePerHour;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBoxOrderList_CarLicensePlate;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBoxOrderList_LastServiceDate;
+        private System.Windows.Forms.Button buttonOrderList_OpenCarLocationMap;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripListViewOrderList;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_BookingTime;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_BookingHours;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderEndTime;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderStatus;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderCost;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_ID;
     }
 }
 

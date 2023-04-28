@@ -11,9 +11,7 @@ namespace OOP_CourseWork.Models
     {
         private int      _id;
         private DateTime _orderCreatedTime;
-        private DateTime _orderPayedTime;
         private DateTime _orderBookingTime;
-        private DateTime _orderReturnedTime;
         private DateTime _orderCancelledTime;
         private Car      _orderedCar;
         private int      _orderedHours;
@@ -24,10 +22,9 @@ namespace OOP_CourseWork.Models
         {
             _id = 0;
             _orderCreatedTime = DateTime.Now;
-            _orderPayedTime = DateTime.MinValue;
-            _orderBookingTime = DateTime.MinValue;
-            _orderReturnedTime = DateTime.MinValue;
-            _orderCancelledTime = DateTime.MinValue;
+            _orderBookingTime = DateTime.MaxValue;
+            _orderCancelledTime = DateTime.MaxValue;
+            _orderedHours = 0;
             _orderedCar = new Car();
             _orderPayment = new Payment();
             _isCancelled = false;
@@ -37,11 +34,10 @@ namespace OOP_CourseWork.Models
         {
             _id = id;
             _orderCreatedTime = DateTime.Now;
-            _orderPayedTime = DateTime.MinValue;
             _orderBookingTime = orderBookingTime;
-            _orderReturnedTime = DateTime.MinValue;
-            _orderCancelledTime = DateTime.MinValue;
+            _orderCancelledTime = DateTime.MaxValue;
             _orderedCar = orderedCar;
+            _orderedHours = orderedHours;
             _orderPayment = payment;
             SaveLoadControl.Payments.Add(_orderPayment);
             _isCancelled = false;
@@ -51,27 +47,25 @@ namespace OOP_CourseWork.Models
         {
             _id = id;
             _orderCreatedTime = DateTime.Now;
-            _orderPayedTime = DateTime.MinValue;
             _orderBookingTime = orderBookingTime;
-            _orderReturnedTime = DateTime.MinValue;
-            _orderCancelledTime = DateTime.MinValue;
+            _orderCancelledTime = DateTime.MaxValue;
             _orderedCar = orderedCar;
+            _orderedHours = orderedHours;
             _orderPayment = new Payment(SaveLoadControl.Payments.Count, user, orderedHours * orderedCar.PricePerHour);
             SaveLoadControl.Payments.Add(_orderPayment);
             _isCancelled = false;
         }
 
-        public Order(int id, Car orderedCar, DateTime orderCreatedTime, DateTime orderPayedTime, DateTime orderBookingTime, 
-                     DateTime orderReturnedTime, DateTime orderCancelledTime, Payment orderPayment, bool isCancelled)
+        public Order(int id, Car orderedCar, DateTime orderCreatedTime, DateTime orderBookingTime, 
+                     DateTime orderCancelledTime, Payment orderPayment, int orderedHours, bool isCancelled)
         {
             _id = id;
             _orderCreatedTime = orderCreatedTime;
-            _orderPayedTime = orderPayedTime;
             _orderBookingTime = orderBookingTime;
-            _orderReturnedTime = orderReturnedTime;
             _orderCancelledTime = orderCancelledTime;
             _orderedCar = orderedCar;
             _orderPayment = orderPayment;
+            _orderedHours = orderedHours;
             _isCancelled = isCancelled;
         }
 
@@ -99,18 +93,6 @@ namespace OOP_CourseWork.Models
             }
         }
 
-        public DateTime OrderPayedTime
-        {
-            get
-            {
-                return _orderPayedTime;
-            }
-            set
-            {
-                _orderPayedTime = value;
-            }
-        }
-
         public DateTime OrderBookingTime
         {
             get
@@ -120,18 +102,6 @@ namespace OOP_CourseWork.Models
             set
             {
                 _orderBookingTime = value;
-            }
-        }
-
-        public DateTime OrderReturnedTime
-        {
-            get
-            {
-                return _orderReturnedTime;
-            }
-            set
-            {
-                _orderReturnedTime = value;
             }
         }
 
