@@ -1,4 +1,5 @@
-﻿using OOP_CourseWork.Controls;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using OOP_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,15 @@ namespace OOP_CourseWork.Models
 {
     internal class Order
     {
-        private int      _id;
-        private DateTime _orderCreatedTime;
-        private DateTime _orderBookingTime;
-        private DateTime _orderCancelledTime;
-        private Car      _orderedCar;
-        private int      _orderedHours;
-        private Payment  _orderPayment;
-        private bool     _isCancelled;
+        private int           _id;
+        private DateTime      _orderCreatedTime;
+        private DateTime      _orderBookingTime;
+        private DateTime      _orderCancelledTime;
+        private Car           _orderedCar;
+        private int           _orderedHours;
+        private Payment       _orderPayment;
+        private List<Payment> _orderExtendPayments;
+        private bool          _isCancelled;
 
         public Order()
         {
@@ -27,6 +29,7 @@ namespace OOP_CourseWork.Models
             _orderedHours = 0;
             _orderedCar = new Car();
             _orderPayment = new Payment();
+            _orderExtendPayments = new List<Payment>();
             _isCancelled = false;
         }
 
@@ -40,6 +43,7 @@ namespace OOP_CourseWork.Models
             _orderedHours = orderedHours;
             _orderPayment = payment;
             SaveLoadControl.Payments.Add(_orderPayment);
+            _orderExtendPayments = new List<Payment>();
             _isCancelled = false;
         }
 
@@ -53,11 +57,12 @@ namespace OOP_CourseWork.Models
             _orderedHours = orderedHours;
             _orderPayment = new Payment(SaveLoadControl.Payments.Count, user, orderedHours * orderedCar.PricePerHour);
             SaveLoadControl.Payments.Add(_orderPayment);
+            _orderExtendPayments = new List<Payment>();
             _isCancelled = false;
         }
 
         public Order(int id, Car orderedCar, DateTime orderCreatedTime, DateTime orderBookingTime, 
-                     DateTime orderCancelledTime, Payment orderPayment, int orderedHours, bool isCancelled)
+                     DateTime orderCancelledTime, Payment orderPayment, int orderedHours, List<Payment> orderExtendPayments, bool isCancelled)
         {
             _id = id;
             _orderCreatedTime = orderCreatedTime;
@@ -66,6 +71,7 @@ namespace OOP_CourseWork.Models
             _orderedCar = orderedCar;
             _orderPayment = orderPayment;
             _orderedHours = orderedHours;
+            _orderExtendPayments = orderExtendPayments;
             _isCancelled = isCancelled;
         }
 
@@ -153,6 +159,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public List<Payment> OrderExtendPayments
+        {
+            get
+            {
+                return _orderExtendPayments;
+            }
+            set
+            {
+                _orderExtendPayments = value;
+            }
+        }
+
         public bool IsCancelled
         {
             get
@@ -171,9 +189,28 @@ namespace OOP_CourseWork.Models
             if (DateTime.Now >= _orderBookingTime) return false;
 
             if (_orderPayment.IsPayed) _orderPayment.Refund();
+            foreach (var payment in _orderExtendPayments)
+            {
+                if (payment.IsPayed) payment.Refund();
+            }
 
             _orderCancelledTime = DateTime.Now;
             _isCancelled = true;
+
+            return true;
+        }
+
+        public bool ExtendOrder(int hours)
+        {
+            if (hours <= 0 || hours > 192) return false;
+            if (_orderedHours + hours > 192) return false;
+
+            var payment = new Payment(SaveLoadControl.Payments.Count, _orderPayment.User, hours * _orderedCar.PricePerHour);
+            if (!payment.Pay()) return false;
+            
+            SaveLoadControl.Payments.Add(payment);
+            _orderExtendPayments.Add(payment);
+            _orderedHours += hours;
 
             return true;
         }

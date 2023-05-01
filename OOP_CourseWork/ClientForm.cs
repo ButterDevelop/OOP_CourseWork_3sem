@@ -1,9 +1,11 @@
-﻿using OOP_CourseWork.Controls;
+﻿using Microsoft.VisualBasic;
+using OOP_CourseWork.Controls;
 using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -695,6 +697,12 @@ namespace OOP_CourseWork
                 return;
             }
 
+            if (SaveLoadControl.Orders.Count(x => x.OrderPayment.User == SaveLoadControl.CurrentUser && x.OrderPayment.CreatedTime >= DateTime.Now.AddHours(-1)) >= 3)
+            {
+                MessageBox.Show("Вы сделали слишком много заказов за последний час! Подождите немного!", "Вы сделали 3 заказа за последний час.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var result = MessageBox.Show($"Вы уверены, что хотите заказать автомобиль " +
                                          $"\"{listViewMakeAnOrder.SelectedItems[0].Text}\"?", "Подтверждение заказа", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
@@ -765,12 +773,12 @@ namespace OOP_CourseWork
             var orders = SaveLoadControl.Orders.Where(x => x.OrderPayment.User.Id == SaveLoadControl.CurrentUser.Id)
                                                .OrderByDescending(x => x.OrderBookingTime).ToArray();
 
-            int counter = 0;
+            int counter = orders.Length;
             foreach (var order in orders)
             {
                 string[] arr = new string[7];
                 arr[0] = "";
-                arr[1] = (++counter).ToString();
+                arr[1] = (counter--).ToString();
                 arr[2] = order.OrderBookingTime.ToString();
                 arr[3] = order.OrderHours.ToString();
                 arr[4] = order.OrderBookingTime.AddHours(order.OrderHours).ToString();
@@ -808,9 +816,15 @@ namespace OOP_CourseWork
                     buttonOrderList_CancelOrder.Enabled = false;
 
                 if (!order.IsCancelled && order.OrderBookingTime.AddHours(order.OrderHours) >= DateTime.Now)
+                {
                     buttonOrderList_OpenCarLocationMap.Enabled = true;
+                    buttonOrderList_ExtendTheOrder.Enabled = true;
+                }
                 else
+                {
                     buttonOrderList_OpenCarLocationMap.Enabled = false;
+                    buttonOrderList_ExtendTheOrder.Enabled = false;
+                }
 
                 pictureBoxCarPicture.Image = new Bitmap(CarsOrderImages[order.OrderedCar.Id], pictureBoxCarPicture.Size);
                 textBoxOrderList_CarBrand.Text = order.OrderedCar.Brand.Name;
@@ -830,6 +844,7 @@ namespace OOP_CourseWork
                 textBoxOrderList_LastServiceDate.Text = "";
                 buttonOrderList_CancelOrder.Enabled = false;
                 buttonOrderList_OpenCarLocationMap.Enabled = false;
+                buttonOrderList_ExtendTheOrder.Enabled = false;
             }
         }
 
@@ -840,6 +855,9 @@ namespace OOP_CourseWork
                 MessageBox.Show("Вы не выбрали заказа, чтобы его отменить!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            var result = MessageBox.Show("Вы уверены, что хотите отменить выбранный заказ?", "Отменить заказ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
 
             if (listViewOrderList.SelectedItems[0].Tag is null) return;
             var orderId = (int)listViewOrderList.SelectedItems[0].Tag;
@@ -860,7 +878,10 @@ namespace OOP_CourseWork
                 return;
             }
 
-            if (order.Cancel())
+            bool cancel_result = order.Cancel();
+            RefreshOrderList();
+            RefreshBalanceNumber();
+            if (cancel_result)
             {
                 MessageBox.Show("Заказ был отменён успешно! Сумма заказа была возвращена на Ваш баланс.", "Успешная отмена заказа!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -868,9 +889,46 @@ namespace OOP_CourseWork
             {
                 MessageBox.Show("Не удалось отменить заказ по какой-то причине! Попробуйте ещё раз!", "Не удалось отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
+        private void buttonOrderList_ExtendTheOrder_Click(object sender, EventArgs e)
+        {
+            if (listViewOrderList.SelectedItems[0].Tag is null) return;
+            var orderId = (int)listViewOrderList.SelectedItems[0].Tag;
+            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
+            if (order is null) return;
+
+            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
+            {
+                MessageBox.Show("Заказ уже закончен или отменён! Невозможно продлить его!", "Невозможно продлить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                buttonOrderList_ExtendTheOrder.Enabled = false;
+                return;
+            }
+
+            string str_hours = Interaction.InputBox("На какое количество часов Вы желаете продлить заказ?\n" + 
+                                                    "Нельзя продлить заказ так, чтобы суммарно он составлял 192 часа (8 суток).\n" + 
+                                                    $"Тем самым, максимальное разрешённое количество часов на продление: {192 - order.OrderHours}.\n", 
+                                                    "Продление заказа", "1");
+            if (str_hours == "") return;
+
+            int hours = 0;
+            if (!int.TryParse(str_hours, out hours) || hours <= 0 || hours > 192)
+            {
+                MessageBox.Show("Вы ввели что-то не то! Попробуйте ещё раз!", "Ошибка ввода!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            bool result = order.ExtendOrder(hours);
             RefreshOrderList();
             RefreshBalanceNumber();
+            if (!result)
+            {
+                MessageBox.Show("Заказ не удалось продлить. Либо у Вас не хватает средств на балансе, либо количество арендных часов превышает допустимое.", "Не удалось продлить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show($"Заказ был успешно продлён на выбранное количество часов: {hours}. Новое время окончания заказа: {order.OrderBookingTime.AddHours(order.OrderHours)}.", "Заказ продлён успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void buttonOrderList_OpenCarLocationMap_Click(object sender, EventArgs e)
@@ -893,7 +951,13 @@ namespace OOP_CourseWork
                 return;
             }
 
-            //
+            var result = MessageBox.Show("Вы будете перенаправлены на сторонний сайт \"Google Maps\" для просмотра местоположения автомобиля.", "Открыть карту?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                order.OrderedCar.CheckCarLocation();
+                MessageBox.Show("Карта будет открыта через несколько секунд.", "Карта открывается.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Process.Start($"https://www.google.com/maps/search/{order.OrderedCar.LocationX.ToString().Replace(",", ".")},+{order.OrderedCar.LocationY.ToString().Replace(",", ".")}");
+            }
         }
 
         private void toolStripMenuItemListViewOrderList_Copy_Click(object sender, EventArgs e)

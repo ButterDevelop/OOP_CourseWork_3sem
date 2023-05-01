@@ -69,6 +69,20 @@ namespace OOP_CourseWork.Controls
             }
         }
 
+        public static void GetRandomCoords(out double locationX, out double locationY)
+        {
+            const int arr_length = 5;
+            double[] x_s = new double[arr_length] { 52.405456, 52.406755, 52.407157, 52.405168, 52.406949 };
+            double[] y_s = new double[arr_length] { 30.937795, 30.936868, 30.939400, 30.940515, 30.935177 };
+
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            int index = random.Next(arr_length);
+
+            locationX = x_s[index];
+            locationY = y_s[index];
+        }
+
+
         public static void CreateSomeData()
         {
             SaveLoadControl.CarBrands.Add(new CarBrand(0, "Мицубиси", "Японская компания"));
@@ -77,11 +91,11 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.CarBrands.Add(new CarBrand(3, "Форд", "Американская компания"));
 
             SaveLoadControl.Cars.Add(new Car(0, SaveLoadControl.CarBrands[0], "Аутландер", "4718 AX-3", 10,
-                                     new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)));
+                                     new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01), 52.4057051, 30.9380874));
             SaveLoadControl.Cars.Add(new Car(1, SaveLoadControl.CarBrands[1], "Поло", "5819 AA-3", 20,
-                                     new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02)));
+                                     new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02), 52.4057052, 30.9380875));
             SaveLoadControl.Cars.Add(new Car(2, SaveLoadControl.CarBrands[2], "Кулрэй", "1523 IP-3", 30,
-                                     new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03)));
+                                     new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03), 52.4057053, 30.9380876));
 
             SaveLoadControl.ServiceReports.Add(new ServiceReport(0, "Плановая проверка", 3, SaveLoadControl.Cars[0]));
             SaveLoadControl.ServiceReports.Add(new ServiceReport(1, "Плановая проверка", 2, SaveLoadControl.Cars[1]));

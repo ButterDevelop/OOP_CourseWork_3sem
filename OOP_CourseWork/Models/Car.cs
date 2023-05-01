@@ -17,6 +17,8 @@ namespace OOP_CourseWork.Models
         private DateTime _productionYear;
         private DateTime _buyTime;
         private DateTime _lastServiceTime;
+        private double   _locationX;
+        private double   _locationY;
 
         public Car()
         {
@@ -27,10 +29,12 @@ namespace OOP_CourseWork.Models
             _buyTime = DateTime.MinValue;
             _lastServiceTime = DateTime.MinValue;
             _pricePerHour = 0;
+            _locationX = 0;
+            _locationY = 0;
         }
 
         public Car(int id, CarBrand brand, string model, string carLicensePlate, double pricePerHour, 
-                   DateTime productionYear, DateTime buyTime, DateTime lastServiceTime)
+                   DateTime productionYear, DateTime buyTime, DateTime lastServiceTime, double locationX, double locationY)
         {
             _id = id;
             _brand = brand;
@@ -40,6 +44,8 @@ namespace OOP_CourseWork.Models
             _buyTime = buyTime;
             _lastServiceTime = lastServiceTime;
             _pricePerHour = pricePerHour;
+            _locationX = locationX;
+            _locationY = locationY;
         }
 
         public int Id 
@@ -138,6 +144,30 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public double LocationX
+        {
+            get
+            {
+                return _locationX;
+            }
+            set
+            {
+                _locationX = value;
+            }
+        }
+
+        public double LocationY
+        {
+            get
+            {
+                return _locationY;
+            }
+            set
+            {
+                _locationY = value;
+            }
+        }
+
         public bool IsOnServiceNow
         {
             get
@@ -150,8 +180,14 @@ namespace OOP_CourseWork.Models
         {
             get
             {
-                return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) != null;
+                if (SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) is null) return false;
+                return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this && !x.IsCancelled && x.OrderBookingTime.AddHours(x.OrderHours) > DateTime.Now) != null;
             }
+        }
+
+        public void CheckCarLocation()
+        {
+            UtilsControl.GetRandomCoords(out _locationX, out _locationY);
         }
     }
 }

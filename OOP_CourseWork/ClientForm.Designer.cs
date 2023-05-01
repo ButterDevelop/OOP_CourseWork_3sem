@@ -34,6 +34,7 @@ namespace OOP_CourseWork
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.tabControlClient = new System.Windows.Forms.TabControl();
             this.tabPageOrdersList = new System.Windows.Forms.TabPage();
+            this.buttonOrderList_ExtendTheOrder = new System.Windows.Forms.Button();
             this.buttonOrderList_OpenCarLocationMap = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.textBoxOrderList_LastServiceDate = new System.Windows.Forms.TextBox();
@@ -174,6 +175,7 @@ namespace OOP_CourseWork
             this.tabPageOrdersList.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageOrdersList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.tabPageOrdersList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageOrdersList.Controls.Add(this.buttonOrderList_ExtendTheOrder);
             this.tabPageOrdersList.Controls.Add(this.buttonOrderList_OpenCarLocationMap);
             this.tabPageOrdersList.Controls.Add(this.label18);
             this.tabPageOrdersList.Controls.Add(this.textBoxOrderList_LastServiceDate);
@@ -200,6 +202,18 @@ namespace OOP_CourseWork
             this.tabPageOrdersList.TabIndex = 0;
             this.tabPageOrdersList.Text = "Список заказов ";
             this.tabPageOrdersList.UseVisualStyleBackColor = true;
+            // 
+            // buttonOrderList_ExtendTheOrder
+            // 
+            this.buttonOrderList_ExtendTheOrder.Enabled = false;
+            this.buttonOrderList_ExtendTheOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOrderList_ExtendTheOrder.Location = new System.Drawing.Point(580, 197);
+            this.buttonOrderList_ExtendTheOrder.Name = "buttonOrderList_ExtendTheOrder";
+            this.buttonOrderList_ExtendTheOrder.Size = new System.Drawing.Size(175, 40);
+            this.buttonOrderList_ExtendTheOrder.TabIndex = 22;
+            this.buttonOrderList_ExtendTheOrder.Text = "Продлить заказ";
+            this.buttonOrderList_ExtendTheOrder.UseVisualStyleBackColor = true;
+            this.buttonOrderList_ExtendTheOrder.Click += new System.EventHandler(this.buttonOrderList_ExtendTheOrder_Click);
             // 
             // buttonOrderList_OpenCarLocationMap
             // 
@@ -1463,6 +1477,7 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderStatus;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderCost;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_ID;
+        private System.Windows.Forms.Button buttonOrderList_ExtendTheOrder;
     }
 }
 
