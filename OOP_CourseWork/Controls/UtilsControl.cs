@@ -60,7 +60,7 @@ namespace OOP_CourseWork.Controls
             else
             if (SaveLoadControl.CurrentUser is Admin)
             {
-                //Application.Run(new AdminForm());
+                Application.Run(new AdminForm());
             }
             else
             {

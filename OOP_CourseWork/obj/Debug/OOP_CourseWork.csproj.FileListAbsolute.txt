@@ -14,3 +14,4 @@ C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.LoginForm.resources
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.ClientForm.resources
 C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.RegisterForm.resources
+C:\MaXiMAA\Projects\Java\OOP_University\OOP_CourseWork\OOP_CourseWork\obj\Debug\OOP_CourseWork.AdminForm.resources
