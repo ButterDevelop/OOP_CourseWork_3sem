@@ -3,6 +3,7 @@ using OOP_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,16 +12,17 @@ namespace OOP_CourseWork.Models
 {
     internal class ServiceReport
     {
-        public static readonly double CostPerOneDay = 100;
-
         private int _id;
         private string _description;
         private DateTime _startedDate;
         private DateTime _finishedDate;
         private double _additionalCost;
+        private bool _isStarted;
         private bool _isFinished;
         private int _plannedCompletionDays;
+        private Employee _worker;
         private Car _servicedCar;
+        private string _employeeReport;
 
         public ServiceReport() 
         {
@@ -29,8 +31,10 @@ namespace OOP_CourseWork.Models
             _startedDate = DateTime.Now;
             _finishedDate = DateTime.MinValue;
             _additionalCost = 0;
+            _isStarted = true;
             _isFinished = false;
             _plannedCompletionDays = 0;
+            _worker = null;
             _servicedCar = new Car();
         }
 
@@ -41,20 +45,24 @@ namespace OOP_CourseWork.Models
             _startedDate = DateTime.Now;
             _finishedDate = DateTime.MinValue;
             _additionalCost = 0;
+            _isStarted = true;
             _isFinished = false;
             _plannedCompletionDays = plannedCompletionDays;
+            _worker = null;
             _servicedCar = servicedCar;
         }
 
-        public ServiceReport(int id, string description, DateTime startedDate, DateTime finishedDate, double additionalCost, bool isFinished, int plannedCompletionDays, Car servicedCar)
+        public ServiceReport(int id, string description, DateTime startedDate, DateTime finishedDate, double additionalCost, bool isStarted, bool isFinished, int plannedCompletionDays, Employee worker, Car servicedCar)
         {
             _id = id;
             _description = description;
             _startedDate = startedDate;
             _finishedDate = finishedDate;
             _additionalCost = additionalCost;
+            _isStarted = isStarted;
             _isFinished = isFinished;
             _plannedCompletionDays = plannedCompletionDays;
+            _worker = worker;
             _servicedCar = servicedCar;
         }
 
@@ -87,7 +95,20 @@ namespace OOP_CourseWork.Models
         {
             get
             {
-                return (_plannedCompletionDays * CostPerOneDay) + _additionalCost;
+                if (_worker is null) return 0;
+                return (_plannedCompletionDays * _worker.SalaryPerDay) + _additionalCost;
+            }
+        }
+
+        public double AdditionalCost
+        {
+            get
+            {
+                return _additionalCost;
+            }
+            set
+            {
+                _additionalCost = value;
             }
         }
 
@@ -115,6 +136,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public bool IsStarted
+        {
+            get
+            {
+                return _isStarted;
+            }
+            set
+            {
+                _isStarted = value;
+            }
+        }
+
         public bool IsFinished
         {
             get
@@ -139,6 +172,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public Employee Worker
+        {
+            get
+            {
+                return _worker;
+            }
+            set
+            {
+                _worker = value;
+            }
+        }
+
         public Car ServicedCar
         {
             get
@@ -151,6 +196,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public string EmployeeReport
+        {
+            get
+            {
+                return _employeeReport;
+            }
+            set
+            {
+                _employeeReport = value;
+            }
+        }
+
 
         public void FinishService()
         {
@@ -160,7 +217,7 @@ namespace OOP_CourseWork.Models
             BankTransaction bankTransaction = new BankTransaction(SaveLoadControl.BankTransactions.Count, 
                                                                   BankTransaction.OurOrganizationBankAccountNumber, 
                                                                   BankTransaction.ServiceCentreBankAccountNumber, 
-                                                                  Cost,
+                                                                  AdditionalCost,
                                                                   null);
             SaveLoadControl.BankTransactions.Add(bankTransaction);
         }

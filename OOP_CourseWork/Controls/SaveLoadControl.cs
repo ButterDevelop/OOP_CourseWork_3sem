@@ -23,7 +23,6 @@ namespace OOP_CourseWork.Controls
         private static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         public static List<User>            Users = new List<User>();                       //simple
-        public static List<CarBrand>        CarBrands = new List<CarBrand>();               //simple
         public static List<Car>             Cars = new List<Car>();                         //complicated
         public static List<Order>           Orders = new List<Order>();                     //complicated
         public static List<Payment>         Payments = new List<Payment>();                 //complicated
@@ -68,7 +67,6 @@ namespace OOP_CourseWork.Controls
             {
                 JSON_export.Root export = new JSON_export.Root();
                 export.Users = Users;
-                export.CarBrands = CarBrands;
                 export.Cars = Cars;
                 export.Orders = Orders;
                 export.Payments = Payments;
@@ -94,7 +92,6 @@ namespace OOP_CourseWork.Controls
                 JSON_export.Root deserialized = JsonConvert.DeserializeObject<JSON_export.Root>(data, settingsJSON);
 
                 Users = deserialized.Users;
-                CarBrands = deserialized.CarBrands;
                 Cars = deserialized.Cars;
                 Orders = deserialized.Orders;
                 Payments = deserialized.Payments;
@@ -102,10 +99,6 @@ namespace OOP_CourseWork.Controls
                 ServiceReports = deserialized.ServiceReports;
 
                 // Исправляем проблему дублирования. Присваиваем объекты из массива, новосозданные (дублированные) объекты удаляются.
-                foreach (var a in Cars)
-                {
-                    a.Brand = CarBrands[a.Brand.Id];
-                }
                 foreach (var a in Orders)
                 {
                     a.OrderedCar = Cars[a.OrderedCar.Id];

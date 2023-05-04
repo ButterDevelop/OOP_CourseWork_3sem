@@ -49,24 +49,15 @@ namespace OOP_CourseWork
             toolTipCost.SetToolTip(textBoxPayments_Cost, "Введите сумму пополнения Вашего баланса на нашем сервисе.\n" +
                                                          "Сумма округляется автоматически до двух знаков после запятой.");
 
-            toolTipOrderHours.SetToolTip(textBoxMakeAnOrder_BookingHours, "Введите количество часов, на которые хотите арендовать автомобиль.\n" + 
-                                                                          "Не может превышать 192-х часов (8 суток).");
-
-            toolTipOrderBookingDateTime.SetToolTip(dateTimePickerMakeAnOrder_BookingDate, "Укажите время, на которое бронируете автомобиль.\n" + 
-                                                                                          "Это будет время начала Вашего заказа.");
-            toolTipOrderBookingDateTime.SetToolTip(dateTimePickerMakeAnOrder_BookingTime, "Укажите время, на которое бронируете автомобиль.\n" +
-                                                                                          "Это будет время начала Вашего заказа.");
-
-            toolTipOrderBookingEndDateTime.SetToolTip(textBoxMakeAnOrder_BookingEndTime,  "Время окончания заказа, рассчитанное с помощью указанных Вами параметров.");
-
-            toolTipOrderListCarPicture.SetToolTip(pictureBoxCarPicture, "Фотография автомобиля выбранного заказа.");
+            toolTipOrderListCarPicture.SetToolTip(pictureBoxServiceReportList_CarPicture, "Фотография автомобиля выбранного заказа.");
 
             tabControlAdmin.SelectedIndexChanged += TabControlAdmin_SelectedIndexChanged;
 
             listViewPayments.ColumnWidthChanging += ListViewPayments_ColumnWidthChanging;
-            listViewServiceReportList.ColumnWidthChanging += ListViewOrderList_ColumnWidthChanging;
+            listViewServiceReportList.ColumnWidthChanging += ListViewServiceReportList_ColumnWidthChanging;
 
-            listViewServiceReportList.ItemSelectionChanged += ListViewOrderList_ItemSelectionChanged;
+            listViewServiceReportList.ItemSelectionChanged += listViewServiceReportList_ItemSelectionChanged;
+            listViewMakeServiceReport.ItemSelectionChanged += ListViewMakeServiceReport_ItemSelectionChanged;
 
             this.FormClosing += AdminForm_FormClosing;
 
@@ -88,12 +79,19 @@ namespace OOP_CourseWork
 
         private void AdminForm_Load(object sender, EventArgs e)
         {
-            RefreshBalanceNumber();
-            UpdateSettingsTab();
-            RefreshOrderList();
+            RefreshServiceReportList();
             
             if (!SaveLoadControl.CurrentUser.IsAccountSetupCompleted) tabControlAdmin.SelectTab(3); //Переходим на вкладку "Настройки"
             tabControlAdmin.Deselecting += TabControlAdmin_Deselecting;
+        }
+
+        public void LoadCarsOrderImages()
+        {
+            CarsOrderImages.Clear();
+            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
+            {
+                CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
+            }
         }
 
         private void TabControlAdmin_Deselecting(object sender, TabControlCancelEventArgs e)
@@ -109,48 +107,26 @@ namespace OOP_CourseWork
         {
             if (tabControlAdmin.SelectedIndex == 0) //Вкладка "Список заказов"
             {
-                RefreshOrderList();
+                RefreshServiceReportList();
             }
             else
-            if (tabControlAdmin.SelectedIndex == 1) //Вкладка "Сделать заказ"
+            if (tabControlAdmin.SelectedIndex == 1) //Вкладка "Отправить на обслуживание"
             {
-                SetDefaultMakeAnOrderValues();
-                RefreshMakeAnOrderList();
+                RefreshMakeServiceReport();
             }
             else
             if (tabControlAdmin.SelectedIndex == 2) //Вкладка "Пополнение баланса"
             {
                 RefreshPaymentsList();
-                textBoxPayment_CardNumber.Text = ((Admin)SaveLoadControl.CurrentUser).CardNumber;
-            } else
+            } 
+            else
             if (tabControlAdmin.SelectedIndex == 3) //Вкладка "Настройки"
             {
-                UpdateSettingsTab();
+                
             }
         }
 
         #region Settings
-
-        public void UpdateSettingsTab()
-        {
-            if (SaveLoadControl.CurrentUser.IsAccountSetupCompleted)
-            {
-                labelSettings_AccountSetupIsNotCompleted.Visible = false;
-                labelSettings_AccountSetupIsCompletedFine.Visible = true;
-            }
-            else
-            {
-                labelSettings_AccountSetupIsNotCompleted.Visible = true;
-                labelSettings_AccountSetupIsCompletedFine.Visible = false;
-            }
-
-            textBoxSettings_DriverLicense.Text = ((Admin)SaveLoadControl.CurrentUser).DriverLicense;
-            textBoxSettings_Passport.Text = ((Admin)SaveLoadControl.CurrentUser).Passport;
-            textBoxSettings_CardNumber.Text = ((Admin)SaveLoadControl.CurrentUser).CardNumber;
-
-            textBoxSettings_Email.Text = SaveLoadControl.CurrentUser.Email;
-            maskedTextBoxSettings_PhoneNumber.Text = SaveLoadControl.CurrentUser.Phone;
-        }
 
         private void textBoxSettings_Password_TextChanged(object sender, EventArgs e)
         {
@@ -235,47 +211,7 @@ namespace OOP_CourseWork
 
         private void buttonSettings_Save_Click(object sender, EventArgs e)
         {
-            textBoxSettings_Password_TextChanged(null, null);
-            textBoxSettings_DriverLicense_TextChanged(null, null);
-            textBoxSettings_Passport_TextChanged(null, null);
-            textBoxSettings_CardNumber_TextChanged(null, null);
-            textBoxSettings_Email_TextChanged(null, null);
-            maskedTextBoxSettings_PhoneNumber_TextChanged(null, null);
-
-            if (textBoxSettings_Password.BackColor == DeniedColor ||
-                textBoxSettings_DriverLicense.BackColor == DeniedColor ||
-                textBoxSettings_Passport.BackColor == DeniedColor ||
-                textBoxSettings_CardNumber.BackColor == DeniedColor ||
-                textBoxSettings_Email.BackColor == DeniedColor ||
-                maskedTextBoxSettings_PhoneNumber.BackColor == DeniedColor)
-            {
-                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка смены пароля!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string phoneNumber = maskedTextBoxSettings_PhoneNumber.Text.Replace(" (", "").Replace(") ", "").Replace("-", "");
-
-            if (!SaveLoadControl.CurrentUser.ChangeEmail(textBoxSettings_Password.Text, textBoxSettings_Email.Text) ||
-                !SaveLoadControl.CurrentUser.ChangePhoneNumber(textBoxSettings_Password.Text, phoneNumber) ||
-                !((Admin)SaveLoadControl.CurrentUser).ChangeSettings(textBoxSettings_Password.Text, textBoxSettings_DriverLicense.Text, 
-                                                                      textBoxSettings_Passport.Text, textBoxSettings_CardNumber.Text))
-            {
-                MessageBox.Show("Не удалось изменить настройки! Возможно, указан неверный пароль?", "Смена настроек!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } else
-            {
-                textBoxSettings_Password.BackColor = AllowedColor;
-                textBoxSettings_DriverLicense.BackColor = AllowedColor;
-                textBoxSettings_Passport.BackColor = AllowedColor;
-                textBoxSettings_CardNumber.BackColor = AllowedColor;
-                textBoxSettings_Email.BackColor = AllowedColor;
-                maskedTextBoxSettings_PhoneNumber.BackColor = AllowedColor;
-
-                SaveLoadControl.CurrentUser.CompleteAccountSetup();
-                labelSettings_AccountSetupIsNotCompleted.Visible = false;
-                labelSettings_AccountSetupIsCompletedFine.Visible = true;
-
-                MessageBox.Show("Настройки были успешно изменёны!", "Смена настроек!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            
         }
 
         #endregion
@@ -364,11 +300,6 @@ namespace OOP_CourseWork
             }
         }
 
-        public void RefreshBalanceNumber()
-        {
-            labelBalanceNumber.Text = ((Admin)SaveLoadControl.CurrentUser).Balance.ToString().Replace(",", ".");
-        }
-
         #region Payments
 
         private void textBoxPayments_SecretCode_TextChanged(object sender, EventArgs e)
@@ -399,26 +330,7 @@ namespace OOP_CourseWork
 
         private void buttonPayments_CreatePayment_Click(object sender, EventArgs e)
         {
-            textBoxPayments_SecretCode_TextChanged(null, null);
-            textBoxPayments_Cost_TextChanged(null, null);
 
-            if (textBoxPayments_SecretCode.BackColor == DeniedColor ||
-                textBoxPayments_Cost.BackColor == DeniedColor)
-            {
-                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка при попытке оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (((Admin)SaveLoadControl.CurrentUser).BalanceDeposit(Math.Round(double.Parse(textBoxPayments_Cost.Text.Replace(".", ",")), 2), textBoxPayments_SecretCode.Text))
-            {
-                textBoxPayments_SecretCode.Text = "000";
-                MessageBox.Show("Успешно! Информация об оплате теперь отображается в списке оплат.", "Успешная оплата!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } else
-            {
-                MessageBox.Show("Ошибка! Не удалось провести оплату. Проверьте введённые данные.", "Ошибка оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            RefreshBalanceNumber();
-            RefreshPaymentsList();
         }
 
         private void ListViewPayments_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
@@ -557,410 +469,344 @@ namespace OOP_CourseWork
 
         #endregion
 
-        #region Make an order
+        #region Make Service Report
 
-        public Image DrawTextOnImage(Image image, Size imageSize, string text, int fontSize)
+        public void RefreshMakeServiceReport()
         {
-            using (Graphics g = Graphics.FromImage(image))
-            {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.CompositingQuality = CompositingQuality.HighQuality;
-                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                g.RotateTransform(45);
-                StringFormat sf = new StringFormat();
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-                GraphicsPath p = new GraphicsPath();
-                var fontFamily = FontFamily.Families.FirstOrDefault(x => x.Name == "Tahoma");
-                p.AddString(
-                    text,
-                    fontFamily is null ? FontFamily.GenericSansSerif : fontFamily,
-                    (int)FontStyle.Bold,
-                    g.DpiY * fontSize / 72,
-                    new PointF((float)(imageSize.Width / 1.7), -1 * imageSize.Height / 4),
-                    sf);
-                g.DrawPath(Pens.DarkGray, p);
-                g.FillPath(Brushes.DarkGray, p);
-                g.DrawString(text, new Font("Tahoma", fontSize, FontStyle.Bold), Brushes.Red, new PointF((float)(imageSize.Width / 1.7), -1 * imageSize.Height / 4), sf);
-            }
+            listViewMakeServiceReport.Items.Clear();
 
-            return image;
-        }
-
-        public void RefreshMakeAnOrderList()
-        {
-            listViewMakeAnOrder.Items.Clear();
-
-            var cars = SaveLoadControl.Cars.OrderBy(x => x.PricePerHour).ToArray();
-
-            ImageList imageListLarge = new ImageList();
-            imageListLarge.ImageSize = ImageSize;
-            for (int i = 0; i < cars.Count(); i++)
-            {
-                Image image = new Bitmap(CarsOrderImages[i], ImageSize);
-                
-                if (SaveLoadControl.Cars[cars[i].Id].IsOnServiceNow)
-                {
-                    image = DrawTextOnImage(image, ImageSize, "Сейчас на\nобслуживании", 13);
-                } 
-                else
-                if (SaveLoadControl.Cars[cars[i].Id].IsOrderedNow)
-                {
-                    image = DrawTextOnImage(image, ImageSize, "Уже\nзаказана", 16);
-                }
-
-                imageListLarge.Images.Add(image);
-            }
-            listViewMakeAnOrder.LargeImageList = imageListLarge;
+            var cars = SaveLoadControl.Cars.OrderByDescending(x => x.Id).ToArray();
 
             foreach (var car in cars)
             {
-                string title = "";
-                title += car.Brand.Name + " ";
-                title += car.Model + ", ";
-                title += car.ProductionYear.Year.ToString() + "-го года выпуска, ";
-                title += car.PricePerHour.ToString().Replace(",", ".") + " рублей в час";
+                string[] arr = new string[10];
+                arr[0] = "";
+                arr[1] = (car.Id + 1).ToString();
+                arr[2] = car.IsOnServiceNow ? "Обслуживается" : "В работе";
+                arr[3] = car.Brand;
+                arr[4] = car.Model;
+                arr[5] = car.CarLicensePlate;
+                arr[6] = car.PricePerHour.ToString("N2").Replace(",", ".");
+                arr[7] = car.ProductionYear.ToString("yyyy");
+                arr[8] = car.BuyTime.ToString();
+                arr[9] = car.LastServiceTime.ToString();
 
-                ListViewItem item = new ListViewItem(title);
+                ListViewItem item = new ListViewItem(arr);
                 item.Tag = car.Id;
                 item.UseItemStyleForSubItems = false;
-                item.ForeColor = (car.IsOrderedNow || car.IsOnServiceNow) ? Color.Red : Color.Green;
-                item.ImageIndex = listViewMakeAnOrder.Items.Count;
-                listViewMakeAnOrder.Items.Add(item);
+                item.ForeColor = car.IsOnServiceNow ? Color.Red : Color.Green;
+                listViewMakeServiceReport.Items.Add(item);
             }
 
-            listViewMakeAnOrder.Refresh();
+            listViewMakeServiceReport.Refresh();
         }
 
-        public void SetDefaultMakeAnOrderValues()
+        private void ListViewMakeServiceReport_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
-            dateTimePickerMakeAnOrder_BookingDate.MinDate = DateTime.Now.AddSeconds(-1);
-            dateTimePickerMakeAnOrder_BookingDate.MaxDate = DateTime.Now.AddDays(7);
-            dateTimePickerMakeAnOrder_BookingTime.MinDate = DateTime.Now.AddSeconds(-1);
-            dateTimePickerMakeAnOrder_BookingDate.Value = DateTime.Now;
-            dateTimePickerMakeAnOrder_BookingTime.Value = DateTime.Now;
-            SetBookingEndDate();
+            e.Cancel = true;
+            e.NewWidth = listViewServiceReportList.Columns[e.ColumnIndex].Width;
         }
 
-        public void SetBookingEndDate()
+        private void ListViewMakeServiceReport_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            int hours = 0;
-            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192) return; //999999
-
-            textBoxMakeAnOrder_BookingEndTime.Text = new DateTime(dateTimePickerMakeAnOrder_BookingDate.Value.Year,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Month,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Day,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Second).AddHours(hours).ToString();
-        }
-
-        private void textBoxMakeAnOrder_BookingHours_TextChanged(object sender, EventArgs e)
-        {
-            int hours = 0;
-            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192) //999999
+            if (listViewMakeServiceReport.SelectedItems.Count != 0)
             {
-                textBoxMakeAnOrder_BookingHours.BackColor = DeniedColor;
+                if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
+                var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
+                var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
+                if (car is null) return;
+
+                buttonMakeServiceReport_OpenCarLocationMap.Enabled = true;
+
+                if (!car.IsOnServiceNow)
+                {
+                    buttonMakeServiceReport_SendToService.Enabled = true;
+                }
+                else
+                {
+                    buttonMakeServiceReport_SendToService.Enabled = false;
+                }
+
+                pictureBoxMakeServiceReport_CarPicture.Image = new Bitmap(CarsOrderImages[car.Id], pictureBoxMakeServiceReport_CarPicture.Size);
             }
             else
             {
-                textBoxMakeAnOrder_BookingHours.BackColor = AllowedColor;
+                pictureBoxMakeServiceReport_CarPicture.Image = null;
+                buttonMakeServiceReport_OpenCarLocationMap.Enabled = false;
+                buttonMakeServiceReport_SendToService.Enabled = false;
             }
-            SetBookingEndDate();
         }
 
-        private void dateTimePickerMakeAnOrder_BookingDate_ValueChanged(object sender, EventArgs e)
+        private void buttonMakeServiceReport_OpenCarLocationMap_Click(object sender, EventArgs e)
         {
-            SetBookingEndDate();
+            if (listViewMakeServiceReport.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали машину, чтобы открыть её местоположение!", "Невозможно найти машину!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
+            var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
+            var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
+            if (car is null) return;
+
+            var result = MessageBox.Show("Вы будете перенаправлены на сторонний сайт \"Google Maps\" для просмотра местоположения автомобиля.", "Открыть карту?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                car.CheckCarLocation();
+                MessageBox.Show("Карта будет открыта через несколько секунд.", "Карта открывается.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Process.Start($"https://www.google.com/maps/search/{car.LocationX.ToString().Replace(",", ".")},+{car.LocationY.ToString().Replace(",", ".")}");
+            }
         }
 
-        private void dateTimePickerMakeAnOrder_BookingTime_ValueChanged(object sender, EventArgs e)
+        private void buttonMakeServiceReport_SendToService_Click(object sender, EventArgs e)
         {
-            SetBookingEndDate();
+            
         }
 
-        private void buttonMakeAnOrder_CreateOrder_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_Click(object sender, EventArgs e)
         {
-            textBoxMakeAnOrder_BookingHours_TextChanged(null, null);
-
-            if (textBoxMakeAnOrder_BookingHours.BackColor == DeniedColor)
+            try
             {
-                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка при попытке сделать заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[1].Text + "\t" +
+                              item.SubItems[2].Text + "\t" +
+                              item.SubItems[3].Text + "\t" +
+                              item.SubItems[4].Text + "\t" +
+                              item.SubItems[5].Text + "\t" +
+                              item.SubItems[6].Text + "\t" +
+                              item.SubItems[7].Text + "\t" +
+                              item.SubItems[8].Text + "\t" +
+                              item.SubItems[9].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+
+                Clipboard.SetText(result);
             }
-
-            if (listViewMakeAnOrder.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Вы не выбрали, что хотите заказать!", "Ошибка при попытке сделать заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (SaveLoadControl.Orders.Count(x => x.OrderPayment.User == SaveLoadControl.CurrentUser && x.OrderPayment.CreatedTime >= DateTime.Now.AddHours(-1)) >= 3)
-            {
-                MessageBox.Show("Вы сделали слишком много заказов за последний час! Подождите немного!", "Вы сделали 3 заказа за последний час.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var result = MessageBox.Show($"Вы уверены, что хотите заказать автомобиль " +
-                                         $"\"{listViewMakeAnOrder.SelectedItems[0].Text}\"?", "Подтверждение заказа", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.No) return;
-
-            int hours = 0;
-            Regex regex = new Regex("Машина\\s\\#(\\d*)\\,\\s");
-            if (!int.TryParse(textBoxMakeAnOrder_BookingHours.Text, out hours) || hours <= 0 || hours > 192 || listViewMakeAnOrder.SelectedItems[0].Tag is null)
-            {
-                MessageBox.Show("Во время создания заказа произола ошибка! Попробуйте позже.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            int carId = (int)listViewMakeAnOrder.SelectedItems[0].Tag;
-            Car car = SaveLoadControl.Cars[carId];
-
-            if (car.IsOrderedNow || car.IsOnServiceNow)
-            {
-                MessageBox.Show("Данный автомобиль сейчас недоступен для заказа. Причина указана на фотографии.", "Невозможно заказать автомобиль!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DateTime bookingDateTime = new DateTime(dateTimePickerMakeAnOrder_BookingDate.Value.Year,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Month,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Day,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Second);
-            if ((bookingDateTime - DateTime.Now).TotalMinutes < 30) bookingDateTime = DateTime.Now.AddMinutes(30);
-
-            Payment payment = new Payment(SaveLoadControl.Payments.Count, (Admin)SaveLoadControl.CurrentUser, hours * car.PricePerHour);
-            if (!payment.Pay())
-            {
-                MessageBox.Show("Заказ НЕ был создан, его не удалось оплатить! Кажется, у Вас недостаточно средств на балансе.", "Ошибка оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            Order order = new Order(SaveLoadControl.Orders.Count, payment, car, (Admin)SaveLoadControl.CurrentUser, bookingDateTime, hours);
-            SaveLoadControl.Orders.Add(order);
-
-            RefreshBalanceNumber();
-            RefreshMakeAnOrderList();
-
-            dateTimePickerMakeAnOrder_BookingDate.Value = bookingDateTime;
-            dateTimePickerMakeAnOrder_BookingTime.Value = bookingDateTime;
-            MessageBox.Show($"Заказ был успешно создан! Начало времени бронирования: {bookingDateTime}.", "Заказ создан успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            catch { }
         }
 
-        public void LoadCarsOrderImages()
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_ID_Click(object sender, EventArgs e)
         {
-            CarsOrderImages.Clear();
-            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
+            try
             {
-                CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[1].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
             }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_Status_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[2].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarBrand_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[3].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarModel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[4].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarLicensePlate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[5].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarPricePerHour_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[6].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarProductionYear_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[7].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarBuyTime_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[8].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewMakeServiceReport_Copy_CarLastServiceDate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewMakeServiceReport.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[9].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
         }
 
         #endregion
 
-        #region Order list
+        #region Service Report list
 
-        public void RefreshOrderList()
+        public void RefreshServiceReportList()
         {
-            /*SaveLoadControl.Orders.Clear();
-            SaveLoadControl.Payments.Clear();
-            ((Admin)SaveLoadControl.CurrentUser).BalanceIncrease(20);*/
-
             listViewServiceReportList.Items.Clear();
 
-            var orders = SaveLoadControl.Orders.Where(x => x.OrderPayment.User.Id == SaveLoadControl.CurrentUser.Id)
-                                               .OrderByDescending(x => x.OrderBookingTime).ToArray();
+            var reports = SaveLoadControl.ServiceReports.OrderByDescending(x => x.StartedDate).ToArray();
 
-            int counter = orders.Length;
-            foreach (var order in orders)
+            int counter = reports.Length;
+            foreach (var report in reports)
             {
-                string[] arr = new string[7];
-                arr[0] = "";
-                arr[1] = (counter--).ToString();
-                arr[2] = order.OrderBookingTime.ToString();
-                arr[3] = order.OrderHours.ToString();
-                arr[4] = order.OrderBookingTime.AddHours(order.OrderHours).ToString();
-                arr[5] = order.IsCancelled ? "Отменён" : (order.OrderBookingTime.AddHours(order.OrderHours) <= DateTime.Now ? "Закончен" : "Активен");
-                arr[6] = order.OrderPayment.Cost.ToString("N2").Replace(",", ".");
+                string[] arr = new string[13];
+                arr[0] = ""; 
+                arr[1] = report.Id.ToString();
+                arr[2] = report.Description;
+                arr[3] = report.StartedDate.ToString();
+                arr[4] = report.FinishedDate.ToString();
+                arr[5] = report.Cost.ToString("N2").Replace(",", ".");
+                arr[6] = report.PlannedCompletionDays.ToString();
+                arr[7] = report.IsStarted.ToString();
+                arr[8] = report.IsFinished.ToString();
+                arr[9] = report.AdditionalCost.ToString("N2").Replace(",", ".");
+                arr[10] = report.Worker is null ? "" : report.Worker.FullName.ToString();
+                arr[11] = report.Worker is null ? "" : report.Worker.SalaryPerDay.ToString("N2").Replace(",", ".");
+                arr[12] = report.EmployeeReport;
 
                 ListViewItem item = new ListViewItem(arr);
-                item.Tag = order.Id;
+                item.Tag = report.Id;
                 item.UseItemStyleForSubItems = false;
-                item.ForeColor = order.IsCancelled ? Color.Red : Color.Green;
+                item.ForeColor = report.IsFinished ? Color.Green : Color.Red;
                 listViewServiceReportList.Items.Add(item);
             }
 
             listViewServiceReportList.Refresh();
         }
 
-        private void ListViewOrderList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void ListViewServiceReportList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             e.Cancel = true;
             e.NewWidth = listViewServiceReportList.Columns[e.ColumnIndex].Width;
         }
 
-        private void ListViewOrderList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void listViewServiceReportList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listViewServiceReportList.SelectedItems.Count != 0)
             {
                 if (listViewServiceReportList.SelectedItems[0].Tag is null) return;
-                var orderId = (int)listViewServiceReportList.SelectedItems[0].Tag;
-                var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
-                if (order is null) return;
+                var reportId = (int)listViewServiceReportList.SelectedItems[0].Tag;
+                var report = SaveLoadControl.ServiceReports.FirstOrDefault(x => x.Id == reportId);
+                if (report is null) return;
 
-                if (!order.IsCancelled && order.OrderBookingTime > DateTime.Now)
-                    buttonServiceReportList_CancelOrder.Enabled = true;
-                else
-                    buttonServiceReportList_CancelOrder.Enabled = false;
-
-                if (!order.IsCancelled && order.OrderBookingTime.AddHours(order.OrderHours) >= DateTime.Now)
-                {
-                    buttonServiceReportList_OpenCarLocationMap.Enabled = true;
-                    buttonServiceReportList_ExtendTheOrder.Enabled = true;
-                }
-                else
-                {
-                    buttonServiceReportList_OpenCarLocationMap.Enabled = false;
-                    buttonServiceReportList_ExtendTheOrder.Enabled = false;
-                }
-
-                pictureBoxCarPicture.Image = new Bitmap(CarsOrderImages[order.OrderedCar.Id], pictureBoxCarPicture.Size);
-                textBoxServiceReportList_CarBrand.Text = order.OrderedCar.Brand.Name;
-                textBoxServiceReportList_CarModel.Text = order.OrderedCar.Model;
-                textBoxServiceReportList_ProductionYear.Text = order.OrderedCar.ProductionYear.ToString("yyyy");
-                textBoxServiceReportList_PricePerHour.Text = order.OrderedCar.PricePerHour.ToString("N2").Replace(",", ".");
-                textBoxServiceReportList_CarLicensePlate.Text = order.OrderedCar.CarLicensePlate;
-                textBoxServiceReportList_LastServiceDate.Text = order.OrderedCar.LastServiceTime.ToString("d");
-            } else
+                pictureBoxServiceReportList_CarPicture.Image = new Bitmap(CarsOrderImages[report.ServicedCar.Id], pictureBoxServiceReportList_CarPicture.Size);
+                textBoxServiceReportList_CarBrand.Text = report.ServicedCar.Brand;
+                textBoxServiceReportList_CarModel.Text = report.ServicedCar.Model;
+                textBoxServiceReportList_ProductionYear.Text = report.ServicedCar.ProductionYear.ToString("yyyy");
+                textBoxServiceReportList_PricePerHour.Text = report.ServicedCar.PricePerHour.ToString("N2").Replace(",", ".");
+                textBoxServiceReportList_CarLicensePlate.Text = report.ServicedCar.CarLicensePlate;
+                textBoxServiceReportList_LastServiceDate.Text = report.ServicedCar.LastServiceTime.ToString("d");
+            } 
+            else
             {
-                pictureBoxCarPicture.Image = null;
+                pictureBoxServiceReportList_CarPicture.Image = null;
                 textBoxServiceReportList_CarBrand.Text = "";
                 textBoxServiceReportList_CarModel.Text = "";
                 textBoxServiceReportList_ProductionYear.Text = "";
                 textBoxServiceReportList_PricePerHour.Text = "";
                 textBoxServiceReportList_CarLicensePlate.Text = "";
                 textBoxServiceReportList_LastServiceDate.Text = "";
-                buttonServiceReportList_CancelOrder.Enabled = false;
-                buttonServiceReportList_OpenCarLocationMap.Enabled = false;
-                buttonServiceReportList_ExtendTheOrder.Enabled = false;
             }
         }
 
-        private void buttonOrderList_CancelOrder_Click(object sender, EventArgs e)
-        {
-            if (listViewServiceReportList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Вы не выбрали заказа, чтобы его отменить!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var result = MessageBox.Show("Вы уверены, что хотите отменить выбранный заказ?", "Отменить заказ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.No) return;
-
-            if (listViewServiceReportList.SelectedItems[0].Tag is null) return;
-            var orderId = (int)listViewServiceReportList.SelectedItems[0].Tag;
-            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
-            if (order is null) return;
-
-            if (order.IsCancelled)
-            {
-                MessageBox.Show("Заказ уже отменён! Нельзя отменить его ещё раз!", "Заказ уже отменён.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                buttonServiceReportList_CancelOrder.Enabled = false;
-                return;
-            }
-
-            if (order.OrderBookingTime <= DateTime.Now)
-            {
-                MessageBox.Show("Время брони наступило, заказ уже открыт! Невозможно отменить его!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                buttonServiceReportList_CancelOrder.Enabled = false;
-                return;
-            }
-
-            bool cancel_result = order.Cancel();
-            RefreshOrderList();
-            RefreshBalanceNumber();
-            if (cancel_result)
-            {
-                MessageBox.Show("Заказ был отменён успешно! Сумма заказа была возвращена на Ваш баланс.", "Успешная отмена заказа!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Не удалось отменить заказ по какой-то причине! Попробуйте ещё раз!", "Не удалось отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void buttonOrderList_ExtendTheOrder_Click(object sender, EventArgs e)
-        {
-            if (listViewServiceReportList.SelectedItems[0].Tag is null) return;
-            var orderId = (int)listViewServiceReportList.SelectedItems[0].Tag;
-            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
-            if (order is null) return;
-
-            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
-            {
-                MessageBox.Show("Заказ уже закончен или отменён! Невозможно продлить его!", "Невозможно продлить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                buttonServiceReportList_ExtendTheOrder.Enabled = false;
-                return;
-            }
-
-            string str_hours = Interaction.InputBox("На какое количество часов Вы желаете продлить заказ?\n" + 
-                                                    "Нельзя продлить заказ так, чтобы суммарно он составлял 192 часа (8 суток).\n" + 
-                                                    $"Тем самым, максимальное разрешённое количество часов на продление: {192 - order.OrderHours}.\n", 
-                                                    "Продление заказа", "1");
-            if (str_hours == "") return;
-
-            int hours = 0;
-            if (!int.TryParse(str_hours, out hours) || hours <= 0 || hours > 192)
-            {
-                MessageBox.Show("Вы ввели что-то не то! Попробуйте ещё раз!", "Ошибка ввода!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            bool result = order.ExtendOrder(hours);
-            RefreshOrderList();
-            RefreshBalanceNumber();
-            if (!result)
-            {
-                MessageBox.Show("Заказ не удалось продлить. Либо у Вас не хватает средств на балансе, либо количество арендных часов превышает допустимое.", "Не удалось продлить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                MessageBox.Show($"Заказ был успешно продлён на выбранное количество часов: {hours}. Новое время окончания заказа: {order.OrderBookingTime.AddHours(order.OrderHours)}.", "Заказ продлён успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void buttonOrderList_OpenCarLocationMap_Click(object sender, EventArgs e)
-        {
-            if (listViewServiceReportList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Вы не выбрали заказа, чтобы открыть местоположение машины!", "Невозможно найти машину!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (listViewServiceReportList.SelectedItems[0].Tag is null) return;
-            var orderId = (int)listViewServiceReportList.SelectedItems[0].Tag;
-            var order = SaveLoadControl.Orders.FirstOrDefault(x => x.Id == orderId);
-            if (order is null) return;
-
-            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
-            {
-                MessageBox.Show("Заказ уже закончен или отменён! Невозможно просмотреть местоположение автомобиля!", "Невозможно найти автомобиль!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                buttonServiceReportList_OpenCarLocationMap.Enabled = false;
-                return;
-            }
-
-            var result = MessageBox.Show("Вы будете перенаправлены на сторонний сайт \"Google Maps\" для просмотра местоположения автомобиля.", "Открыть карту?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                order.OrderedCar.CheckCarLocation();
-                MessageBox.Show("Карта будет открыта через несколько секунд.", "Карта открывается.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Process.Start($"https://www.google.com/maps/search/{order.OrderedCar.LocationX.ToString().Replace(",", ".")},+{order.OrderedCar.LocationY.ToString().Replace(",", ".")}");
-            }
-        }
-
-        private void toolStripMenuItemListViewOrderList_Copy_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewServiceReportList_Copy_Click(object sender, EventArgs e)
         {
             try
             {
@@ -970,10 +816,10 @@ namespace OOP_CourseWork
                 {
                     result += item.SubItems[1].Text + "\t" +
                               item.SubItems[2].Text + "\t" +
-                              item.SubItems[3].Text + "\t" +
-                              item.SubItems[4].Text + "\t" +
                               item.SubItems[5].Text + "\t" +
-                              item.SubItems[6].Text;
+                              item.SubItems[9].Text + "\t" +
+                              item.SubItems[10].Text + "\t" +
+                              item.SubItems[12].Text;
                     if (selectedItems.Count > 1) result += Environment.NewLine;
                 }
 
@@ -982,7 +828,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListViewOrderList_Copy_ID_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewServiceReportList_Copy_ID_Click(object sender, EventArgs e)
         {
             try
             {
@@ -998,7 +844,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListViewOrderList_Copy_BookingTime_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewServiceReportList_Copy_Description_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1014,39 +860,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListViewOrderList_Copy_BookingHours_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string result = "";
-                var selectedItems = listViewServiceReportList.SelectedItems;
-                foreach (ListViewItem item in selectedItems)
-                {
-                    result += item.SubItems[3].Text;
-                    if (selectedItems.Count > 1) result += Environment.NewLine;
-                }
-                Clipboard.SetText(result);
-            }
-            catch { }
-        }
-
-        private void toolStripMenuItemListViewOrderList_Copy_OrderEndTime_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string result = "";
-                var selectedItems = listViewServiceReportList.SelectedItems;
-                foreach (ListViewItem item in selectedItems)
-                {
-                    result += item.SubItems[4].Text;
-                    if (selectedItems.Count > 1) result += Environment.NewLine;
-                }
-                Clipboard.SetText(result);
-            }
-            catch { }
-        }
-
-        private void toolStripMenuItemListViewOrderList_Copy_OrderStatus_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewServiceReportList_Copy_Cost_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1062,7 +876,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListViewOrderList_Copy_OrderCost_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewServiceReportList_Copy_AdditionalCost_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1070,7 +884,39 @@ namespace OOP_CourseWork
                 var selectedItems = listViewServiceReportList.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
-                    result += item.SubItems[6].Text;
+                    result += item.SubItems[9].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewServiceReportList_Copy_EmployeeName_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewServiceReportList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[10].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewServiceReportList_Copy_EmployeeReport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewServiceReportList.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[12].Text;
                     if (selectedItems.Count > 1) result += Environment.NewLine;
                 }
                 Clipboard.SetText(result);

@@ -12,7 +12,6 @@ namespace OOP_CourseWork.Models
         public class Root
         {
             public List<User> Users { get; set; }
-            public List<CarBrand> CarBrands { get; set; }
             public List<Car> Cars { get; set; }
             public List<Order> Orders { get; set; }
             public List<Payment> Payments { get; set; }

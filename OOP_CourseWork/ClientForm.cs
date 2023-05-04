@@ -618,7 +618,7 @@ namespace OOP_CourseWork
             foreach (var car in cars)
             {
                 string title = "";
-                title += car.Brand.Name + " ";
+                title += car.Brand + " ";
                 title += car.Model + ", ";
                 title += car.ProductionYear.Year.ToString() + "-го года выпуска, ";
                 title += car.PricePerHour.ToString().Replace(",", ".") + " рублей в час";
@@ -827,7 +827,7 @@ namespace OOP_CourseWork
                 }
 
                 pictureBoxCarPicture.Image = new Bitmap(CarsOrderImages[order.OrderedCar.Id], pictureBoxCarPicture.Size);
-                textBoxOrderList_CarBrand.Text = order.OrderedCar.Brand.Name;
+                textBoxOrderList_CarBrand.Text = order.OrderedCar.Brand;
                 textBoxOrderList_CarModel.Text = order.OrderedCar.Model;
                 textBoxOrderList_ProductionYear.Text = order.OrderedCar.ProductionYear.ToString("yyyy");
                 textBoxOrderList_PricePerHour.Text = order.OrderedCar.PricePerHour.ToString("N2").Replace(",", ".");

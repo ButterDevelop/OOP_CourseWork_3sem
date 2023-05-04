@@ -18,7 +18,7 @@ namespace OOP_CourseWork.Models
         private DateTime _dateFired;
         private DateTime _dateLastSalaryPayed;
         private string   _bankAccountNumber;
-        private double   _salaryPerHour;
+        private double   _salaryPerDay;
         private bool     _isWorkingNow;
 
         public Employee() : base() 
@@ -27,7 +27,7 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerHour = 0;
+            _salaryPerDay = 0;
             _isWorkingNow = true;
         }
 
@@ -38,7 +38,7 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerHour = 0;
+            _salaryPerDay = 0;
             _isWorkingNow = true;
         }
 
@@ -49,7 +49,7 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerHour = 0;
+            _salaryPerDay = 0;
             _isWorkingNow = true;
         }
 
@@ -62,7 +62,7 @@ namespace OOP_CourseWork.Models
             _dateHired = dateHired;
             _dateFired = dateFired;
             _bankAccountNumber = bankAccountNumber;
-            _salaryPerHour = salaryPerHour;
+            _salaryPerDay = salaryPerHour;
             _isWorkingNow = isWorkingNow;
         }
 
@@ -150,15 +150,15 @@ namespace OOP_CourseWork.Models
             }
         }
 
-        public double SalaryPerHour
+        public double SalaryPerDay
         {
             get
             {
-                return _salaryPerHour;
+                return _salaryPerDay;
             }
             set
             {
-                _salaryPerHour = value;
+                _salaryPerDay = value;
             }
         }
 
@@ -167,7 +167,7 @@ namespace OOP_CourseWork.Models
         {
             get
             {
-                return (_salaryPerHour * _hoursWorked) + _ordersProccessed;
+                return (_salaryPerDay * _hoursWorked) + _ordersProccessed;
             }
         }
 

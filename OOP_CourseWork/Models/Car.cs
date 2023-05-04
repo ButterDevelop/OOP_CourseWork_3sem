@@ -10,7 +10,7 @@ namespace OOP_CourseWork.Models
     internal class Car
     {
         private int      _id;
-        private CarBrand _brand;
+        private string   _brand;
         private string   _model;
         private string   _carLicensePlate;
         private double   _pricePerHour;
@@ -23,7 +23,7 @@ namespace OOP_CourseWork.Models
         public Car()
         {
             _id = 0;
-            _brand = new CarBrand();
+            _brand = string.Empty;
             _model = _carLicensePlate = string.Empty;
             _productionYear = DateTime.MinValue;
             _buyTime = DateTime.MinValue;
@@ -33,7 +33,7 @@ namespace OOP_CourseWork.Models
             _locationY = 0;
         }
 
-        public Car(int id, CarBrand brand, string model, string carLicensePlate, double pricePerHour, 
+        public Car(int id, string brand, string model, string carLicensePlate, double pricePerHour, 
                    DateTime productionYear, DateTime buyTime, DateTime lastServiceTime, double locationX, double locationY)
         {
             _id = id;
@@ -60,7 +60,7 @@ namespace OOP_CourseWork.Models
             }
         }
 
-        public CarBrand Brand
+        public string Brand
         {
             get
             {
