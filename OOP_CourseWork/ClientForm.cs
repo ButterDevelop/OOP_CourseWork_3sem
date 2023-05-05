@@ -107,6 +107,7 @@ namespace OOP_CourseWork
 
         private void TabControlClient_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ListViewOrderList_ItemSelectionChanged_SetDefault();
             if (tabControlClient.SelectedIndex == 0) //Вкладка "Список заказов"
             {
                 RefreshOrderList();
@@ -387,7 +388,7 @@ namespace OOP_CourseWork
         private void textBoxPayments_Cost_TextChanged(object sender, EventArgs e)
         {
             double cost = 0;
-            if (!double.TryParse(textBoxPayments_Cost.Text.Replace(".", ","), out cost))
+            if (!double.TryParse(textBoxPayments_Cost.Text.Replace(".", ","), out cost) || cost <= 0)
             {
                 textBoxPayments_Cost.BackColor = DeniedColor;
             }
@@ -835,17 +836,22 @@ namespace OOP_CourseWork
                 textBoxOrderList_LastServiceDate.Text = order.OrderedCar.LastServiceTime.ToString("d");
             } else
             {
-                pictureBoxCarPicture.Image = null;
-                textBoxOrderList_CarBrand.Text = "";
-                textBoxOrderList_CarModel.Text = "";
-                textBoxOrderList_ProductionYear.Text = "";
-                textBoxOrderList_PricePerHour.Text = "";
-                textBoxOrderList_CarLicensePlate.Text = "";
-                textBoxOrderList_LastServiceDate.Text = "";
-                buttonOrderList_CancelOrder.Enabled = false;
-                buttonOrderList_OpenCarLocationMap.Enabled = false;
-                buttonOrderList_ExtendTheOrder.Enabled = false;
+                ListViewOrderList_ItemSelectionChanged_SetDefault();
             }
+        }
+
+        public void ListViewOrderList_ItemSelectionChanged_SetDefault()
+        {
+            pictureBoxCarPicture.Image = null;
+            textBoxOrderList_CarBrand.Text = "";
+            textBoxOrderList_CarModel.Text = "";
+            textBoxOrderList_ProductionYear.Text = "";
+            textBoxOrderList_PricePerHour.Text = "";
+            textBoxOrderList_CarLicensePlate.Text = "";
+            textBoxOrderList_LastServiceDate.Text = "";
+            buttonOrderList_CancelOrder.Enabled = false;
+            buttonOrderList_OpenCarLocationMap.Enabled = false;
+            buttonOrderList_ExtendTheOrder.Enabled = false;
         }
 
         private void buttonOrderList_CancelOrder_Click(object sender, EventArgs e)

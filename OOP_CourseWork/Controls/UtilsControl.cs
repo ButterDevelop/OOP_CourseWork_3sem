@@ -92,9 +92,9 @@ namespace OOP_CourseWork.Controls
             SaveLoadControl.Cars.Add(new Car(2, "Джили", "Кулрэй", "1523 IP-3", 30,
                                      new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03), 52.4057053, 30.9380876));
 
-            SaveLoadControl.ServiceReports.Add(new ServiceReport(0, "Плановая проверка", 3, SaveLoadControl.Cars[0]));
-            SaveLoadControl.ServiceReports.Add(new ServiceReport(1, "Плановая проверка", 2, SaveLoadControl.Cars[1]));
-            SaveLoadControl.ServiceReports.Add(new ServiceReport(2, "Плановая проверка", 1, SaveLoadControl.Cars[2]));
+            SaveLoadControl.ServiceReports.Add(new ServiceReport(0, "Плановая проверка", SaveLoadControl.Cars[0]));
+            SaveLoadControl.ServiceReports.Add(new ServiceReport(1, "Плановая проверка", SaveLoadControl.Cars[1]));
+            SaveLoadControl.ServiceReports.Add(new ServiceReport(2, "Плановая проверка", SaveLoadControl.Cars[2]));
 
             SaveLoadControl.Users.Add(new Client(0, "User1", "Password1", "Иванов Иван Иванович", "user1@gmail.com", "+375291111111",
                                                  "AA1746354", "HB31865832", "4155 0253 3531 4351"));

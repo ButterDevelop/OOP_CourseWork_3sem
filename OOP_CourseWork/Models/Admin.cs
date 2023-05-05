@@ -80,9 +80,9 @@ namespace OOP_CourseWork.Models
             return plusTransactions.Sum(x => x.TotalAmount) - minusTransactions.Sum(x => x.TotalAmount);
         }
 
-        public bool PutCarOnService(Car car, string description, int daysPlanned)
+        public bool PutCarOnService(Car car, string description)
         {
-            ServiceReport serviceReport = new ServiceReport(SaveLoadControl.ServiceReports.Count, description, daysPlanned, car);
+            ServiceReport serviceReport = new ServiceReport(SaveLoadControl.ServiceReports.Count, description, car);
             SaveLoadControl.ServiceReports.Add(serviceReport);
 
             ++_totalCarsServiced;

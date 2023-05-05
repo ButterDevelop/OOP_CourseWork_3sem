@@ -31,23 +31,23 @@ namespace OOP_CourseWork.Models
             _startedDate = DateTime.Now;
             _finishedDate = DateTime.MinValue;
             _additionalCost = 0;
-            _isStarted = true;
+            _isStarted = false;
             _isFinished = false;
             _plannedCompletionDays = 0;
             _worker = null;
             _servicedCar = new Car();
         }
 
-        public ServiceReport(int id, string description, int plannedCompletionDays, Car servicedCar)
+        public ServiceReport(int id, string description, Car servicedCar)
         {
             _id = id;
             _description = description;
             _startedDate = DateTime.Now;
             _finishedDate = DateTime.MinValue;
             _additionalCost = 0;
-            _isStarted = true;
+            _isStarted = false;
             _isFinished = false;
-            _plannedCompletionDays = plannedCompletionDays;
+            _plannedCompletionDays = 0;
             _worker = null;
             _servicedCar = servicedCar;
         }
