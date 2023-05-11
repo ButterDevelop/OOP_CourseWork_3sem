@@ -1,6 +1,7 @@
 ﻿using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -82,15 +83,35 @@ namespace OOP_CourseWork.Controls
             locationY = y_s[index];
         }
 
+        public static List<Image> LoadCarsOrderImages()
+        {
+            List<Image> list = new List<Image>();
+            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
+            {
+                Image image;
+                try
+                {
+                    image = Image.FromFile($"images\\car_{i}.png");
+                }
+                catch
+                {
+                    image = (Image)Properties.Resources.TheImageHaveDisappeared.Clone();
+                }
+                list.Add(image);
+            }
+
+            return list;
+        }
+
 
         public static void CreateSomeData()
         {
             SaveLoadControl.Cars.Add(new Car(0, "Мицубиси", "Аутландер", "4718 AX-3", 10,
-                                     new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01), 52.4057051, 30.9380874));
+                                     new DateTime(1980, 10, 11), new DateTime(2023, 01, 01), new DateTime(2023, 02, 01), 52.4057051, 30.9380874, true));
             SaveLoadControl.Cars.Add(new Car(1, "Вольгсфаген", "Поло", "5819 AA-3", 20,
-                                     new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02), 52.4057052, 30.9380875));
+                                     new DateTime(1990, 09, 03), new DateTime(2023, 01, 01), new DateTime(2023, 02, 02), 52.4057052, 30.9380875, true));
             SaveLoadControl.Cars.Add(new Car(2, "Джили", "Кулрэй", "1523 IP-3", 30,
-                                     new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03), 52.4057053, 30.9380876));
+                                     new DateTime(2000, 08, 04), new DateTime(2023, 01, 01), new DateTime(2023, 02, 03), 52.4057053, 30.9380876, true));
 
             SaveLoadControl.ServiceReports.Add(new ServiceReport(0, "Плановая проверка", SaveLoadControl.Cars[0]));
             SaveLoadControl.ServiceReports.Add(new ServiceReport(1, "Плановая проверка", SaveLoadControl.Cars[1]));

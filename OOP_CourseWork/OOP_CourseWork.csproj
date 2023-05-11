@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="carsharing.ico" />
+    <None Include="Resources\TheImageHaveDisappeared.png" />
     <None Include="Resources\Background.jpg" />
   </ItemGroup>
   <ItemGroup />

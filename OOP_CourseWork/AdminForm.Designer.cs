@@ -78,6 +78,7 @@ namespace OOP_CourseWork
             this.toolStripMenuItemListViewServiceReportList_Copy_IsStarted = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemListViewServiceReportList_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMakeOrder = new System.Windows.Forms.TabPage();
+            this.buttonMakeServiceReport_HideShowCar = new System.Windows.Forms.Button();
             this.labelClickThisToAddNewCarImage = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.textBoxMakeMakeServiceReport_NewCarLicensePlate = new System.Windows.Forms.TextBox();
@@ -101,6 +102,7 @@ namespace OOP_CourseWork
             this.listViewMakeServiceReport = new System.Windows.Forms.ListView();
             this.columnHeaderMakeServiceReport_SpaceColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderMakeServiceReport_ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderMakeServiceReport_IsHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderMakeServiceReport_IsNowOnService = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderMakeServiceReport_Brand = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderMakeServiceReport_Model = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -142,10 +144,6 @@ namespace OOP_CourseWork
             this.toolStripMenuItemListViewPayments_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemListViewPayments_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFinancialReport = new System.Windows.Forms.TabPage();
-            this.textBoxSettings_Password = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBoxSettings_DriverLicense = new System.Windows.Forms.TextBox();
-            this.maskedTextBoxSettings_PhoneNumber = new System.Windows.Forms.MaskedTextBox();
             this.labelSettings_AccountSetupIsCompletedFine = new System.Windows.Forms.Label();
             this.labelSettings_AccountSetupIsNotCompleted = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -155,16 +153,7 @@ namespace OOP_CourseWork
             this.buttonSettings_ChangePassword = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxSettings_OldPassword = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelEmail = new System.Windows.Forms.Label();
-            this.textBoxSettings_Email = new System.Windows.Forms.TextBox();
             this.buttonSettings_DeactivateMyAccount = new System.Windows.Forms.Button();
-            this.buttonSettings_Save = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxSettings_CardNumber = new System.Windows.Forms.TextBox();
-            this.labelPassport = new System.Windows.Forms.Label();
-            this.textBoxSettings_Passport = new System.Windows.Forms.TextBox();
-            this.labelDriverLicense = new System.Windows.Forms.Label();
             this.imageListTabControlAdmin = new System.Windows.Forms.ImageList(this.components);
             this.toolTipOrderListCarPicture = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipMakeServiceReport_PricePerHour = new System.Windows.Forms.ToolTip(this.components);
@@ -640,6 +629,7 @@ namespace OOP_CourseWork
             this.tabPageMakeOrder.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageMakeOrder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPageMakeOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageMakeOrder.Controls.Add(this.buttonMakeServiceReport_HideShowCar);
             this.tabPageMakeOrder.Controls.Add(this.labelClickThisToAddNewCarImage);
             this.tabPageMakeOrder.Controls.Add(this.label11);
             this.tabPageMakeOrder.Controls.Add(this.textBoxMakeMakeServiceReport_NewCarLicensePlate);
@@ -669,6 +659,19 @@ namespace OOP_CourseWork
             this.tabPageMakeOrder.Text = "Авто и сервис ";
             this.tabPageMakeOrder.UseVisualStyleBackColor = true;
             // 
+            // buttonMakeServiceReport_HideShowCar
+            // 
+            this.buttonMakeServiceReport_HideShowCar.Enabled = false;
+            this.buttonMakeServiceReport_HideShowCar.FlatAppearance.BorderColor = System.Drawing.Color.Coral;
+            this.buttonMakeServiceReport_HideShowCar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMakeServiceReport_HideShowCar.Location = new System.Drawing.Point(1219, 197);
+            this.buttonMakeServiceReport_HideShowCar.Name = "buttonMakeServiceReport_HideShowCar";
+            this.buttonMakeServiceReport_HideShowCar.Size = new System.Drawing.Size(175, 40);
+            this.buttonMakeServiceReport_HideShowCar.TabIndex = 47;
+            this.buttonMakeServiceReport_HideShowCar.Text = "Спрятать авто";
+            this.buttonMakeServiceReport_HideShowCar.UseVisualStyleBackColor = true;
+            this.buttonMakeServiceReport_HideShowCar.Click += new System.EventHandler(this.buttonMakeServiceReport_HideShowCar_Click);
+            // 
             // labelClickThisToAddNewCarImage
             // 
             this.labelClickThisToAddNewCarImage.AutoSize = true;
@@ -679,6 +682,7 @@ namespace OOP_CourseWork
             this.labelClickThisToAddNewCarImage.TabIndex = 46;
             this.labelClickThisToAddNewCarImage.Text = "Нажмите, чтобы добавить\r\nфотографию для нового\r\nавтомобиля";
             this.labelClickThisToAddNewCarImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelClickThisToAddNewCarImage.DoubleClick += new System.EventHandler(this.labelClickThisToAddNewCarImage_DoubleClick);
             // 
             // label11
             // 
@@ -803,6 +807,7 @@ namespace OOP_CourseWork
             this.pictureBoxMakeServiceReport_AddNewCarPicture.Size = new System.Drawing.Size(360, 240);
             this.pictureBoxMakeServiceReport_AddNewCarPicture.TabIndex = 34;
             this.pictureBoxMakeServiceReport_AddNewCarPicture.TabStop = false;
+            this.pictureBoxMakeServiceReport_AddNewCarPicture.DoubleClick += new System.EventHandler(this.pictureBoxMakeServiceReport_AddNewCarPicture_DoubleClick);
             // 
             // labelSpliter
             // 
@@ -887,6 +892,7 @@ namespace OOP_CourseWork
             this.listViewMakeServiceReport.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderMakeServiceReport_SpaceColumn,
             this.columnHeaderMakeServiceReport_ID,
+            this.columnHeaderMakeServiceReport_IsHidden,
             this.columnHeaderMakeServiceReport_IsNowOnService,
             this.columnHeaderMakeServiceReport_Brand,
             this.columnHeaderMakeServiceReport_Model,
@@ -916,13 +922,19 @@ namespace OOP_CourseWork
             // 
             this.columnHeaderMakeServiceReport_ID.Text = "ID";
             this.columnHeaderMakeServiceReport_ID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeaderMakeServiceReport_ID.Width = 100;
+            this.columnHeaderMakeServiceReport_ID.Width = 70;
+            // 
+            // columnHeaderMakeServiceReport_IsHidden
+            // 
+            this.columnHeaderMakeServiceReport_IsHidden.Text = "Скрыта";
+            this.columnHeaderMakeServiceReport_IsHidden.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderMakeServiceReport_IsHidden.Width = 80;
             // 
             // columnHeaderMakeServiceReport_IsNowOnService
             // 
             this.columnHeaderMakeServiceReport_IsNowOnService.Text = "Статус";
             this.columnHeaderMakeServiceReport_IsNowOnService.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeaderMakeServiceReport_IsNowOnService.Width = 200;
+            this.columnHeaderMakeServiceReport_IsNowOnService.Width = 150;
             // 
             // columnHeaderMakeServiceReport_Brand
             // 
@@ -1261,11 +1273,8 @@ namespace OOP_CourseWork
             // tabPageFinancialReport
             // 
             this.tabPageFinancialReport.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
+            this.tabPageFinancialReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPageFinancialReport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_Password);
-            this.tabPageFinancialReport.Controls.Add(this.label6);
-            this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_DriverLicense);
-            this.tabPageFinancialReport.Controls.Add(this.maskedTextBoxSettings_PhoneNumber);
             this.tabPageFinancialReport.Controls.Add(this.labelSettings_AccountSetupIsCompletedFine);
             this.tabPageFinancialReport.Controls.Add(this.labelSettings_AccountSetupIsNotCompleted);
             this.tabPageFinancialReport.Controls.Add(this.label5);
@@ -1275,16 +1284,7 @@ namespace OOP_CourseWork
             this.tabPageFinancialReport.Controls.Add(this.buttonSettings_ChangePassword);
             this.tabPageFinancialReport.Controls.Add(this.label2);
             this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_OldPassword);
-            this.tabPageFinancialReport.Controls.Add(this.label3);
-            this.tabPageFinancialReport.Controls.Add(this.labelEmail);
-            this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_Email);
             this.tabPageFinancialReport.Controls.Add(this.buttonSettings_DeactivateMyAccount);
-            this.tabPageFinancialReport.Controls.Add(this.buttonSettings_Save);
-            this.tabPageFinancialReport.Controls.Add(this.label1);
-            this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_CardNumber);
-            this.tabPageFinancialReport.Controls.Add(this.labelPassport);
-            this.tabPageFinancialReport.Controls.Add(this.textBoxSettings_Passport);
-            this.tabPageFinancialReport.Controls.Add(this.labelDriverLicense);
             this.tabPageFinancialReport.ImageKey = "moneybag.png";
             this.tabPageFinancialReport.Location = new System.Drawing.Point(4, 34);
             this.tabPageFinancialReport.Name = "tabPageFinancialReport";
@@ -1292,57 +1292,6 @@ namespace OOP_CourseWork
             this.tabPageFinancialReport.TabIndex = 2;
             this.tabPageFinancialReport.Text = "Финансовый отчёт ";
             this.tabPageFinancialReport.UseVisualStyleBackColor = true;
-            // 
-            // textBoxSettings_Password
-            // 
-            this.textBoxSettings_Password.BackColor = System.Drawing.Color.AliceBlue;
-            this.textBoxSettings_Password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSettings_Password.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Password.Location = new System.Drawing.Point(85, 66);
-            this.textBoxSettings_Password.Name = "textBoxSettings_Password";
-            this.textBoxSettings_Password.Size = new System.Drawing.Size(300, 31);
-            this.textBoxSettings_Password.TabIndex = 0;
-            this.textBoxSettings_Password.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBoxSettings_Password.UseSystemPasswordChar = true;
-            this.textBoxSettings_Password.TextChanged += new System.EventHandler(this.textBoxSettings_Password_TextChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(111, 115);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(242, 25);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Номер водительских прав:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBoxSettings_DriverLicense
-            // 
-            this.textBoxSettings_DriverLicense.BackColor = System.Drawing.Color.AliceBlue;
-            this.textBoxSettings_DriverLicense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSettings_DriverLicense.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_DriverLicense.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxSettings_DriverLicense.Location = new System.Drawing.Point(85, 143);
-            this.textBoxSettings_DriverLicense.Name = "textBoxSettings_DriverLicense";
-            this.textBoxSettings_DriverLicense.Size = new System.Drawing.Size(300, 31);
-            this.textBoxSettings_DriverLicense.TabIndex = 1;
-            this.textBoxSettings_DriverLicense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBoxSettings_DriverLicense.TextChanged += new System.EventHandler(this.textBoxSettings_DriverLicense_TextChanged);
-            // 
-            // maskedTextBoxSettings_PhoneNumber
-            // 
-            this.maskedTextBoxSettings_PhoneNumber.BackColor = System.Drawing.Color.AliceBlue;
-            this.maskedTextBoxSettings_PhoneNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBoxSettings_PhoneNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskedTextBoxSettings_PhoneNumber.Location = new System.Drawing.Point(85, 445);
-            this.maskedTextBoxSettings_PhoneNumber.Mask = "+375 (99) 000-00-00";
-            this.maskedTextBoxSettings_PhoneNumber.Name = "maskedTextBoxSettings_PhoneNumber";
-            this.maskedTextBoxSettings_PhoneNumber.Size = new System.Drawing.Size(300, 31);
-            this.maskedTextBoxSettings_PhoneNumber.TabIndex = 5;
-            this.maskedTextBoxSettings_PhoneNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maskedTextBoxSettings_PhoneNumber.TextChanged += new System.EventHandler(this.maskedTextBoxSettings_PhoneNumber_TextChanged);
             // 
             // labelSettings_AccountSetupIsCompletedFine
             // 
@@ -1453,40 +1402,6 @@ namespace OOP_CourseWork
             this.textBoxSettings_OldPassword.UseSystemPasswordChar = true;
             this.textBoxSettings_OldPassword.TextChanged += new System.EventHandler(this.textBoxSettings_OldPassword_TextChanged);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(157, 417);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 25);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Номер телефона: ";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelEmail
-            // 
-            this.labelEmail.AutoSize = true;
-            this.labelEmail.BackColor = System.Drawing.Color.Transparent;
-            this.labelEmail.Location = new System.Drawing.Point(200, 348);
-            this.labelEmail.Name = "labelEmail";
-            this.labelEmail.Size = new System.Drawing.Size(60, 25);
-            this.labelEmail.TabIndex = 15;
-            this.labelEmail.Text = "Email:";
-            this.labelEmail.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBoxSettings_Email
-            // 
-            this.textBoxSettings_Email.BackColor = System.Drawing.Color.AliceBlue;
-            this.textBoxSettings_Email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSettings_Email.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Email.Location = new System.Drawing.Point(85, 376);
-            this.textBoxSettings_Email.Name = "textBoxSettings_Email";
-            this.textBoxSettings_Email.Size = new System.Drawing.Size(300, 31);
-            this.textBoxSettings_Email.TabIndex = 4;
-            this.textBoxSettings_Email.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBoxSettings_Email.TextChanged += new System.EventHandler(this.textBoxSettings_Email_TextChanged);
-            // 
             // buttonSettings_DeactivateMyAccount
             // 
             this.buttonSettings_DeactivateMyAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -1498,75 +1413,6 @@ namespace OOP_CourseWork
             this.buttonSettings_DeactivateMyAccount.Text = "Деактивировать аккаунт";
             this.buttonSettings_DeactivateMyAccount.UseVisualStyleBackColor = true;
             this.buttonSettings_DeactivateMyAccount.Click += new System.EventHandler(this.buttonSettings_DeactivateMyAccount_Click);
-            // 
-            // buttonSettings_Save
-            // 
-            this.buttonSettings_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSettings_Save.Location = new System.Drawing.Point(154, 506);
-            this.buttonSettings_Save.Name = "buttonSettings_Save";
-            this.buttonSettings_Save.Size = new System.Drawing.Size(169, 61);
-            this.buttonSettings_Save.TabIndex = 6;
-            this.buttonSettings_Save.Text = "Сохранить настройки";
-            this.buttonSettings_Save.UseVisualStyleBackColor = true;
-            this.buttonSettings_Save.Click += new System.EventHandler(this.buttonSettings_Save_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(110, 266);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 25);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Номер карты для списаний: ";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBoxSettings_CardNumber
-            // 
-            this.textBoxSettings_CardNumber.BackColor = System.Drawing.Color.AliceBlue;
-            this.textBoxSettings_CardNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSettings_CardNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_CardNumber.Location = new System.Drawing.Point(85, 296);
-            this.textBoxSettings_CardNumber.Name = "textBoxSettings_CardNumber";
-            this.textBoxSettings_CardNumber.Size = new System.Drawing.Size(300, 31);
-            this.textBoxSettings_CardNumber.TabIndex = 3;
-            this.textBoxSettings_CardNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBoxSettings_CardNumber.TextChanged += new System.EventHandler(this.textBoxSettings_CardNumber_TextChanged);
-            // 
-            // labelPassport
-            // 
-            this.labelPassport.AutoSize = true;
-            this.labelPassport.BackColor = System.Drawing.Color.Transparent;
-            this.labelPassport.Location = new System.Drawing.Point(136, 188);
-            this.labelPassport.Name = "labelPassport";
-            this.labelPassport.Size = new System.Drawing.Size(197, 25);
-            this.labelPassport.TabIndex = 7;
-            this.labelPassport.Text = "Паспортные данные: ";
-            this.labelPassport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBoxSettings_Passport
-            // 
-            this.textBoxSettings_Passport.BackColor = System.Drawing.Color.AliceBlue;
-            this.textBoxSettings_Passport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSettings_Passport.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Passport.Location = new System.Drawing.Point(85, 216);
-            this.textBoxSettings_Passport.Name = "textBoxSettings_Passport";
-            this.textBoxSettings_Passport.Size = new System.Drawing.Size(300, 31);
-            this.textBoxSettings_Passport.TabIndex = 2;
-            this.textBoxSettings_Passport.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBoxSettings_Passport.TextChanged += new System.EventHandler(this.textBoxSettings_Passport_TextChanged);
-            // 
-            // labelDriverLicense
-            // 
-            this.labelDriverLicense.AutoSize = true;
-            this.labelDriverLicense.BackColor = System.Drawing.Color.Transparent;
-            this.labelDriverLicense.ForeColor = System.Drawing.Color.Black;
-            this.labelDriverLicense.Location = new System.Drawing.Point(174, 38);
-            this.labelDriverLicense.Name = "labelDriverLicense";
-            this.labelDriverLicense.Size = new System.Drawing.Size(118, 25);
-            this.labelDriverLicense.TabIndex = 5;
-            this.labelDriverLicense.Text = "Ваш пароль:";
-            this.labelDriverLicense.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // imageListTabControlAdmin
             // 
@@ -1645,12 +1491,6 @@ namespace OOP_CourseWork
         private System.Windows.Forms.TabPage tabPageUsersManagement;
         private System.Windows.Forms.TabPage tabPageFinancialReport;
         private System.Windows.Forms.TabPage tabPageMakeOrder;
-        private System.Windows.Forms.Label labelDriverLicense;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBoxSettings_CardNumber;
-        private System.Windows.Forms.Label labelPassport;
-        private System.Windows.Forms.TextBox textBoxSettings_Passport;
-        private System.Windows.Forms.Button buttonSettings_Save;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxSettings_NewPasswordConfirmation;
         private System.Windows.Forms.Label label4;
@@ -1658,16 +1498,9 @@ namespace OOP_CourseWork
         private System.Windows.Forms.Button buttonSettings_ChangePassword;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxSettings_OldPassword;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelEmail;
-        private System.Windows.Forms.TextBox textBoxSettings_Email;
         private System.Windows.Forms.Button buttonSettings_DeactivateMyAccount;
         private System.Windows.Forms.Label labelSettings_AccountSetupIsNotCompleted;
         private System.Windows.Forms.Label labelSettings_AccountSetupIsCompletedFine;
-        private System.Windows.Forms.MaskedTextBox maskedTextBoxSettings_PhoneNumber;
-        private System.Windows.Forms.TextBox textBoxSettings_Password;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBoxSettings_DriverLicense;
         private System.Windows.Forms.ListView listViewUsers;
         private System.Windows.Forms.ColumnHeader columnHeaderUsersManagement_Username;
         private System.Windows.Forms.ColumnHeader columnHeaderUsersManagement_FullName;
@@ -1777,6 +1610,8 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewServiceReportList_Copy_IsFinished;
         private System.Windows.Forms.ToolTip toolTipMakeServiceReport_PricePerHour;
         private System.Windows.Forms.ToolTip toolTipMakeServiceReport_ProductionYear;
+        private System.Windows.Forms.ColumnHeader columnHeaderMakeServiceReport_IsHidden;
+        private System.Windows.Forms.Button buttonMakeServiceReport_HideShowCar;
     }
 }
 

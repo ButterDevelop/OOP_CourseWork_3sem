@@ -70,7 +70,7 @@ namespace OOP_CourseWork
 
             this.FormClosing += ClientForm_FormClosing;
 
-            LoadCarsOrderImages();
+            CarsOrderImages = UtilsControl.LoadCarsOrderImages();
         }
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -594,7 +594,7 @@ namespace OOP_CourseWork
         {
             listViewMakeAnOrder.Items.Clear();
 
-            var cars = SaveLoadControl.Cars.OrderBy(x => x.PricePerHour).ToArray();
+            var cars = SaveLoadControl.Cars.Where(x => !x.IsHidden).OrderBy(x => x.PricePerHour).ToArray();
 
             ImageList imageListLarge = new ImageList();
             imageListLarge.ImageSize = ImageSize;
@@ -748,15 +748,6 @@ namespace OOP_CourseWork
             dateTimePickerMakeAnOrder_BookingDate.Value = bookingDateTime;
             dateTimePickerMakeAnOrder_BookingTime.Value = bookingDateTime;
             MessageBox.Show($"Заказ был успешно создан! Начало времени бронирования: {bookingDateTime}.", "Заказ создан успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        public void LoadCarsOrderImages()
-        {
-            CarsOrderImages.Clear();
-            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
-            {
-                CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
-            }
         }
 
         #endregion

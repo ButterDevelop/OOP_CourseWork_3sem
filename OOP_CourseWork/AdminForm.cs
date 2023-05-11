@@ -10,7 +10,9 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
@@ -27,6 +29,7 @@ namespace OOP_CourseWork
         public static readonly Color DeniedColor = Color.FromArgb(255, 200, 220);
         public Size ImageSize = new Size(252, 168);
         public static List<Image> CarsOrderImages = new List<Image>();
+        public static string AddNewCarImagePath = "";
 
         public AdminForm()
         {
@@ -45,7 +48,7 @@ namespace OOP_CourseWork
 
             this.FormClosing += AdminForm_FormClosing;
 
-            LoadCarsOrderImages();
+            CarsOrderImages = UtilsControl.LoadCarsOrderImages();
         }
 
         private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -67,15 +70,6 @@ namespace OOP_CourseWork
             
             if (!SaveLoadControl.CurrentUser.IsAccountSetupCompleted) tabControlAdmin.SelectTab(3); //Переходим на вкладку "Настройки"
             tabControlAdmin.Deselecting += TabControlAdmin_Deselecting;
-        }
-
-        public void LoadCarsOrderImages()
-        {
-            CarsOrderImages.Clear();
-            for (int i = 0; i < SaveLoadControl.Cars.Count; i++)
-            {
-                CarsOrderImages.Add(Image.FromFile($"images\\car_{i}.png"));
-            }
         }
 
         private void TabControlAdmin_Deselecting(object sender, TabControlCancelEventArgs e)
@@ -114,90 +108,29 @@ namespace OOP_CourseWork
 
         #region Settings
 
-        private void textBoxSettings_Password_TextChanged(object sender, EventArgs e)
-        {
-            if (UtilsControl.CheckPasswordStrength(textBoxSettings_Password.Text) < UtilsControl.PasswordScore.Medium)
-            {
-                textBoxSettings_Password.BackColor = DeniedColor;
-            }
-            else
-            {
-                textBoxSettings_Password.BackColor = AllowedColor;
-            }
-        }
-
-        private void textBoxSettings_DriverLicense_TextChanged(object sender, EventArgs e)
-        {
-            if (textBoxSettings_DriverLicense.TextLength != 0)
-            {
-                textBoxSettings_DriverLicense.BackColor = AllowedColor;
-            }
-            else
-            {
-                textBoxSettings_DriverLicense.BackColor = DeniedColor;
-            }
-        }
-
-        private void textBoxSettings_Passport_TextChanged(object sender, EventArgs e)
-        {
-            if (textBoxSettings_Passport.TextLength != 0)
-            {
-                textBoxSettings_Passport.BackColor = AllowedColor;
-            }
-            else
-            {
-                textBoxSettings_Passport.BackColor = DeniedColor;
-            }
-        }
-
-        private void textBoxSettings_CardNumber_TextChanged(object sender, EventArgs e)
-        {
-            var r = new Regex("^\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}$");
-            if (r.IsMatch(textBoxSettings_CardNumber.Text))
-            {
-                textBoxSettings_CardNumber.BackColor = AllowedColor;
-            }
-            else
-            {
-                textBoxSettings_CardNumber.BackColor = DeniedColor;
-            }
-        }
-
-        private void textBoxSettings_Email_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!(SaveLoadControl.Users.FirstOrDefault(x => x.Email == textBoxSettings_Email.Text) is null) && 
-                    textBoxSettings_Email.Text != SaveLoadControl.CurrentUser.Email) 
-                        throw new Exception("This email is already taken.");
-
-                MailAddress m = new MailAddress(textBoxSettings_Email.TextLength == 0 ? " " : textBoxSettings_Email.Text);
-
-                textBoxSettings_Email.BackColor = AllowedColor;
-            }
-            catch
-            {
-                textBoxSettings_Email.BackColor = DeniedColor;
-            }
-        }
-
-        private void maskedTextBoxSettings_PhoneNumber_TextChanged(object sender, EventArgs e)
-        {
-            var r = new Regex("^\\+375\\s\\(\\d{2}\\)\\s\\d{3}\\-\\d{2}\\-\\d{2}$");
-            if (r.IsMatch(maskedTextBoxSettings_PhoneNumber.Text) && (SaveLoadControl.Users.FirstOrDefault(x => x.Phone == maskedTextBoxSettings_PhoneNumber.Text) is null
-                && maskedTextBoxSettings_PhoneNumber.Text != SaveLoadControl.CurrentUser.Phone))
-            {
-                maskedTextBoxSettings_PhoneNumber.BackColor = AllowedColor;
-            }
-            else
-            {
-                maskedTextBoxSettings_PhoneNumber.BackColor = DeniedColor;
-            }
-        }
-
         private void buttonSettings_Save_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void buttonSettings_DeactivateMyAccount_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Вы нажали кнопку деактивации своего аккаунта.\n" +
+                                         "Вы уверены, что хотите это сделать? Это сравнимо с полным удалением аккаунта.\n" +
+                                         "Больше Вы не сможете им воспользоваться или восстановить.", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                //Отменяем текущие заказы, если они есть у пользователя
+                foreach (var order in SaveLoadControl.Orders.Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.Now)) order.Cancel();
+                //Деактивация аккаунта
+                SaveLoadControl.CurrentUser.DeactivateAccount();
+
+                MessageBox.Show("Ваш аккаунт был деактивирован. Приложение будет перезапущено.", "Успешно.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                SaveLoadControl.SaveJSON();
+                Application.Restart();
+            }
         }
 
         #endregion
@@ -265,26 +198,6 @@ namespace OOP_CourseWork
         }
 
         #endregion
-
-        private void buttonSettings_DeactivateMyAccount_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Вы нажали кнопку деактивации своего аккаунта.\n" + 
-                                         "Вы уверены, что хотите это сделать? Это сравнимо с полным удалением аккаунта.\n" + 
-                                         "Больше Вы не сможете им воспользоваться или восстановить.", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (result == DialogResult.Yes)
-            {
-                //Отменяем текущие заказы, если они есть у пользователя
-                foreach (var order in SaveLoadControl.Orders.Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.Now)) order.Cancel();
-                //Деактивация аккаунта
-                SaveLoadControl.CurrentUser.DeactivateAccount();
-
-                MessageBox.Show("Ваш аккаунт был деактивирован. Приложение будет перезапущено.", "Успешно.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                SaveLoadControl.SaveJSON();
-                Application.Restart();
-            }
-        }
 
         #region Payments
 
@@ -439,17 +352,18 @@ namespace OOP_CourseWork
 
             foreach (var car in cars)
             {
-                string[] arr = new string[10];
+                string[] arr = new string[11];
                 arr[0] = "";
                 arr[1] = car.Id.ToString();
-                arr[2] = car.IsOnServiceNow ? "Обслуживается" : "В работе";
-                arr[3] = car.Brand;
-                arr[4] = car.Model;
-                arr[5] = car.CarLicensePlate;
-                arr[6] = car.PricePerHour.ToString("N2").Replace(",", ".");
-                arr[7] = car.ProductionYear.ToString("yyyy");
-                arr[8] = car.BuyTime.ToString();
-                arr[9] = car.LastServiceTime.ToString();
+                arr[2] = car.IsHidden ? "Да" : "Нет";
+                arr[3] = car.IsOnServiceNow ? "Обслуживается" : "В работе";
+                arr[4] = car.Brand;
+                arr[5] = car.Model;
+                arr[6] = car.CarLicensePlate;
+                arr[7] = car.PricePerHour.ToString("N2").Replace(",", ".");
+                arr[8] = car.ProductionYear.ToString("yyyy");
+                arr[9] = car.BuyTime.ToString();
+                arr[10] = car.LastServiceTime == DateTime.MinValue ? "Не выставлено" : car.LastServiceTime.ToString();
 
                 ListViewItem item = new ListViewItem(arr);
                 item.Tag = car.Id;
@@ -477,15 +391,17 @@ namespace OOP_CourseWork
                 if (car is null) return;
 
                 buttonMakeServiceReport_OpenCarLocationMap.Enabled = true;
+                buttonMakeServiceReport_HideShowCar.Enabled = true;
 
                 if (!car.IsOnServiceNow)
-                {
                     buttonMakeServiceReport_SendToService.Enabled = true;
-                }
                 else
-                {
                     buttonMakeServiceReport_SendToService.Enabled = false;
-                }
+
+                if (!car.IsHidden)
+                    buttonMakeServiceReport_HideShowCar.Text = "Спрятать авто";
+                else
+                    buttonMakeServiceReport_HideShowCar.Text = "Показать авто";
 
                 pictureBoxMakeServiceReport_CarPicture.Image = new Bitmap(CarsOrderImages[car.Id], pictureBoxMakeServiceReport_CarPicture.Size);
             }
@@ -500,7 +416,27 @@ namespace OOP_CourseWork
             pictureBoxMakeServiceReport_CarPicture.Image = null;
             buttonMakeServiceReport_OpenCarLocationMap.Enabled = false;
             buttonMakeServiceReport_SendToService.Enabled = false;
+            buttonMakeServiceReport_HideShowCar.Enabled = false;
         }
+
+        public void MakeServiceReport_AddNewCar_SetDefault()
+        {
+            pictureBoxMakeServiceReport_AddNewCarPicture.Image = null;
+            labelClickThisToAddNewCarImage.Visible = true;
+
+            textBoxMakeMakeServiceReport_NewCarBrand.Text = "";
+            textBoxMakeMakeServiceReport_NewCarLicensePlate.Text = "";
+            textBoxMakeMakeServiceReport_NewCarModel.Text = "";
+            textBoxMakeMakeServiceReport_NewCarPricePerHour.Text = "";
+            textBoxMakeMakeServiceReport_NewCarProductionYear.Text = "";
+
+            textBoxMakeMakeServiceReport_NewCarBrand.BackColor = AllowedColor;
+            textBoxMakeMakeServiceReport_NewCarLicensePlate.BackColor = AllowedColor;
+            textBoxMakeMakeServiceReport_NewCarModel.BackColor = AllowedColor;
+            textBoxMakeMakeServiceReport_NewCarPricePerHour.BackColor = AllowedColor;
+            textBoxMakeMakeServiceReport_NewCarProductionYear.BackColor = AllowedColor;
+        }
+
 
         private void buttonMakeServiceReport_OpenCarLocationMap_Click(object sender, EventArgs e)
         {
@@ -537,7 +473,7 @@ namespace OOP_CourseWork
             var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
             if (car is null) return;
 
-            var result = MessageBox.Show("Вы уверены, что хотите отправить выбранный автомобиль на обслуживание?", "Отправить на обслуживание?", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            var result = MessageBox.Show("Вы уверены, что хотите отправить выбранный автомобиль на обслуживание?", "Отправить на обслуживание?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
 
             ((Admin)SaveLoadControl.CurrentUser).PutCarOnService(car, textBoxMakeMakeServiceReport_Description.Text);
@@ -610,6 +546,34 @@ namespace OOP_CourseWork
             }
         }
 
+        private void labelClickThisToAddNewCarImage_DoubleClick(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp, *.png)|*.jpg; *.jpeg; *.gif; *.bmp; *.png|All files(*.*)|*.*";
+            if (openFileDialog.ShowDialog() == DialogResult.Cancel) return;
+
+            Image image;
+            try
+            {
+                image = Image.FromFile(openFileDialog.FileName);
+            }
+            catch
+            {
+                MessageBox.Show("Не удаётся загрузить выбранную Вами картинку!", "Ошибка загрузки картинки!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            pictureBoxMakeServiceReport_AddNewCarPicture.Image = new Bitmap(image, pictureBoxMakeServiceReport_AddNewCarPicture.Size);
+            labelClickThisToAddNewCarImage.Visible = false;
+
+            AddNewCarImagePath = openFileDialog.FileName;
+        }
+
+        private void pictureBoxMakeServiceReport_AddNewCarPicture_DoubleClick(object sender, EventArgs e)
+        {
+            labelClickThisToAddNewCarImage_DoubleClick(sender, e);
+        }
+
         private void buttonMakeServiceReport_AddNewCar_Click(object sender, EventArgs e)
         {
             textBoxMakeMakeServiceReport_NewCarBrand_TextChanged(null, null);
@@ -637,20 +601,57 @@ namespace OOP_CourseWork
             var result = MessageBox.Show("Вы уверены, что хотите добавить этот автомобиль в систему? Пожалуйста, перепроверьте данные.", "Подтверждение добавления автомобиля.", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
 
+            if (!File.Exists(AddNewCarImagePath))
+            {
+                MessageBox.Show("Выбранного Вами файла фотографии для автомобиля больше не существует! Попробуйте ещё раз!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             Car car = new Car(SaveLoadControl.Cars.Count, 
                               textBoxMakeMakeServiceReport_NewCarBrand.Text,
                               textBoxMakeMakeServiceReport_NewCarModel.Text,
                               textBoxMakeMakeServiceReport_NewCarLicensePlate.Text,
-                              double.Parse(textBoxMakeMakeServiceReport_NewCarPricePerHour.Text),
+                              double.Parse(textBoxMakeMakeServiceReport_NewCarPricePerHour.Text.Replace(".", ",")),
                               new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1),
                               DateTime.Now,
                               DateTime.MinValue,
-                              0, 0);
+                              0, 0, true);
+
+            try
+            {
+                Image image = new Bitmap(Image.FromFile(AddNewCarImagePath), pictureBoxMakeServiceReport_AddNewCarPicture.Size);
+                string path = $"images\\car_{car.Id}.png";
+                image.Save(path);
+                CarsOrderImages.Add(Image.FromFile(path));
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось загрузить заданную Вами фотографию!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             SaveLoadControl.Cars.Add(car);
+
+            MakeServiceReport_AddNewCar_SetDefault();
 
             RefreshMakeServiceReport();
 
             MessageBox.Show("Автомобиль был успешно добавлен в систему!", "Успешное добавление автомобиля!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void buttonMakeServiceReport_HideShowCar_Click(object sender, EventArgs e)
+        {
+            if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
+            var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
+            var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
+            if (car is null) return;
+
+            car.HideOrShow();
+
+            RefreshServiceReportList();
+            RefreshMakeServiceReport();
+
+            MessageBox.Show($"Автомобиль был успешно {(car.IsHidden ? "скрыт" : "показан")}.", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void toolStripMenuItemListViewMakeServiceReport_Copy_Click(object sender, EventArgs e)
@@ -841,8 +842,8 @@ namespace OOP_CourseWork
                 arr[2] = report.Worker is null ? "" : report.Worker.FullName.ToString();
                 arr[3] = report.Worker is null ? "" : report.Worker.SalaryPerDay.ToString("N2").Replace(",", ".");
                 arr[4] = report.StartedDate.ToString();
-                arr[5] = report.PlannedCompletionDays.ToString();
-                arr[6] = report.FinishedDate.ToString();
+                arr[5] = report.PlannedCompletionDays == 0 ? "Не выставлено" : report.PlannedCompletionDays.ToString();
+                arr[6] = report.FinishedDate == DateTime.MinValue ? "Не выставлено" : report.FinishedDate.ToString();
                 arr[7] = report.AdditionalCost.ToString("N2").Replace(",", ".");
                 arr[8] = report.Cost.ToString("N2").Replace(",", ".");
                 arr[9] = report.IsStarted ? "Да" : "Нет";
@@ -882,7 +883,7 @@ namespace OOP_CourseWork
                 textBoxServiceReportList_ProductionYear.Text = report.ServicedCar.ProductionYear.ToString("yyyy");
                 textBoxServiceReportList_PricePerHour.Text = report.ServicedCar.PricePerHour.ToString("N2").Replace(",", ".");
                 textBoxServiceReportList_CarLicensePlate.Text = report.ServicedCar.CarLicensePlate;
-                textBoxServiceReportList_LastServiceDate.Text = report.ServicedCar.LastServiceTime.ToString("d");
+                textBoxServiceReportList_LastServiceDate.Text = report.ServicedCar.LastServiceTime == DateTime.MinValue ? "Не выставлено" : report.ServicedCar.LastServiceTime.ToString("d");
             } 
             else
             {

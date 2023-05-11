@@ -19,6 +19,7 @@ namespace OOP_CourseWork.Models
         private DateTime _lastServiceTime;
         private double   _locationX;
         private double   _locationY;
+        private bool     _isHidden;
 
         public Car()
         {
@@ -31,10 +32,11 @@ namespace OOP_CourseWork.Models
             _pricePerHour = 0;
             _locationX = 0;
             _locationY = 0;
+            _isHidden = true;
         }
 
         public Car(int id, string brand, string model, string carLicensePlate, double pricePerHour, 
-                   DateTime productionYear, DateTime buyTime, DateTime lastServiceTime, double locationX, double locationY)
+                   DateTime productionYear, DateTime buyTime, DateTime lastServiceTime, double locationX, double locationY, bool isHidden)
         {
             _id = id;
             _brand = brand;
@@ -46,6 +48,7 @@ namespace OOP_CourseWork.Models
             _pricePerHour = pricePerHour;
             _locationX = locationX;
             _locationY = locationY;
+            _isHidden = isHidden;
         }
 
         public int Id 
@@ -168,6 +171,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public bool IsHidden
+        {
+            get
+            {
+                return _isHidden;
+            }
+            set
+            {
+                _isHidden = value;
+            }
+        }
+
         public bool IsOnServiceNow
         {
             get
@@ -183,6 +198,11 @@ namespace OOP_CourseWork.Models
                 if (SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this) is null) return false;
                 return SaveLoadControl.Orders.FirstOrDefault(x => x.OrderedCar == this && !x.IsCancelled && x.OrderBookingTime.AddHours(x.OrderHours) > DateTime.Now) != null;
             }
+        }
+
+        public void HideOrShow()
+        {
+            _isHidden = !_isHidden;
         }
 
         public void CheckCarLocation()
