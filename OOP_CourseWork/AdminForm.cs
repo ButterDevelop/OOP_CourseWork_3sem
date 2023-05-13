@@ -38,15 +38,40 @@ namespace OOP_CourseWork
             toolTipOrderListCarPicture.SetToolTip(pictureBoxServiceReportList_CarPicture, "Фотография выбранного автомобиля.");
             toolTipOrderListCarPicture.SetToolTip(pictureBoxMakeServiceReport_CarPicture, "Фотография выбранного автомобиля.");
 
+            toolTipUsersManagement_FindInTheTable.SetToolTip(textBoxUsersManagement_FindInTheTable, 
+                                                             "Введите что-нибудь в это поле, чтобы запустить поиск по таблице. " +      
+                                                             "Если в каком-то поле будет совпадение, то вся строка останется в таблице. " +                                                    
+                                                             "Иначе она будет скрыта.");
+
+            toolTipMakeServiceReport_PricePerHour.SetToolTip(textBoxMakeMakeServiceReport_NewCarPricePerHour, 
+                                                             "Введите цену автомобиля в час. " +
+                                                             "Сумма округляется автоматически до двух знаков после запятой.");
+
+            toolTipMakeServiceReport_ProductionYear.SetToolTip(textBoxMakeMakeServiceReport_NewCarProductionYear, "Введите год производства автомобиля.");
+
+            toolTipSettings_Password.SetToolTip(textBoxSettings_OldPassword, "Введите пароль, состоящий из любых символов.\nПароль должен быть достаточно сильным.");
+            toolTipSettings_Password.SetToolTip(textBoxSettings_NewPassword, "Введите пароль, состоящий из любых символов.\nПароль должен быть достаточно сильным.");
+            toolTipSettings_Password.SetToolTip(textBoxSettings_NewPasswordConfirmation, "Введите пароль, состоящий из любых символов.\nПароль должен быть достаточно сильным.");
+
+            toolTipMakeServiceReport_HideOrShowCar.SetToolTip(buttonMakeServiceReport_HideShowCar, "Если скрыть автомобиль, то клиенты не будут иметь возможности его заказать. " + 
+                                                                                             "Они не будут видеть этот автомобиль в списке для возможного заказа.");
+
             tabControlAdmin.SelectedIndexChanged += TabControlAdmin_SelectedIndexChanged;
 
-            listViewUsers.ColumnWidthChanging += ListViewPayments_ColumnWidthChanging;
             listViewServiceReportList.ColumnWidthChanging += ListViewServiceReportList_ColumnWidthChanging;
+            listViewUsersManagement.ColumnWidthChanging += ListViewUsersManagement_ColumnWidthChanging;
+            listViewMakeServiceReport.ColumnWidthChanging += ListViewMakeServiceReport_ColumnWidthChanging;
 
+            listViewUsersManagement.ItemSelectionChanged += ListViewUsersManagement_ItemSelectionChanged;
             listViewServiceReportList.ItemSelectionChanged += listViewServiceReportList_ItemSelectionChanged;
             listViewMakeServiceReport.ItemSelectionChanged += ListViewMakeServiceReport_ItemSelectionChanged;
 
             this.FormClosing += AdminForm_FormClosing;
+
+            dateTimePickerFinancialReport_FromDate.Value = DateTime.Today;
+            dateTimePickerFinancialReport_ToDate.Value = DateTime.Today.AddDays(1).AddSeconds(-1);
+
+            textBoxUsersManagement_FindInTheTable.GotFocus += TextBoxUsersManagement_FindInTheTable_GotFocus;
 
             CarsOrderImages = UtilsControl.LoadCarsOrderImages();
         }
@@ -95,42 +120,62 @@ namespace OOP_CourseWork
                 RefreshMakeServiceReport();
             }
             else
-            if (tabControlAdmin.SelectedIndex == 2) //Вкладка "Пополнение баланса"
+            if (tabControlAdmin.SelectedIndex == 2) //Вкладка "Управление пользователями"
             {
-                RefreshPaymentsList();
+                RefreshUsersManagementList();
             } 
             else
-            if (tabControlAdmin.SelectedIndex == 3) //Вкладка "Настройки"
+            if (tabControlAdmin.SelectedIndex == 3) //Вкладка "Финансовый отчёт"
             {
-                
+                RefreshFinancialReport();
+            }
+            else
+            if (tabControlAdmin.SelectedIndex == 4) //Вкладка "Настройки"
+            {
+                RefreshSettings();
             }
         }
+
+        #region Financial Report
+
+        public void RefreshFinancialReport()
+        {
+            buttonFinancialReport_GetReports_Click(null, null);
+        }
+
+        private void buttonFinancialReport_GetReports_Click(object sender, EventArgs e)
+        {
+            labelFinancialReport_PotentionalSalary.Text = ((Admin)SaveLoadControl.CurrentUser).GetPotentionalFinancialReport(dateTimePickerFinancialReport_FromDate.Value, dateTimePickerFinancialReport_ToDate.Value).ToString("N2").Replace(",", ".");
+            labelFinancialReport_AvailableSalary.Text = ((Admin)SaveLoadControl.CurrentUser).GetFinancialReport(dateTimePickerFinancialReport_FromDate.Value, dateTimePickerFinancialReport_ToDate.Value).ToString("N2").Replace(",", ".");
+        }
+
+        private void labelFinancialReport_PotentionalSalary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(labelFinancialReport_PotentionalSalary.Text);
+                MessageBox.Show("Вы успешно скопировали сумму потенциального дохода!", "Скопировано!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch { }
+        }
+
+        private void labelFinancialReport_AvailableSalary_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(labelFinancialReport_AvailableSalary.Text);
+                MessageBox.Show("Вы успешно скопировали сумму доступного дохода!", "Скопировано!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch { }
+        }
+
+        #endregion
 
         #region Settings
 
-        private void buttonSettings_Save_Click(object sender, EventArgs e)
+        public void RefreshSettings()
         {
-            
-        }
-
-        private void buttonSettings_DeactivateMyAccount_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Вы нажали кнопку деактивации своего аккаунта.\n" +
-                                         "Вы уверены, что хотите это сделать? Это сравнимо с полным удалением аккаунта.\n" +
-                                         "Больше Вы не сможете им воспользоваться или восстановить.", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (result == DialogResult.Yes)
-            {
-                //Отменяем текущие заказы, если они есть у пользователя
-                foreach (var order in SaveLoadControl.Orders.Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.Now)) order.Cancel();
-                //Деактивация аккаунта
-                SaveLoadControl.CurrentUser.DeactivateAccount();
-
-                MessageBox.Show("Ваш аккаунт был деактивирован. Приложение будет перезапущено.", "Успешно.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                SaveLoadControl.SaveJSON();
-                Application.Restart();
-            }
+            labelSettings_WholeCarsServicedByThisAdmin.Text = ((Admin)SaveLoadControl.CurrentUser).TotalCarsServiced.ToString();
         }
 
         #endregion
@@ -199,44 +244,225 @@ namespace OOP_CourseWork
 
         #endregion
 
-        #region Payments
+        #region Users Management
 
-        private void buttonPayments_CreatePayment_Click(object sender, EventArgs e)
+        public void RefreshUsersManagementList()
         {
+            listViewUsersManagement.Items.Clear();
 
-        }
-
-        private void ListViewPayments_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            e.Cancel = true;
-            e.NewWidth = listViewUsers.Columns[e.ColumnIndex].Width;
-        }
-
-        public void RefreshPaymentsList()
-        {
-            listViewUsers.Items.Clear();
-
-            var payments = SaveLoadControl.BankTransactions.Where(x => !(x.User is null) && x.User.UserName == SaveLoadControl.CurrentUser.UserName)
-                                                           .OrderByDescending(x => x.CreatedTime);
-            foreach (var pay in payments)
+            var users = SaveLoadControl.Users.OrderByDescending(x => x.Id);
+            foreach (var user in users)
             {
-                string[] arr = new string[6];
+                string[] arr = new string[9];
                 arr[0] = string.Empty;
-                arr[1] = pay.User is null ? pay.ToCardNumberOrBankAccountNumber : pay.FromCardNumberOrBankAccountNumber;
-                arr[2] = pay.CreatedTime.ToString();
-                arr[3] = (pay.IsCancelled ? "?" : (pay.User is null ? "+" : "-")) + pay.TotalAmount.ToString().Replace(",", ".");
-                arr[4] = pay.IsFinished ? "Да" : "Нет";
-                arr[5] = pay.IsCancelled ? "Да" : "Нет";
+                arr[1] = user.Id.ToString();
+                arr[2] = user.UserName;
+                arr[3] = user.FullName;
+                arr[4] = user.Email;
+                arr[5] = user.Phone;
+                arr[6] = user.Role == RolesContainer.Client ? "Клиент" : (user.Role == RolesContainer.Employee ? "Сотрудник" : "Администратор");
+                arr[7] = user.IsAccountSetupCompleted ? "Да" : "Нет";
+                arr[8] = user.AccountDeactivated ? "Да" : "Нет";
+
+                if (textBoxUsersManagement_FindInTheTable.TextLength != 0)
+                {
+                    bool flag = false;
+                    foreach (var str in arr)
+                    {
+                        if (str.ToLower().Contains(textBoxUsersManagement_FindInTheTable.Text.ToLower())) flag = true;
+                    }
+                    if (!flag) continue;
+                }
 
                 ListViewItem item = new ListViewItem(arr);
+                item.Tag = user.Id;
                 item.UseItemStyleForSubItems = false;
-                item.SubItems[3].ForeColor = pay.IsCancelled ? Color.DarkGray : (pay.User is null ? Color.Green : Color.DarkRed);
-                item.SubItems[4].ForeColor = pay.IsFinished ? Color.Green : Color.DarkRed;
-                item.SubItems[5].ForeColor = pay.IsCancelled ? Color.Green : Color.DarkRed;
-                listViewUsers.Items.Add(item);
+                listViewUsersManagement.Items.Add(item);
             }
 
-            listViewUsers.Refresh();
+            listViewUsersManagement.Refresh();
+        }
+
+        private void TextBoxUsersManagement_FindInTheTable_GotFocus(object sender, EventArgs e)
+        {
+            listViewUsersManagement.SelectedItems.Clear();
+        }
+
+        private void textBoxUsersManagement_FindInTheTable_TextChanged(object sender, EventArgs e)
+        {
+            RefreshUsersManagementList();
+        }
+
+        private void ListViewUsersManagement_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = listViewServiceReportList.Columns[e.ColumnIndex].Width;
+        }
+
+        private void ListViewUsersManagement_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (listViewUsersManagement.SelectedItems.Count != 0)
+            {
+                if (listViewUsersManagement.SelectedItems[0].Tag is null) return;
+                var userId = (int)listViewUsersManagement.SelectedItems[0].Tag;
+                var user = SaveLoadControl.Users.FirstOrDefault(x => x.Id == userId);
+                if (user is null) return;
+
+                if (user.Role == RolesContainer.Admin)
+                {
+                    SetUsersManagementDefaults();
+                    return;
+                }
+
+                if ((user.Role == RolesContainer.Client && !((Client)user).AccountDeactivated) ||
+                    (user.Role == RolesContainer.Employee && ((Employee)user).IsWorkingNow))
+                {
+                    buttonUsersManagement_DeactivateThisAccount.Enabled = true;
+                    buttonUsersManagement_ActivateThisAccount.Enabled = false;
+                }
+                else
+                {
+                    buttonUsersManagement_DeactivateThisAccount.Enabled = false;
+                    buttonUsersManagement_ActivateThisAccount.Enabled = true;
+                }
+
+                if (user.Role == RolesContainer.Client)
+                {
+                    buttonUsersManagement_SetRoleClient.Enabled = false;
+                    buttonUsersManagement_DeactivateThisAccount.Text = "Деактивировать аккаунт";
+                    buttonUsersManagement_ActivateThisAccount.Text = "Активировать аккаунт";
+                }
+                else
+                {
+                    buttonUsersManagement_SetRoleClient.Enabled = true;
+                    buttonUsersManagement_DeactivateThisAccount.Text = "Уволить сотрудника";
+                    buttonUsersManagement_ActivateThisAccount.Text = "Вернуть сотрудника";
+                }
+
+                if (user.Role == RolesContainer.Employee)
+                    buttonUsersManagement_SetRoleEmployee.Enabled = false;
+                else
+                    buttonUsersManagement_SetRoleEmployee.Enabled = true;                    
+            } 
+            else
+            {
+                SetUsersManagementDefaults();
+            }
+        }
+
+        public void SetUsersManagementDefaults()
+        {
+            buttonUsersManagement_DeactivateThisAccount.Text = "Деактивировать аккаунт";
+            buttonUsersManagement_DeactivateThisAccount.Enabled = false;
+            buttonUsersManagement_SetRoleClient.Enabled = false;
+            buttonUsersManagement_SetRoleEmployee.Enabled = false;
+        }
+
+        private void buttonUsersManagement_SetRoleClient_Click(object sender, EventArgs e)
+        {
+            if (listViewUsersManagement.SelectedItems[0].Tag is null) return;
+            var userId = (int)listViewUsersManagement.SelectedItems[0].Tag;
+            var user = SaveLoadControl.Users.FirstOrDefault(x => x.Id == userId);
+            if (user is null) return;
+
+            var result = MessageBox.Show($"Вы уверены, что хотите сделать пользователя {user.UserName} снова клиентом?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
+
+            if (((Employee)user).DaysWorked > 0)
+            {
+                MessageBox.Show("Невозможно изменить роль на клиента! Аккаунт поучаствовал в работе как сотрудник!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var newUser = new Client((Employee)user);
+            SaveLoadControl.Users[userId] = newUser;
+
+            RefreshUsersManagementList();
+        }
+
+        private void buttonUsersManagement_SetRoleEmployee_Click(object sender, EventArgs e)
+        {
+            if (listViewUsersManagement.SelectedItems[0].Tag is null) return;
+            var userId = (int)listViewUsersManagement.SelectedItems[0].Tag;
+            var user = SaveLoadControl.Users.FirstOrDefault(x => x.Id == userId);
+            if (user is null) return;
+
+            var result = MessageBox.Show($"Вы уверены, что хотите сделать пользователя {user.UserName} сотрудником?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
+
+            if (!(SaveLoadControl.Payments.FirstOrDefault(x => x.User.Id == userId) is null))
+            {
+                MessageBox.Show("Невозможно сделать пользователя сотрудником! Аккаунт поучаствовал в деятельности сервиса как клиент!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var newUser = new Employee((Client)user);
+            SaveLoadControl.Users[userId] = newUser;
+
+            RefreshUsersManagementList();
+        }
+
+        private void buttonUsersManagement_DeactivateThisAccount_Click(object sender, EventArgs e)
+        {
+            if (listViewUsersManagement.SelectedItems[0].Tag is null) return;
+            var userId = (int)listViewUsersManagement.SelectedItems[0].Tag;
+            var user = SaveLoadControl.Users.FirstOrDefault(x => x.Id == userId);
+            if (user is null) return;
+
+            if (user.Role == RolesContainer.Employee)
+            {
+                if (!((Employee)user).IsWorkingNow)
+                {
+                    MessageBox.Show("Сотрудник уже уволен. Нельзя его уволить ещё раз.", "Сотрудник уволен!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                ((Employee)user).FireEmployee();
+                user.DeactivateAccount();
+                MessageBox.Show($"Работник {user.FullName} был уволен.", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                if (((Client)user).AccountDeactivated)
+                {
+                    MessageBox.Show("Аккаунт уже деактивирован. Нельзя его деактивировать ещё раз.", "Аккаунт деактивирован!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                ((Client)user).DeactivateAccount();
+                MessageBox.Show($"Аккаунт {user.UserName} был деактивирован.", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            RefreshUsersManagementList();
+        }
+
+        private void buttonUsersManagement_ActivateThisAccount_Click(object sender, EventArgs e)
+        {
+            if (listViewUsersManagement.SelectedItems[0].Tag is null) return;
+            var userId = (int)listViewUsersManagement.SelectedItems[0].Tag;
+            var user = SaveLoadControl.Users.FirstOrDefault(x => x.Id == userId);
+            if (user is null) return;
+
+            if (user.Role == RolesContainer.Employee)
+            {
+                if (((Employee)user).IsWorkingNow)
+                {
+                    MessageBox.Show("Сотрудник НЕ был уволен. Нельзя его вернуть в этом случае.", "Сотрудник НЕ уволен!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                ((Employee)user).HireEmployee();
+                MessageBox.Show($"Работника {user.FullName} вернули.", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                if (!((Client)user).AccountDeactivated)
+                {
+                    MessageBox.Show("Аккаунт и так активирован. Нельзя его активировать ещё раз.", "Аккаунт уже активирован!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                ((Client)user).ActivateAccount();
+                MessageBox.Show($"Аккаунт {user.UserName} был активирован.", "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            RefreshUsersManagementList();
         }
 
         private void toolStripMenuItemListView_Copy_Click(object sender, EventArgs e)
@@ -244,7 +470,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[1].Text + "\t" + 
@@ -265,7 +491,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[1].Text;
@@ -281,7 +507,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[2].Text;
@@ -297,7 +523,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[3].Text;
@@ -313,7 +539,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[4].Text;
@@ -329,7 +555,7 @@ namespace OOP_CourseWork
             try
             {
                 string result = "";
-                var selectedItems = listViewUsers.SelectedItems;
+                var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
                     result += item.SubItems[5].Text;
@@ -641,6 +867,9 @@ namespace OOP_CourseWork
 
         private void buttonMakeServiceReport_HideShowCar_Click(object sender, EventArgs e)
         {
+            var result = MessageBox.Show($"Вы уверены, что хотите {buttonMakeServiceReport_HideShowCar.Text.ToLower().Split(new char[1] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0]} автомобиль?", buttonMakeServiceReport_HideShowCar.Text + "?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
+
             if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
             var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
             var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
@@ -839,8 +1068,8 @@ namespace OOP_CourseWork
                 string[] arr = new string[11];
                 arr[0] = ""; 
                 arr[1] = report.Id.ToString();
-                arr[2] = report.Worker is null ? "" : report.Worker.FullName.ToString();
-                arr[3] = report.Worker is null ? "" : report.Worker.SalaryPerDay.ToString("N2").Replace(",", ".");
+                arr[2] = report.Worker is null ? "Пока никто не взялся" : report.Worker.FullName.ToString();
+                arr[3] = report.Worker is null ? "Пока никто не взялся" : report.Worker.SalaryPerDay.ToString("N2").Replace(",", ".");
                 arr[4] = report.StartedDate.ToString();
                 arr[5] = report.PlannedCompletionDays == 0 ? "Не выставлено" : report.PlannedCompletionDays.ToString();
                 arr[6] = report.FinishedDate == DateTime.MinValue ? "Не выставлено" : report.FinishedDate.ToString();
