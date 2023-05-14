@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace OOP_CourseWork.Controls
 {
@@ -56,7 +57,7 @@ namespace OOP_CourseWork.Controls
             else
             if (SaveLoadControl.CurrentUser is Employee)
             {
-                //Application.Run(new EmployeeForm());
+                Application.Run(new EmployeeForm());
             }
             else
             if (SaveLoadControl.CurrentUser is Admin)
@@ -91,7 +92,7 @@ namespace OOP_CourseWork.Controls
                 Image image;
                 try
                 {
-                    image = Image.FromFile($"images\\car_{i}.png");
+                    image = LoadImageFromFileSafely($"images\\car_{i}.png");
                 }
                 catch
                 {
@@ -101,6 +102,17 @@ namespace OOP_CourseWork.Controls
             }
 
             return list;
+        }
+
+        public static Image LoadImageFromFileSafely(string fileName)
+        {
+            Image image;
+            using (var bmpTemp = new Bitmap(fileName))
+            {
+                image = new Bitmap(bmpTemp);
+            }
+
+            return image;
         }
 
 

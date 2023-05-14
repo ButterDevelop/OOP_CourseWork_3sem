@@ -78,6 +78,8 @@ namespace OOP_CourseWork
             this.toolStripMenuItemListViewServiceReportList_Copy_IsStarted = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemListViewServiceReportList_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageMakeOrder = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.comboBoxMakeServiceReport_AddOrEditCarMode = new System.Windows.Forms.ComboBox();
             this.buttonMakeServiceReport_HideShowCar = new System.Windows.Forms.Button();
             this.labelClickThisToAddNewCarImage = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -123,6 +125,7 @@ namespace OOP_CourseWork
             this.toolStripMenuItemListViewMakeServiceReport_Copy_CarBuyTime = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemListViewMakeServiceReport_Copy_CarLastServiceDate = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageUsersManagement = new System.Windows.Forms.TabPage();
+            this.buttonUsersManagement_ActivateThisAccount = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxUsersManagement_FindInTheTable = new System.Windows.Forms.TextBox();
             this.buttonUsersManagement_DeactivateThisAccount = new System.Windows.Forms.Button();
@@ -139,13 +142,26 @@ namespace OOP_CourseWork
             this.columnHeaderUsersManagement_IsAccountSetupCompleted = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderUsersManagement_IsDeactivated = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStripListViewUsersManagement = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemListViewPayments_Copy = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListViewPayments_Copy_Cost = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_FullName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageFinancialReport = new System.Windows.Forms.TabPage();
+            this.labelFinancialReport_ClickThisNumberToCopyIt = new System.Windows.Forms.Label();
+            this.labelFinancialReport_AvailableSalary = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.labelFinancialReport_PotentionalSalary = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.buttonFinancialReport_GetReports = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.dateTimePickerFinancialReport_ToDate = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerFinancialReport_FromDate = new System.Windows.Forms.DateTimePicker();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.labelSettings_WholeCarsServicedByThisAdmin = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -160,20 +176,11 @@ namespace OOP_CourseWork
             this.toolTipOrderListCarPicture = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipMakeServiceReport_PricePerHour = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipMakeServiceReport_ProductionYear = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonUsersManagement_ActivateThisAccount = new System.Windows.Forms.Button();
-            this.dateTimePickerFinancialReport_FromDate = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerFinancialReport_ToDate = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.buttonFinancialReport_GetReports = new System.Windows.Forms.Button();
-            this.labelFinancialReport_PotentionalSalary = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.labelFinancialReport_AvailableSalary = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.toolTipUsersManagement_FindInTheTable = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSettings_Password = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipMakeServiceReport_HideOrShowCar = new System.Windows.Forms.ToolTip(this.components);
-            this.labelFinancialReport_ClickThisNumberToCopyIt = new System.Windows.Forms.Label();
+            this.labelUsernameText = new System.Windows.Forms.Label();
+            this.labelUsername = new System.Windows.Forms.Label();
             this.tabControlAdmin.SuspendLayout();
             this.tabPageServiceReportList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxServiceReportList_CarPicture)).BeginInit();
@@ -647,6 +654,8 @@ namespace OOP_CourseWork
             this.tabPageMakeOrder.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageMakeOrder.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPageMakeOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageMakeOrder.Controls.Add(this.label8);
+            this.tabPageMakeOrder.Controls.Add(this.comboBoxMakeServiceReport_AddOrEditCarMode);
             this.tabPageMakeOrder.Controls.Add(this.buttonMakeServiceReport_HideShowCar);
             this.tabPageMakeOrder.Controls.Add(this.labelClickThisToAddNewCarImage);
             this.tabPageMakeOrder.Controls.Add(this.label11);
@@ -677,6 +686,28 @@ namespace OOP_CourseWork
             this.tabPageMakeOrder.Text = "Авто и сервис ";
             this.tabPageMakeOrder.UseVisualStyleBackColor = true;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1423, 205);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(148, 25);
+            this.label8.TabIndex = 49;
+            this.label8.Text = "Режим работы: ";
+            // 
+            // comboBoxMakeServiceReport_AddOrEditCarMode
+            // 
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.FormattingEnabled = true;
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.Items.AddRange(new object[] {
+            "Добавить авто",
+            "Изменить авто"});
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.Location = new System.Drawing.Point(1605, 202);
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.Name = "comboBoxMakeServiceReport_AddOrEditCarMode";
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.Size = new System.Drawing.Size(175, 33);
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.TabIndex = 10;
+            this.comboBoxMakeServiceReport_AddOrEditCarMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxMakeServiceReport_AddOrEditCarMode_SelectedIndexChanged);
+            // 
             // buttonMakeServiceReport_HideShowCar
             // 
             this.buttonMakeServiceReport_HideShowCar.Enabled = false;
@@ -685,7 +716,7 @@ namespace OOP_CourseWork
             this.buttonMakeServiceReport_HideShowCar.Location = new System.Drawing.Point(1219, 197);
             this.buttonMakeServiceReport_HideShowCar.Name = "buttonMakeServiceReport_HideShowCar";
             this.buttonMakeServiceReport_HideShowCar.Size = new System.Drawing.Size(175, 40);
-            this.buttonMakeServiceReport_HideShowCar.TabIndex = 47;
+            this.buttonMakeServiceReport_HideShowCar.TabIndex = 9;
             this.buttonMakeServiceReport_HideShowCar.Text = "Спрятать авто";
             this.buttonMakeServiceReport_HideShowCar.UseVisualStyleBackColor = true;
             this.buttonMakeServiceReport_HideShowCar.Click += new System.EventHandler(this.buttonMakeServiceReport_HideShowCar_Click);
@@ -693,12 +724,13 @@ namespace OOP_CourseWork
             // labelClickThisToAddNewCarImage
             // 
             this.labelClickThisToAddNewCarImage.AutoSize = true;
+            this.labelClickThisToAddNewCarImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelClickThisToAddNewCarImage.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelClickThisToAddNewCarImage.Location = new System.Drawing.Point(890, 90);
+            this.labelClickThisToAddNewCarImage.Location = new System.Drawing.Point(852, 102);
             this.labelClickThisToAddNewCarImage.Name = "labelClickThisToAddNewCarImage";
-            this.labelClickThisToAddNewCarImage.Size = new System.Drawing.Size(257, 75);
+            this.labelClickThisToAddNewCarImage.Size = new System.Drawing.Size(332, 52);
             this.labelClickThisToAddNewCarImage.TabIndex = 46;
-            this.labelClickThisToAddNewCarImage.Text = "Нажмите, чтобы добавить\r\nфотографию для нового\r\nавтомобиля";
+            this.labelClickThisToAddNewCarImage.Text = "Нажмите дважды, чтобы добавить\r\nфотографию для автомобиля";
             this.labelClickThisToAddNewCarImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelClickThisToAddNewCarImage.DoubleClick += new System.EventHandler(this.labelClickThisToAddNewCarImage_DoubleClick);
             // 
@@ -927,7 +959,7 @@ namespace OOP_CourseWork
             this.listViewMakeServiceReport.Location = new System.Drawing.Point(7, 253);
             this.listViewMakeServiceReport.Name = "listViewMakeServiceReport";
             this.listViewMakeServiceReport.Size = new System.Drawing.Size(1789, 344);
-            this.listViewMakeServiceReport.TabIndex = 9;
+            this.listViewMakeServiceReport.TabIndex = 11;
             this.listViewMakeServiceReport.UseCompatibleStateImageBehavior = false;
             this.listViewMakeServiceReport.View = System.Windows.Forms.View.Details;
             // 
@@ -1117,6 +1149,19 @@ namespace OOP_CourseWork
             this.tabPageUsersManagement.Text = "Управление пользователями ";
             this.tabPageUsersManagement.UseVisualStyleBackColor = true;
             // 
+            // buttonUsersManagement_ActivateThisAccount
+            // 
+            this.buttonUsersManagement_ActivateThisAccount.Enabled = false;
+            this.buttonUsersManagement_ActivateThisAccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.buttonUsersManagement_ActivateThisAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonUsersManagement_ActivateThisAccount.Location = new System.Drawing.Point(1548, 33);
+            this.buttonUsersManagement_ActivateThisAccount.Name = "buttonUsersManagement_ActivateThisAccount";
+            this.buttonUsersManagement_ActivateThisAccount.Size = new System.Drawing.Size(235, 47);
+            this.buttonUsersManagement_ActivateThisAccount.TabIndex = 39;
+            this.buttonUsersManagement_ActivateThisAccount.Text = "Активировать аккаунт";
+            this.buttonUsersManagement_ActivateThisAccount.UseVisualStyleBackColor = true;
+            this.buttonUsersManagement_ActivateThisAccount.Click += new System.EventHandler(this.buttonUsersManagement_ActivateThisAccount_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -1261,63 +1306,90 @@ namespace OOP_CourseWork
             this.contextMenuStripListViewUsersManagement.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.contextMenuStripListViewUsersManagement.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStripListViewUsersManagement.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemListViewPayments_Copy,
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber,
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate,
-            this.toolStripMenuItemListViewPayments_Copy_Cost,
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished,
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled});
+            this.toolStripMenuItemListViewUsersManagement_Copy,
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID,
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username,
+            this.toolStripMenuItemListViewUsersManagement_FullName,
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email,
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber,
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role,
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted,
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated});
             this.contextMenuStripListViewUsersManagement.Name = "contextMenuStripListView";
-            this.contextMenuStripListViewUsersManagement.Size = new System.Drawing.Size(426, 196);
+            this.contextMenuStripListViewUsersManagement.Size = new System.Drawing.Size(480, 292);
             // 
-            // toolStripMenuItemListViewPayments_Copy
+            // toolStripMenuItemListViewUsersManagement_Copy
             // 
-            this.toolStripMenuItemListViewPayments_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripMenuItemListViewPayments_Copy.Name = "toolStripMenuItemListViewPayments_Copy";
-            this.toolStripMenuItemListViewPayments_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemListViewPayments_Copy.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy.Text = "Скопировать";
-            this.toolStripMenuItemListViewPayments_Copy.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Click);
+            this.toolStripMenuItemListViewUsersManagement_Copy.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripMenuItemListViewUsersManagement_Copy.Name = "toolStripMenuItemListViewUsersManagement_Copy";
+            this.toolStripMenuItemListViewUsersManagement_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemListViewUsersManagement_Copy.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy.Text = "Скопировать";
+            this.toolStripMenuItemListViewUsersManagement_Copy.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_Click);
             // 
-            // toolStripMenuItemListViewPayments_Copy_CardNumber
+            // toolStripMenuItemListViewUsersManagement_Copy_ID
             // 
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Name = "toolStripMenuItemListViewPayments_Copy_CardNumber";
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Text = "Скопировать номер карты";
-            this.toolStripMenuItemListViewPayments_Copy_CardNumber.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CardNumber_Click);
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID.Name = "toolStripMenuItemListViewUsersManagement_Copy_ID";
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID.Text = "Скопировать ID";
+            this.toolStripMenuItemListViewUsersManagement_Copy_ID.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_ID_Click);
             // 
-            // toolStripMenuItemListViewPayments_Copy_CreatedDate
+            // toolStripMenuItemListViewUsersManagement_Copy_Username
             // 
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Name = "toolStripMenuItemListViewPayments_Copy_CreatedDate";
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Text = "Скопировать время оплаты";
-            this.toolStripMenuItemListViewPayments_Copy_CreatedDate.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_CreatedDate_Click);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username.Name = "toolStripMenuItemListViewUsersManagement_Copy_Username";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username.Text = "Скопировать имя пользователя";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Username.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_Username_Click);
             // 
-            // toolStripMenuItemListViewPayments_Copy_Cost
+            // toolStripMenuItemListViewUsersManagement_FullName
             // 
-            this.toolStripMenuItemListViewPayments_Copy_Cost.Name = "toolStripMenuItemListViewPayments_Copy_Cost";
-            this.toolStripMenuItemListViewPayments_Copy_Cost.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.toolStripMenuItemListViewPayments_Copy_Cost.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy_Cost.Text = "Скопировать сумму оплаты";
-            this.toolStripMenuItemListViewPayments_Copy_Cost.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_Cost_Click);
+            this.toolStripMenuItemListViewUsersManagement_FullName.Name = "toolStripMenuItemListViewUsersManagement_FullName";
+            this.toolStripMenuItemListViewUsersManagement_FullName.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.toolStripMenuItemListViewUsersManagement_FullName.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_FullName.Text = "Скопировать полное имя";
+            this.toolStripMenuItemListViewUsersManagement_FullName.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_FullName_Click);
             // 
-            // toolStripMenuItemListViewPayments_Copy_IsFinished
+            // toolStripMenuItemListViewUsersManagement_Copy_Email
             // 
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Name = "toolStripMenuItemListViewPayments_Copy_IsFinished";
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Text = "Скопировать \"Оплата прошла\"";
-            this.toolStripMenuItemListViewPayments_Copy_IsFinished.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsFinished_Click);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email.Name = "toolStripMenuItemListViewUsersManagement_Copy_Email";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email.Text = "Скопировать Email";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Email.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_Email_Click);
             // 
-            // toolStripMenuItemListViewPayments_Copy_IsCancelled
+            // toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber
             // 
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Name = "toolStripMenuItemListViewPayments_Copy_IsCancelled";
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Size = new System.Drawing.Size(425, 32);
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Text = "Скопировать \"Оплата отменена\"";
-            this.toolStripMenuItemListViewPayments_Copy_IsCancelled.Click += new System.EventHandler(this.toolStripMenuItemListView_Copy_IsCancelled_Click);
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber.Name = "toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber";
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber.Text = "Скопировать номер телефона";
+            this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber_Click);
+            // 
+            // toolStripMenuItemListViewUsersManagement_Copy_Role
+            // 
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role.Name = "toolStripMenuItemListViewUsersManagement_Copy_Role";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role.Text = "Скопировать роль";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Role.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_Role_Click);
+            // 
+            // toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted
+            // 
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted.Name = "toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted";
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D7)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted.Text = "Скопировать \"Аккаунт подтверждён\"";
+            this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted_Click);
+            // 
+            // toolStripMenuItemListViewUsersManagement_Copy_Deactivated
+            // 
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated.Name = "toolStripMenuItemListViewUsersManagement_Copy_Deactivated";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D8)));
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated.Size = new System.Drawing.Size(479, 32);
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated.Text = "Скопировать \"Аккаунт деактивирован\"";
+            this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated.Click += new System.EventHandler(this.toolStripMenuItemListViewUsersManagement_Copy_Deactivated_Click);
             // 
             // tabPageFinancialReport
             // 
@@ -1341,6 +1413,115 @@ namespace OOP_CourseWork
             this.tabPageFinancialReport.TabIndex = 4;
             this.tabPageFinancialReport.Text = "Финансовый отчёт ";
             this.tabPageFinancialReport.UseVisualStyleBackColor = true;
+            // 
+            // labelFinancialReport_ClickThisNumberToCopyIt
+            // 
+            this.labelFinancialReport_ClickThisNumberToCopyIt.AutoSize = true;
+            this.labelFinancialReport_ClickThisNumberToCopyIt.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelFinancialReport_ClickThisNumberToCopyIt.Location = new System.Drawing.Point(681, 540);
+            this.labelFinancialReport_ClickThisNumberToCopyIt.Name = "labelFinancialReport_ClickThisNumberToCopyIt";
+            this.labelFinancialReport_ClickThisNumberToCopyIt.Size = new System.Drawing.Size(380, 25);
+            this.labelFinancialReport_ClickThisNumberToCopyIt.TabIndex = 28;
+            this.labelFinancialReport_ClickThisNumberToCopyIt.Text = "Нажмите на число, чтобы его скопировать";
+            this.labelFinancialReport_ClickThisNumberToCopyIt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelFinancialReport_AvailableSalary
+            // 
+            this.labelFinancialReport_AvailableSalary.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFinancialReport_AvailableSalary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.labelFinancialReport_AvailableSalary.Location = new System.Drawing.Point(892, 435);
+            this.labelFinancialReport_AvailableSalary.Name = "labelFinancialReport_AvailableSalary";
+            this.labelFinancialReport_AvailableSalary.Size = new System.Drawing.Size(253, 56);
+            this.labelFinancialReport_AvailableSalary.TabIndex = 27;
+            this.labelFinancialReport_AvailableSalary.Text = "0";
+            this.labelFinancialReport_AvailableSalary.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelFinancialReport_AvailableSalary.Click += new System.EventHandler(this.labelFinancialReport_AvailableSalary_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(581, 428);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(218, 84);
+            this.label26.TabIndex = 26;
+            this.label26.Text = "Доступный доход\r\nпо выбранным датам\r\n(без обслуживания):";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelFinancialReport_PotentionalSalary
+            // 
+            this.labelFinancialReport_PotentionalSalary.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFinancialReport_PotentionalSalary.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.labelFinancialReport_PotentionalSalary.Location = new System.Drawing.Point(892, 273);
+            this.labelFinancialReport_PotentionalSalary.Name = "labelFinancialReport_PotentionalSalary";
+            this.labelFinancialReport_PotentionalSalary.Size = new System.Drawing.Size(253, 56);
+            this.labelFinancialReport_PotentionalSalary.TabIndex = 25;
+            this.labelFinancialReport_PotentionalSalary.Text = "0";
+            this.labelFinancialReport_PotentionalSalary.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelFinancialReport_PotentionalSalary.Click += new System.EventHandler(this.labelFinancialReport_PotentionalSalary_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(543, 238);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(296, 140);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Потенциальный доход\r\nпо выбранным датам\r\n(учитывая автомобили\r\nна обслуживании, \r" +
+    "\nкоторые не закончены пока):";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonFinancialReport_GetReports
+            // 
+            this.buttonFinancialReport_GetReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonFinancialReport_GetReports.Location = new System.Drawing.Point(739, 139);
+            this.buttonFinancialReport_GetReports.Name = "buttonFinancialReport_GetReports";
+            this.buttonFinancialReport_GetReports.Size = new System.Drawing.Size(223, 67);
+            this.buttonFinancialReport_GetReports.TabIndex = 20;
+            this.buttonFinancialReport_GetReports.Text = "Получить финансовый\r\nотчёт по датам";
+            this.buttonFinancialReport_GetReports.UseVisualStyleBackColor = true;
+            this.buttonFinancialReport_GetReports.Click += new System.EventHandler(this.buttonFinancialReport_GetReports_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Location = new System.Drawing.Point(939, 42);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(150, 25);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "И до этой даты: ";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(624, 42);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(121, 25);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "С этой даты: ";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dateTimePickerFinancialReport_ToDate
+            // 
+            this.dateTimePickerFinancialReport_ToDate.CustomFormat = "dd.MM.yyyy HH:mm:ss";
+            this.dateTimePickerFinancialReport_ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFinancialReport_ToDate.Location = new System.Drawing.Point(901, 70);
+            this.dateTimePickerFinancialReport_ToDate.Name = "dateTimePickerFinancialReport_ToDate";
+            this.dateTimePickerFinancialReport_ToDate.Size = new System.Drawing.Size(218, 31);
+            this.dateTimePickerFinancialReport_ToDate.TabIndex = 1;
+            // 
+            // dateTimePickerFinancialReport_FromDate
+            // 
+            this.dateTimePickerFinancialReport_FromDate.CustomFormat = "dd.MM.yyyy HH:mm:ss";
+            this.dateTimePickerFinancialReport_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerFinancialReport_FromDate.Location = new System.Drawing.Point(581, 70);
+            this.dateTimePickerFinancialReport_FromDate.Name = "dateTimePickerFinancialReport_FromDate";
+            this.dateTimePickerFinancialReport_FromDate.Size = new System.Drawing.Size(218, 31);
+            this.dateTimePickerFinancialReport_FromDate.TabIndex = 0;
             // 
             // tabPageSettings
             // 
@@ -1503,117 +1684,6 @@ namespace OOP_CourseWork
             this.toolTipMakeServiceReport_ProductionYear.ReshowDelay = 50;
             this.toolTipMakeServiceReport_ProductionYear.ToolTipTitle = "Год производства автомобиля";
             // 
-            // buttonUsersManagement_ActivateThisAccount
-            // 
-            this.buttonUsersManagement_ActivateThisAccount.Enabled = false;
-            this.buttonUsersManagement_ActivateThisAccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.buttonUsersManagement_ActivateThisAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonUsersManagement_ActivateThisAccount.Location = new System.Drawing.Point(1548, 33);
-            this.buttonUsersManagement_ActivateThisAccount.Name = "buttonUsersManagement_ActivateThisAccount";
-            this.buttonUsersManagement_ActivateThisAccount.Size = new System.Drawing.Size(235, 47);
-            this.buttonUsersManagement_ActivateThisAccount.TabIndex = 39;
-            this.buttonUsersManagement_ActivateThisAccount.Text = "Активировать аккаунт";
-            this.buttonUsersManagement_ActivateThisAccount.UseVisualStyleBackColor = true;
-            this.buttonUsersManagement_ActivateThisAccount.Click += new System.EventHandler(this.buttonUsersManagement_ActivateThisAccount_Click);
-            // 
-            // dateTimePickerFinancialReport_FromDate
-            // 
-            this.dateTimePickerFinancialReport_FromDate.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.dateTimePickerFinancialReport_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFinancialReport_FromDate.Location = new System.Drawing.Point(581, 70);
-            this.dateTimePickerFinancialReport_FromDate.Name = "dateTimePickerFinancialReport_FromDate";
-            this.dateTimePickerFinancialReport_FromDate.Size = new System.Drawing.Size(218, 31);
-            this.dateTimePickerFinancialReport_FromDate.TabIndex = 0;
-            // 
-            // dateTimePickerFinancialReport_ToDate
-            // 
-            this.dateTimePickerFinancialReport_ToDate.CustomFormat = "dd.MM.yyyy HH:mm:ss";
-            this.dateTimePickerFinancialReport_ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFinancialReport_ToDate.Location = new System.Drawing.Point(901, 70);
-            this.dateTimePickerFinancialReport_ToDate.Name = "dateTimePickerFinancialReport_ToDate";
-            this.dateTimePickerFinancialReport_ToDate.Size = new System.Drawing.Size(218, 31);
-            this.dateTimePickerFinancialReport_ToDate.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(624, 42);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(121, 25);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "С этой даты: ";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(939, 42);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(150, 25);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "И до этой даты: ";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonFinancialReport_GetReports
-            // 
-            this.buttonFinancialReport_GetReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFinancialReport_GetReports.Location = new System.Drawing.Point(739, 139);
-            this.buttonFinancialReport_GetReports.Name = "buttonFinancialReport_GetReports";
-            this.buttonFinancialReport_GetReports.Size = new System.Drawing.Size(223, 67);
-            this.buttonFinancialReport_GetReports.TabIndex = 20;
-            this.buttonFinancialReport_GetReports.Text = "Получить финансовый\r\nотчёт по датам";
-            this.buttonFinancialReport_GetReports.UseVisualStyleBackColor = true;
-            this.buttonFinancialReport_GetReports.Click += new System.EventHandler(this.buttonFinancialReport_GetReports_Click);
-            // 
-            // labelFinancialReport_PotentionalSalary
-            // 
-            this.labelFinancialReport_PotentionalSalary.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFinancialReport_PotentionalSalary.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelFinancialReport_PotentionalSalary.Location = new System.Drawing.Point(892, 273);
-            this.labelFinancialReport_PotentionalSalary.Name = "labelFinancialReport_PotentionalSalary";
-            this.labelFinancialReport_PotentionalSalary.Size = new System.Drawing.Size(253, 56);
-            this.labelFinancialReport_PotentionalSalary.TabIndex = 25;
-            this.labelFinancialReport_PotentionalSalary.Text = "0";
-            this.labelFinancialReport_PotentionalSalary.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelFinancialReport_PotentionalSalary.Click += new System.EventHandler(this.labelFinancialReport_PotentionalSalary_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(543, 238);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(296, 140);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "Потенциальный доход\r\nпо выбранным датам\r\n(учитывая автомобили\r\nна обслуживании, \r" +
-    "\nкоторые не закончены пока):";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelFinancialReport_AvailableSalary
-            // 
-            this.labelFinancialReport_AvailableSalary.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFinancialReport_AvailableSalary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.labelFinancialReport_AvailableSalary.Location = new System.Drawing.Point(892, 435);
-            this.labelFinancialReport_AvailableSalary.Name = "labelFinancialReport_AvailableSalary";
-            this.labelFinancialReport_AvailableSalary.Size = new System.Drawing.Size(253, 56);
-            this.labelFinancialReport_AvailableSalary.TabIndex = 27;
-            this.labelFinancialReport_AvailableSalary.Text = "0";
-            this.labelFinancialReport_AvailableSalary.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelFinancialReport_AvailableSalary.Click += new System.EventHandler(this.labelFinancialReport_AvailableSalary_Click);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(581, 428);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(218, 84);
-            this.label26.TabIndex = 26;
-            this.label26.Text = "Доступный доход\r\nпо выбранным датам\r\n(без обслуживания):";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // toolTipUsersManagement_FindInTheTable
             // 
             this.toolTipUsersManagement_FindInTheTable.AutomaticDelay = 250;
@@ -1638,16 +1708,28 @@ namespace OOP_CourseWork
             this.toolTipMakeServiceReport_HideOrShowCar.ReshowDelay = 50;
             this.toolTipMakeServiceReport_HideOrShowCar.ToolTipTitle = "Спрятать или показать автомобиль";
             // 
-            // labelFinancialReport_ClickThisNumberToCopyIt
+            // labelUsernameText
             // 
-            this.labelFinancialReport_ClickThisNumberToCopyIt.AutoSize = true;
-            this.labelFinancialReport_ClickThisNumberToCopyIt.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labelFinancialReport_ClickThisNumberToCopyIt.Location = new System.Drawing.Point(681, 540);
-            this.labelFinancialReport_ClickThisNumberToCopyIt.Name = "labelFinancialReport_ClickThisNumberToCopyIt";
-            this.labelFinancialReport_ClickThisNumberToCopyIt.Size = new System.Drawing.Size(380, 25);
-            this.labelFinancialReport_ClickThisNumberToCopyIt.TabIndex = 28;
-            this.labelFinancialReport_ClickThisNumberToCopyIt.Text = "Нажмите на число, чтобы его скопировать";
-            this.labelFinancialReport_ClickThisNumberToCopyIt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelUsernameText.AutoSize = true;
+            this.labelUsernameText.BackColor = System.Drawing.Color.Transparent;
+            this.labelUsernameText.Location = new System.Drawing.Point(1372, 5);
+            this.labelUsernameText.Name = "labelUsernameText";
+            this.labelUsernameText.Size = new System.Drawing.Size(223, 25);
+            this.labelUsernameText.TabIndex = 44;
+            this.labelUsernameText.Text = "Ваше имя пользователя:";
+            this.labelUsernameText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.BackColor = System.Drawing.Color.Transparent;
+            this.labelUsername.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUsername.ForeColor = System.Drawing.Color.ForestGreen;
+            this.labelUsername.Location = new System.Drawing.Point(1601, 5);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(200, 25);
+            this.labelUsername.TabIndex = 45;
+            this.labelUsername.Text = "User";
+            this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AdminForm
             // 
@@ -1655,6 +1737,8 @@ namespace OOP_CourseWork
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(1813, 644);
+            this.Controls.Add(this.labelUsername);
+            this.Controls.Add(this.labelUsernameText);
             this.Controls.Add(this.tabControlAdmin);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1685,6 +1769,7 @@ namespace OOP_CourseWork
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1711,12 +1796,12 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ColumnHeader columnHeaderUsersManagement_ID;
         private System.Windows.Forms.ColumnHeader columnHeaderUsersManagement_SpaceColumn;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripListViewUsersManagement;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_CardNumber;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_CreatedDate;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_Cost;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_IsFinished;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewPayments_Copy_IsCancelled;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_ID;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_Username;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_FullName;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_Email;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber;
         private System.Windows.Forms.ImageList imageListTabControlAdmin;
         private System.Windows.Forms.ListView listViewServiceReportList;
         private System.Windows.Forms.ColumnHeader columnHeaderServiceReportList_SpaceColumn;
@@ -1832,6 +1917,13 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ToolTip toolTipSettings_Password;
         private System.Windows.Forms.ToolTip toolTipMakeServiceReport_HideOrShowCar;
         private System.Windows.Forms.Label labelFinancialReport_ClickThisNumberToCopyIt;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox comboBoxMakeServiceReport_AddOrEditCarMode;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_Role;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewUsersManagement_Copy_Deactivated;
+        private System.Windows.Forms.Label labelUsernameText;
+        private System.Windows.Forms.Label labelUsername;
     }
 }
 

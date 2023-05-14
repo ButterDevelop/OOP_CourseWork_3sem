@@ -96,7 +96,7 @@ namespace OOP_CourseWork.Models
             get
             {
                 if (_worker is null) return 0;
-                return (_plannedCompletionDays * _worker.SalaryPerDay) + _additionalCost;
+                return (_plannedCompletionDays * Employee.SalaryPerDay) + _additionalCost;
             }
         }
 
@@ -220,6 +220,11 @@ namespace OOP_CourseWork.Models
                                                                   AdditionalCost,
                                                                   null);
             SaveLoadControl.BankTransactions.Add(bankTransaction);
+
+            Worker.DaysWorked += _plannedCompletionDays;
+            Worker.OrderProccessed += 1;
+
+            Worker.PaySalary();
         }
 
         public bool IncreaseAdditionalCost(double amount)

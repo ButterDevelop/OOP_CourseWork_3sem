@@ -20,6 +20,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace OOP_CourseWork
 {
@@ -68,10 +70,14 @@ namespace OOP_CourseWork
 
             this.FormClosing += AdminForm_FormClosing;
 
-            dateTimePickerFinancialReport_FromDate.Value = DateTime.Today;
-            dateTimePickerFinancialReport_ToDate.Value = DateTime.Today.AddDays(1).AddSeconds(-1);
+            dateTimePickerFinancialReport_FromDate.Value = DateTime.Today.AddDays(-DateTime.Today.Day + 1);
+            dateTimePickerFinancialReport_ToDate.Value = DateTime.Today.AddDays(-DateTime.Today.Day + 1 + DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).AddSeconds(-1);
 
             textBoxUsersManagement_FindInTheTable.GotFocus += TextBoxUsersManagement_FindInTheTable_GotFocus;
+
+            comboBoxMakeServiceReport_AddOrEditCarMode.SelectedIndex = 0;
+
+            labelUsername.Text = SaveLoadControl.CurrentUser.UserName;
 
             CarsOrderImages = UtilsControl.LoadCarsOrderImages();
         }
@@ -92,18 +98,6 @@ namespace OOP_CourseWork
         private void AdminForm_Load(object sender, EventArgs e)
         {
             RefreshServiceReportList();
-            
-            if (!SaveLoadControl.CurrentUser.IsAccountSetupCompleted) tabControlAdmin.SelectTab(3); //Переходим на вкладку "Настройки"
-            tabControlAdmin.Deselecting += TabControlAdmin_Deselecting;
-        }
-
-        private void TabControlAdmin_Deselecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (!SaveLoadControl.CurrentUser.IsAccountSetupCompleted) //Если аккаунт не подтверждён
-            {
-                e.Cancel = true; //Отмена перехода по вкладке
-                MessageBox.Show("Чтобы пользоваться сервисом, Вам нужно сначала подтвердить свой аккаунт. Сделать это можно в настройках.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void TabControlAdmin_SelectedIndexChanged(object sender, EventArgs e)
@@ -465,7 +459,7 @@ namespace OOP_CourseWork
             RefreshUsersManagementList();
         }
 
-        private void toolStripMenuItemListView_Copy_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_Copy_Click(object sender, EventArgs e)
         {
             try
             {
@@ -473,20 +467,23 @@ namespace OOP_CourseWork
                 var selectedItems = listViewUsersManagement.SelectedItems;
                 foreach (ListViewItem item in selectedItems)
                 {
-                    result += item.SubItems[1].Text + "\t" + 
-                              item.SubItems[2].Text + "\t" + 
-                              item.SubItems[3].Text + "\t" + 
-                              item.SubItems[4].Text + "\t" + 
-                              item.SubItems[5].Text;
+                    result += item.SubItems[1].Text + "\t" +
+                              item.SubItems[2].Text + "\t" +
+                              item.SubItems[3].Text + "\t" +
+                              item.SubItems[4].Text + "\t" +
+                              item.SubItems[5].Text + "\t" +
+                              item.SubItems[6].Text + "\t" +
+                              item.SubItems[7].Text + "\t" +
+                              item.SubItems[8].Text;
                     if (selectedItems.Count > 1) result += Environment.NewLine;
                 }
-                
+
                 Clipboard.SetText(result);
             }
             catch { }
         }
 
-        private void toolStripMenuItemListView_Copy_CardNumber_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_Copy_ID_Click(object sender, EventArgs e)
         {
             try
             {
@@ -502,7 +499,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListView_Copy_CreatedDate_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_Copy_Username_Click(object sender, EventArgs e)
         {
             try
             {
@@ -518,7 +515,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListView_Copy_Cost_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_FullName_Click(object sender, EventArgs e)
         {
             try
             {
@@ -534,7 +531,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListView_Copy_IsFinished_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_Copy_Email_Click(object sender, EventArgs e)
         {
             try
             {
@@ -550,7 +547,7 @@ namespace OOP_CourseWork
             catch { }
         }
 
-        private void toolStripMenuItemListView_Copy_IsCancelled_Click(object sender, EventArgs e)
+        private void toolStripMenuItemListViewUsersManagement_Copy_PhoneNumber_Click(object sender, EventArgs e)
         {
             try
             {
@@ -566,6 +563,54 @@ namespace OOP_CourseWork
             catch { }
         }
 
+        private void toolStripMenuItemListViewUsersManagement_Copy_Role_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewUsersManagement.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[6].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewUsersManagement_Copy_AccountSetupCompleted_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewUsersManagement.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[7].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+
+        private void toolStripMenuItemListViewUsersManagement_Copy_Deactivated_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string result = "";
+                var selectedItems = listViewUsersManagement.SelectedItems;
+                foreach (ListViewItem item in selectedItems)
+                {
+                    result += item.SubItems[8].Text;
+                    if (selectedItems.Count > 1) result += Environment.NewLine;
+                }
+                Clipboard.SetText(result);
+            }
+            catch { }
+        }
+        
         #endregion
 
         #region Make Service Report
@@ -609,6 +654,7 @@ namespace OOP_CourseWork
 
         private void ListViewMakeServiceReport_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
+            buttonMakeServiceReport_AddNewCar.Enabled = true;
             if (listViewMakeServiceReport.SelectedItems.Count != 0)
             {
                 if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
@@ -629,11 +675,23 @@ namespace OOP_CourseWork
                 else
                     buttonMakeServiceReport_HideShowCar.Text = "Показать авто";
 
+                if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Изменить"))
+                {
+                    pictureBoxMakeServiceReport_AddNewCarPicture.Image = new Bitmap(CarsOrderImages[car.Id], pictureBoxMakeServiceReport_CarPicture.Size);
+                    AddNewCarImagePath = $"images\\car_{car.Id}.png";
+                    textBoxMakeMakeServiceReport_NewCarBrand.Text = SaveLoadControl.Cars[carId].Brand;
+                    textBoxMakeMakeServiceReport_NewCarModel.Text = SaveLoadControl.Cars[carId].Model;
+                    textBoxMakeMakeServiceReport_NewCarLicensePlate.Text = SaveLoadControl.Cars[carId].CarLicensePlate;
+                    textBoxMakeMakeServiceReport_NewCarPricePerHour.Text = SaveLoadControl.Cars[carId].PricePerHour.ToString().Replace(",", ".");
+                    textBoxMakeMakeServiceReport_NewCarProductionYear.Text = SaveLoadControl.Cars[carId].ProductionYear.ToString("yyyy");
+                }
+
                 pictureBoxMakeServiceReport_CarPicture.Image = new Bitmap(CarsOrderImages[car.Id], pictureBoxMakeServiceReport_CarPicture.Size);
             }
             else
             {
                 ListViewMakeServiceReport_ItemSelectionChanged_SetDefault();
+                if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Изменить")) buttonMakeServiceReport_AddNewCar.Enabled = false;
             }
         }
 
@@ -781,7 +839,7 @@ namespace OOP_CourseWork
             Image image;
             try
             {
-                image = Image.FromFile(openFileDialog.FileName);
+                image = UtilsControl.LoadImageFromFileSafely(openFileDialog.FileName);
             }
             catch
             {
@@ -814,17 +872,17 @@ namespace OOP_CourseWork
                 textBoxMakeMakeServiceReport_NewCarProductionYear.BackColor == DeniedColor ||
                 textBoxMakeMakeServiceReport_NewCarLicensePlate.BackColor == DeniedColor)
             {
-                MessageBox.Show("Вы ввели что-то не то! Попробуйте ещё раз!", "Ошибка при добавлении авто!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Вы ввели что-то не то! Попробуйте ещё раз!", "Ошибка при добавлении или изменении авто!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (pictureBoxMakeServiceReport_AddNewCarPicture.Image is null)
             {
-                MessageBox.Show("Вы не добавили фотографию для автомобиля!", "Ошибка при добавлении авто!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Вы не добавили фотографию для автомобиля!", "Ошибка при добавлении или изменении авто!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var result = MessageBox.Show("Вы уверены, что хотите добавить этот автомобиль в систему? Пожалуйста, перепроверьте данные.", "Подтверждение добавления автомобиля.", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show("Вы уверены, что хотите добавить или изменить этот автомобиль в системе? Пожалуйста, перепроверьте данные.", "Подтверждение добавления или изменения автомобиля.", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
 
             if (!File.Exists(AddNewCarImagePath))
@@ -833,7 +891,7 @@ namespace OOP_CourseWork
                 return;
             }
 
-            Car car = new Car(SaveLoadControl.Cars.Count, 
+            Car newCar = new Car(SaveLoadControl.Cars.Count, 
                               textBoxMakeMakeServiceReport_NewCarBrand.Text,
                               textBoxMakeMakeServiceReport_NewCarModel.Text,
                               textBoxMakeMakeServiceReport_NewCarLicensePlate.Text,
@@ -845,24 +903,74 @@ namespace OOP_CourseWork
 
             try
             {
-                Image image = new Bitmap(Image.FromFile(AddNewCarImagePath), pictureBoxMakeServiceReport_AddNewCarPicture.Size);
-                string path = $"images\\car_{car.Id}.png";
-                image.Save(path);
-                CarsOrderImages.Add(Image.FromFile(path));
+                Image image = new Bitmap(UtilsControl.LoadImageFromFileSafely(AddNewCarImagePath), pictureBoxMakeServiceReport_AddNewCarPicture.Size);
+                if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Добавить"))
+                {
+                    string path = $"images\\car_{newCar.Id}.png";
+                    image.Save(path);
+                    CarsOrderImages.Add(UtilsControl.LoadImageFromFileSafely(path));
+                }
+                else
+                {
+                    if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
+                    var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
+                    var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
+                    if (car is null) return;
+
+                    string path = $"images\\car_{car.Id}.png";
+                    if (File.Exists(path)) File.Delete(path);
+                    image.Save(path);
+
+                    CarsOrderImages[carId] = UtilsControl.LoadImageFromFileSafely(path);
+                }
             }
-            catch
+            catch (Exception ex)
             {
                 MessageBox.Show("Не удалось загрузить заданную Вами фотографию!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            SaveLoadControl.Cars.Add(car);
+            if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Добавить"))
+            {
+                SaveLoadControl.Cars.Add(newCar);
+            }
+            else
+            {
+                if (listViewMakeServiceReport.SelectedItems[0].Tag is null) return;
+                var carId = (int)listViewMakeServiceReport.SelectedItems[0].Tag;
+                var car = SaveLoadControl.Cars.FirstOrDefault(x => x.Id == carId);
+                if (car is null) return;
+
+                SaveLoadControl.Cars[carId].Brand = textBoxMakeMakeServiceReport_NewCarBrand.Text;
+                SaveLoadControl.Cars[carId].Model = textBoxMakeMakeServiceReport_NewCarModel.Text;
+                SaveLoadControl.Cars[carId].CarLicensePlate = textBoxMakeMakeServiceReport_NewCarLicensePlate.Text;
+                SaveLoadControl.Cars[carId].PricePerHour = double.Parse(textBoxMakeMakeServiceReport_NewCarPricePerHour.Text.Replace(".", ","));
+                SaveLoadControl.Cars[carId].ProductionYear = new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1);
+
+                listViewMakeServiceReport.SelectedItems.Clear();
+                ListViewMakeServiceReport_ItemSelectionChanged(null, null);
+            }
 
             MakeServiceReport_AddNewCar_SetDefault();
 
             RefreshMakeServiceReport();
 
-            MessageBox.Show("Автомобиль был успешно добавлен в систему!", "Успешное добавление автомобиля!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Автомобиль был успешно добавлен или изменён в системе!", "Успешное добавление или изменение автомобиля!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void comboBoxMakeServiceReport_AddOrEditCarMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listViewMakeServiceReport.SelectedItems.Clear();
+            ListViewMakeServiceReport_ItemSelectionChanged(null, null);
+            if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Добавить"))
+            {
+                MakeServiceReport_AddNewCar_SetDefault();
+                buttonMakeServiceReport_AddNewCar.Text = "Добавить авто";
+            }
+            else
+            {
+                buttonMakeServiceReport_AddNewCar.Text = "Изменить авто";
+            }
         }
 
         private void buttonMakeServiceReport_HideShowCar_Click(object sender, EventArgs e)
@@ -1069,7 +1177,7 @@ namespace OOP_CourseWork
                 arr[0] = ""; 
                 arr[1] = report.Id.ToString();
                 arr[2] = report.Worker is null ? "Пока никто не взялся" : report.Worker.FullName.ToString();
-                arr[3] = report.Worker is null ? "Пока никто не взялся" : report.Worker.SalaryPerDay.ToString("N2").Replace(",", ".");
+                arr[3] = report.Worker is null ? "Пока никто не взялся" : Employee.SalaryPerDay.ToString("N2").Replace(",", ".");
                 arr[4] = report.StartedDate.ToString();
                 arr[5] = report.PlannedCompletionDays == 0 ? "Не выставлено" : report.PlannedCompletionDays.ToString();
                 arr[6] = report.FinishedDate == DateTime.MinValue ? "Не выставлено" : report.FinishedDate.ToString();

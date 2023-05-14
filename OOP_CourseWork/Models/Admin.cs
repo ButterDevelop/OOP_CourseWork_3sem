@@ -61,7 +61,7 @@ namespace OOP_CourseWork.Models
         {
             var serviceTransactions = SaveLoadControl.ServiceReports.Where(x => x.StartedDate >= date1 &&
                                                                                  ((x.FinishedDate == DateTime.MinValue && x.StartedDate.AddDays(x.PlannedCompletionDays) <= date2)
-                                                                                 || (x.FinishedDate != DateTime.MinValue && x.FinishedDate <= date2)));
+                                                                                 /*|| (x.FinishedDate != DateTime.MinValue && x.FinishedDate <= date2)*/));
 
             return GetFinancialReport(date1, date2) - serviceTransactions.Sum(x => x.Cost);
         }

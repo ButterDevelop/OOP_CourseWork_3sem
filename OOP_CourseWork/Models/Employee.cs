@@ -12,13 +12,15 @@ namespace OOP_CourseWork.Models
 {
     internal class Employee : User
     {
+        public static double SalaryPerDay = 100;
+
         private int      _ordersProccessed;
         private int      _daysWorked;
         private DateTime _dateHired;
         private DateTime _dateFired;
         private DateTime _dateLastSalaryPayed;
         private string   _bankAccountNumber;
-        private double   _salaryPerDay;
+        private double   _totalSalaryPayed;
         private bool     _isWorkingNow;
 
         public Employee() : base() 
@@ -27,7 +29,7 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerDay = 0;
+            _totalSalaryPayed = 0;
             _isWorkingNow = true;
         }
 
@@ -38,7 +40,7 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerDay = 0;
+            _totalSalaryPayed = 0;
             _isWorkingNow = true;
         }
 
@@ -49,12 +51,12 @@ namespace OOP_CourseWork.Models
             _dateHired = DateTime.Now;
             _dateFired = DateTime.MinValue;
             _bankAccountNumber = string.Empty;
-            _salaryPerDay = 0;
+            _totalSalaryPayed = 0;
             _isWorkingNow = true;
         }
 
         public Employee(int id, string username, string salt, string hashedPassword, string fullname, string email, string phone, bool isAccountSetupCompleted, bool accountDeactivated,
-                        int ordersProccessed, int daysWorked, DateTime dateHired, DateTime dateFired, string bankAccountNumber, double salaryPerHour, bool isWorkingNow) 
+                        int ordersProccessed, int daysWorked, DateTime dateHired, DateTime dateFired, string bankAccountNumber, double totalSalaryPayed, bool isWorkingNow) 
             : base(id, username, salt, hashedPassword, fullname, email, phone, RolesContainer.Employee, isAccountSetupCompleted, accountDeactivated)
         {
             _ordersProccessed = ordersProccessed;
@@ -62,7 +64,7 @@ namespace OOP_CourseWork.Models
             _dateHired = dateHired;
             _dateFired = dateFired;
             _bankAccountNumber = bankAccountNumber;
-            _salaryPerDay = salaryPerHour;
+            _totalSalaryPayed = totalSalaryPayed;
             _isWorkingNow = isWorkingNow;
         }
 
@@ -138,6 +140,18 @@ namespace OOP_CourseWork.Models
             }
         }
 
+        public double TotalSalaryPayed
+        {
+            get
+            {
+                return _totalSalaryPayed;
+            }
+            set
+            {
+                _totalSalaryPayed = value;
+            }
+        }
+
         public bool IsWorkingNow
         {
             get
@@ -150,24 +164,12 @@ namespace OOP_CourseWork.Models
             }
         }
 
-        public double SalaryPerDay
-        {
-            get
-            {
-                return _salaryPerDay;
-            }
-            set
-            {
-                _salaryPerDay = value;
-            }
-        }
-
         [JsonIgnore]
         public double Salary
         {
             get
             {
-                return (_salaryPerDay * _daysWorked) + _ordersProccessed;
+                return SalaryPerDay * _daysWorked;
             }
         }
 
@@ -210,6 +212,7 @@ namespace OOP_CourseWork.Models
 
             if (!bankTransaction.Debit(BankTransaction.OurOrganizationSecretCode)) return false;
 
+            _totalSalaryPayed += Salary;
             _daysWorked = 0;
             _ordersProccessed = 0;
             _dateLastSalaryPayed = DateTime.Now;

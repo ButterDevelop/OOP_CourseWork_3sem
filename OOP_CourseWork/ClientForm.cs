@@ -70,6 +70,8 @@ namespace OOP_CourseWork
 
             this.FormClosing += ClientForm_FormClosing;
 
+            labelUsername.Text = SaveLoadControl.CurrentUser.UserName;
+
             CarsOrderImages = UtilsControl.LoadCarsOrderImages();
         }
 
@@ -250,7 +252,7 @@ namespace OOP_CourseWork
                 textBoxSettings_Email.BackColor == DeniedColor ||
                 maskedTextBoxSettings_PhoneNumber.BackColor == DeniedColor)
             {
-                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка смены пароля!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка смены настроек!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -600,7 +602,7 @@ namespace OOP_CourseWork
             imageListLarge.ImageSize = ImageSize;
             for (int i = 0; i < cars.Count(); i++)
             {
-                Image image = new Bitmap(CarsOrderImages[i], ImageSize);
+                Image image = new Bitmap(CarsOrderImages[cars[i].Id], ImageSize);
                 
                 if (SaveLoadControl.Cars[cars[i].Id].IsOnServiceNow)
                 {

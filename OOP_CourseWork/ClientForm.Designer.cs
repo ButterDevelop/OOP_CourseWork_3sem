@@ -142,6 +142,8 @@ namespace OOP_CourseWork
             this.toolTipOrderBookingDateTime = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderBookingEndDateTime = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipOrderListCarPicture = new System.Windows.Forms.ToolTip(this.components);
+            this.labelUsernameText = new System.Windows.Forms.Label();
+            this.labelUsername = new System.Windows.Forms.Label();
             this.tabControlClient.SuspendLayout();
             this.tabPageOrdersList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCarPicture)).BeginInit();
@@ -901,6 +903,8 @@ namespace OOP_CourseWork
             // 
             this.tabPageSettings.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageSettings.Controls.Add(this.labelUsernameText);
+            this.tabPageSettings.Controls.Add(this.labelUsername);
             this.tabPageSettings.Controls.Add(this.textBoxSettings_Password);
             this.tabPageSettings.Controls.Add(this.label6);
             this.tabPageSettings.Controls.Add(this.textBoxSettings_DriverLicense);
@@ -938,7 +942,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_Password.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_Password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_Password.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Password.Location = new System.Drawing.Point(85, 66);
+            this.textBoxSettings_Password.Location = new System.Drawing.Point(86, 66);
             this.textBoxSettings_Password.Name = "textBoxSettings_Password";
             this.textBoxSettings_Password.Size = new System.Drawing.Size(300, 31);
             this.textBoxSettings_Password.TabIndex = 0;
@@ -951,7 +955,7 @@ namespace OOP_CourseWork
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(111, 115);
+            this.label6.Location = new System.Drawing.Point(112, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(242, 25);
             this.label6.TabIndex = 26;
@@ -964,7 +968,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_DriverLicense.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_DriverLicense.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxSettings_DriverLicense.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.textBoxSettings_DriverLicense.Location = new System.Drawing.Point(85, 143);
+            this.textBoxSettings_DriverLicense.Location = new System.Drawing.Point(86, 143);
             this.textBoxSettings_DriverLicense.Name = "textBoxSettings_DriverLicense";
             this.textBoxSettings_DriverLicense.Size = new System.Drawing.Size(300, 31);
             this.textBoxSettings_DriverLicense.TabIndex = 1;
@@ -976,7 +980,7 @@ namespace OOP_CourseWork
             this.maskedTextBoxSettings_PhoneNumber.BackColor = System.Drawing.Color.AliceBlue;
             this.maskedTextBoxSettings_PhoneNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.maskedTextBoxSettings_PhoneNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.maskedTextBoxSettings_PhoneNumber.Location = new System.Drawing.Point(85, 445);
+            this.maskedTextBoxSettings_PhoneNumber.Location = new System.Drawing.Point(86, 445);
             this.maskedTextBoxSettings_PhoneNumber.Mask = "+375 (99) 000-00-00";
             this.maskedTextBoxSettings_PhoneNumber.Name = "maskedTextBoxSettings_PhoneNumber";
             this.maskedTextBoxSettings_PhoneNumber.Size = new System.Drawing.Size(300, 31);
@@ -1106,7 +1110,7 @@ namespace OOP_CourseWork
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(157, 417);
+            this.label3.Location = new System.Drawing.Point(158, 417);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(166, 25);
             this.label3.TabIndex = 16;
@@ -1117,7 +1121,7 @@ namespace OOP_CourseWork
             // 
             this.labelEmail.AutoSize = true;
             this.labelEmail.BackColor = System.Drawing.Color.Transparent;
-            this.labelEmail.Location = new System.Drawing.Point(200, 348);
+            this.labelEmail.Location = new System.Drawing.Point(201, 348);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(60, 25);
             this.labelEmail.TabIndex = 15;
@@ -1129,7 +1133,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_Email.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_Email.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_Email.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Email.Location = new System.Drawing.Point(85, 376);
+            this.textBoxSettings_Email.Location = new System.Drawing.Point(86, 376);
             this.textBoxSettings_Email.Name = "textBoxSettings_Email";
             this.textBoxSettings_Email.Size = new System.Drawing.Size(300, 31);
             this.textBoxSettings_Email.TabIndex = 4;
@@ -1140,7 +1144,7 @@ namespace OOP_CourseWork
             // 
             this.buttonSettings_DeactivateMyAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSettings_DeactivateMyAccount.ForeColor = System.Drawing.Color.IndianRed;
-            this.buttonSettings_DeactivateMyAccount.Location = new System.Drawing.Point(616, 515);
+            this.buttonSettings_DeactivateMyAccount.Location = new System.Drawing.Point(616, 506);
             this.buttonSettings_DeactivateMyAccount.Name = "buttonSettings_DeactivateMyAccount";
             this.buttonSettings_DeactivateMyAccount.Size = new System.Drawing.Size(231, 43);
             this.buttonSettings_DeactivateMyAccount.TabIndex = 11;
@@ -1151,7 +1155,7 @@ namespace OOP_CourseWork
             // buttonSettings_Save
             // 
             this.buttonSettings_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSettings_Save.Location = new System.Drawing.Point(154, 506);
+            this.buttonSettings_Save.Location = new System.Drawing.Point(155, 506);
             this.buttonSettings_Save.Name = "buttonSettings_Save";
             this.buttonSettings_Save.Size = new System.Drawing.Size(169, 61);
             this.buttonSettings_Save.TabIndex = 6;
@@ -1163,7 +1167,7 @@ namespace OOP_CourseWork
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(110, 266);
+            this.label1.Location = new System.Drawing.Point(111, 266);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(255, 25);
             this.label1.TabIndex = 9;
@@ -1175,7 +1179,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_CardNumber.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_CardNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_CardNumber.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_CardNumber.Location = new System.Drawing.Point(85, 296);
+            this.textBoxSettings_CardNumber.Location = new System.Drawing.Point(86, 296);
             this.textBoxSettings_CardNumber.Name = "textBoxSettings_CardNumber";
             this.textBoxSettings_CardNumber.Size = new System.Drawing.Size(300, 31);
             this.textBoxSettings_CardNumber.TabIndex = 3;
@@ -1186,7 +1190,7 @@ namespace OOP_CourseWork
             // 
             this.labelPassport.AutoSize = true;
             this.labelPassport.BackColor = System.Drawing.Color.Transparent;
-            this.labelPassport.Location = new System.Drawing.Point(136, 188);
+            this.labelPassport.Location = new System.Drawing.Point(137, 188);
             this.labelPassport.Name = "labelPassport";
             this.labelPassport.Size = new System.Drawing.Size(197, 25);
             this.labelPassport.TabIndex = 7;
@@ -1198,7 +1202,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_Passport.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_Passport.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_Passport.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_Passport.Location = new System.Drawing.Point(85, 216);
+            this.textBoxSettings_Passport.Location = new System.Drawing.Point(86, 216);
             this.textBoxSettings_Passport.Name = "textBoxSettings_Passport";
             this.textBoxSettings_Passport.Size = new System.Drawing.Size(300, 31);
             this.textBoxSettings_Passport.TabIndex = 2;
@@ -1210,7 +1214,7 @@ namespace OOP_CourseWork
             this.labelDriverLicense.AutoSize = true;
             this.labelDriverLicense.BackColor = System.Drawing.Color.Transparent;
             this.labelDriverLicense.ForeColor = System.Drawing.Color.Black;
-            this.labelDriverLicense.Location = new System.Drawing.Point(174, 38);
+            this.labelDriverLicense.Location = new System.Drawing.Point(175, 38);
             this.labelDriverLicense.Name = "labelDriverLicense";
             this.labelDriverLicense.Size = new System.Drawing.Size(118, 25);
             this.labelDriverLicense.TabIndex = 5;
@@ -1328,6 +1332,29 @@ namespace OOP_CourseWork
             this.toolTipOrderListCarPicture.InitialDelay = 250;
             this.toolTipOrderListCarPicture.ReshowDelay = 50;
             this.toolTipOrderListCarPicture.ToolTipTitle = "Время окончания";
+            // 
+            // labelUsernameText
+            // 
+            this.labelUsernameText.AutoSize = true;
+            this.labelUsernameText.BackColor = System.Drawing.Color.Transparent;
+            this.labelUsernameText.Location = new System.Drawing.Point(518, 565);
+            this.labelUsernameText.Name = "labelUsernameText";
+            this.labelUsernameText.Size = new System.Drawing.Size(223, 25);
+            this.labelUsernameText.TabIndex = 44;
+            this.labelUsernameText.Text = "Ваше имя пользователя:";
+            this.labelUsernameText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.BackColor = System.Drawing.Color.Transparent;
+            this.labelUsername.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUsername.ForeColor = System.Drawing.Color.ForestGreen;
+            this.labelUsername.Location = new System.Drawing.Point(747, 565);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(200, 25);
+            this.labelUsername.TabIndex = 45;
+            this.labelUsername.Text = "User";
+            this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ClientForm
             // 
@@ -1478,6 +1505,8 @@ namespace OOP_CourseWork
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_OrderCost;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemListViewOrderList_Copy_ID;
         private System.Windows.Forms.Button buttonOrderList_ExtendTheOrder;
+        private System.Windows.Forms.Label labelUsernameText;
+        private System.Windows.Forms.Label labelUsername;
     }
 }
 
