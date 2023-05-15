@@ -1,9 +1,6 @@
 ﻿using OOP_CourseWork.Controls;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OOP_CourseWork.Models
 {
@@ -60,8 +57,8 @@ namespace OOP_CourseWork.Models
         public double GetPotentionalFinancialReport(DateTime date1, DateTime date2)
         {
             var serviceTransactions = SaveLoadControl.ServiceReports.Where(x => x.StartedDate >= date1 &&
-                                                                                 ((x.FinishedDate == DateTime.MinValue && x.StartedDate.AddDays(x.PlannedCompletionDays) <= date2)
-                                                                                 /*|| (x.FinishedDate != DateTime.MinValue && x.FinishedDate <= date2)*/));
+                                                                                x.FinishedDate == DateTime.MinValue && 
+                                                                                x.StartedDate.AddDays(x.PlannedCompletionDays) <= date2);
 
             return GetFinancialReport(date1, date2) - serviceTransactions.Sum(x => x.Cost);
         }

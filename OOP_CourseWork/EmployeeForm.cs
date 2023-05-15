@@ -3,25 +3,10 @@ using OOP_CourseWork.Controls;
 using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace OOP_CourseWork
 {
@@ -29,7 +14,6 @@ namespace OOP_CourseWork
     {
         public static readonly Color AllowedColor = Color.AliceBlue;
         public static readonly Color DeniedColor = Color.FromArgb(255, 200, 220);
-        public Size ImageSize = new Size(252, 168);
         public static List<Image> CarsOrderImages = new List<Image>();
         public static string AddNewCarImagePath = "";
 
@@ -119,13 +103,33 @@ namespace OOP_CourseWork
             }
         }
 
+        private void textBoxSettings_Password_TextChanged(object sender, EventArgs e)
+        {
+            if (UtilsControl.CheckPasswordStrength(textBoxSettings_Password.Text) < UtilsControl.PasswordScore.Medium)
+            {
+                textBoxSettings_Password.BackColor = DeniedColor;
+            }
+            else
+            {
+                textBoxSettings_Password.BackColor = AllowedColor;
+            }
+        }
+
         private void buttonSettings_Save_Click(object sender, EventArgs e)
         {
+            textBoxSettings_Password_TextChanged(null, null);
             textBoxSettings_CardNumber_TextChanged(null, null);
 
-            if (textBoxSettings_CardNumber.BackColor == DeniedColor)
+            if (textBoxSettings_CardNumber.BackColor == DeniedColor ||
+                textBoxSettings_Password.BackColor == DeniedColor)
             {
                 MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка смены настроек!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!SaveLoadControl.CurrentUser.IsPasswordCorrect(textBoxSettings_Password.Text))
+            {
+                MessageBox.Show("Вы ввели неверный пароль! Нельзя изменить настройки!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

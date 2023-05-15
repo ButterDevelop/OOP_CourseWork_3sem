@@ -1,27 +1,13 @@
-﻿using Microsoft.VisualBasic;
-using OOP_CourseWork.Controls;
+﻿using OOP_CourseWork.Controls;
 using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace OOP_CourseWork
 {
@@ -29,7 +15,6 @@ namespace OOP_CourseWork
     {
         public static readonly Color AllowedColor = Color.AliceBlue;
         public static readonly Color DeniedColor = Color.FromArgb(255, 200, 220);
-        public Size ImageSize = new Size(252, 168);
         public static List<Image> CarsOrderImages = new List<Image>();
         public static string AddNewCarImagePath = "";
 

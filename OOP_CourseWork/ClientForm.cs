@@ -3,20 +3,14 @@ using OOP_CourseWork.Controls;
 using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OOP_CourseWork
@@ -25,7 +19,7 @@ namespace OOP_CourseWork
     {
         public static readonly Color AllowedColor = Color.AliceBlue;
         public static readonly Color DeniedColor = Color.FromArgb(255, 200, 220);
-        public Size ImageSize = new Size(252, 168);
+        public Size ImageSize = new Size(240, 160);
         public static List<Image> CarsOrderImages = new List<Image>();
 
         public ClientForm()
@@ -758,10 +752,6 @@ namespace OOP_CourseWork
 
         public void RefreshOrderList()
         {
-            /*SaveLoadControl.Orders.Clear();
-            SaveLoadControl.Payments.Clear();
-            ((Client)SaveLoadControl.CurrentUser).BalanceIncrease(20);*/
-
             listViewOrderList.Items.Clear();
 
             var orders = SaveLoadControl.Orders.Where(x => x.OrderPayment.User.Id == SaveLoadControl.CurrentUser.Id)
@@ -826,7 +816,7 @@ namespace OOP_CourseWork
                 textBoxOrderList_ProductionYear.Text = order.OrderedCar.ProductionYear.ToString("yyyy");
                 textBoxOrderList_PricePerHour.Text = order.OrderedCar.PricePerHour.ToString("N2").Replace(",", ".");
                 textBoxOrderList_CarLicensePlate.Text = order.OrderedCar.CarLicensePlate;
-                textBoxOrderList_LastServiceDate.Text = order.OrderedCar.LastServiceTime.ToString("d");
+                textBoxOrderList_LastServiceDate.Text = order.OrderedCar.LastServiceTime == DateTime.MinValue ? "Пока не было" : order.OrderedCar.LastServiceTime.ToString("d");
             } else
             {
                 ListViewOrderList_ItemSelectionChanged_SetDefault();

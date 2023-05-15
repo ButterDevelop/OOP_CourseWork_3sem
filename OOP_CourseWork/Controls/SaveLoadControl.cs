@@ -3,14 +3,7 @@ using OOP_CourseWork.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace OOP_CourseWork.Controls
 {
@@ -19,8 +12,11 @@ namespace OOP_CourseWork.Controls
         public static readonly int SaveRefreshRateMilliseconds = 1000;
 
         private static readonly string DBPath = "db.json";
+        private static readonly string KeyPath = "enc.key";
         private static string oldDBString = "";
         private static JsonSerializerSettings settingsJSON = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        private static byte[] EncryptionKey;
+        private static byte[] EncryptionIV;
 
         public static List<User>            Users = new List<User>();                       //simple
         public static List<Car>             Cars = new List<Car>();                         //complicated
@@ -52,7 +48,7 @@ namespace OOP_CourseWork.Controls
             {
                 var json = GenerateDataForSaving();
                 if (json == "-1") return false;
-                File.WriteAllText(DBPath, json);
+                File.WriteAllText(DBPath, AesGcm256.encrypt(json, EncryptionKey, EncryptionIV));
 
                 return true;
             } catch
@@ -87,9 +83,11 @@ namespace OOP_CourseWork.Controls
         {
             try
             {
+                GetEncryptionKey();
+
                 string data = File.ReadAllText(DBPath);
-                oldDBString = data;
-                JSON_export.Root deserialized = JsonConvert.DeserializeObject<JSON_export.Root>(data, settingsJSON);
+                oldDBString = AesGcm256.decrypt(data, EncryptionKey, EncryptionIV);
+                JSON_export.Root deserialized = JsonConvert.DeserializeObject<JSON_export.Root>(oldDBString, settingsJSON);
 
                 Users = deserialized.Users;
                 Cars = deserialized.Cars;
@@ -118,6 +116,32 @@ namespace OOP_CourseWork.Controls
             {
                 return false;
             }
+        }
+
+        public static bool GetEncryptionKey()
+        {
+            if (!File.Exists(DBPath)) File.WriteAllText(DBPath, "");
+            if (!File.Exists(KeyPath) || !File.Exists(DBPath)) return false;
+
+            var lines = File.ReadAllLines(KeyPath);
+
+            if (lines.Length != 2) return false;
+
+            var key = Convert.FromBase64String(lines[0]);
+            var iv = Convert.FromBase64String(lines[1]);
+
+            if (key.Length != AesGcm256.KeyBitSize / 8 && iv.Length != AesGcm256.NonceBitSize / 8) return false;
+
+            EncryptionKey = key;
+            EncryptionIV = iv;
+
+            return true;
+        }
+
+        public static void CreateKeys()
+        {
+            File.WriteAllText(KeyPath, Convert.ToBase64String(AesGcm256.NewKey()) + Environment.NewLine);
+            File.AppendAllText(KeyPath, Convert.ToBase64String(AesGcm256.NewIv()));
         }
     }
 }

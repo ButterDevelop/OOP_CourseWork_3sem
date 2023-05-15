@@ -1,12 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OOP_CourseWork.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace OOP_CourseWork.Models
 {
@@ -221,6 +215,7 @@ namespace OOP_CourseWork.Models
                                                                   null);
             SaveLoadControl.BankTransactions.Add(bankTransaction);
 
+            ServicedCar.LastServiceTime = DateTime.Now;
             Worker.DaysWorked += _plannedCompletionDays;
             Worker.OrderProccessed += 1;
 

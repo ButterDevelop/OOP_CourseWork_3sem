@@ -81,6 +81,8 @@ namespace OOP_CourseWork
             this.toolStripMenuItemListViewServiceReportList_Copy_IsStarted = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemListViewServiceReportList_Copy_IsFinished = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.labelSettings_TotalSalaryPayed = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.buttonSettings_Save = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxSettings_CardNumber = new System.Windows.Forms.TextBox();
@@ -94,10 +96,10 @@ namespace OOP_CourseWork
             this.imageListTabControlEmployee = new System.Windows.Forms.ImageList(this.components);
             this.toolTipOrderListCarPicture = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSettings_Password = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelSettings_TotalSalaryPayed = new System.Windows.Forms.Label();
             this.labelUsernameText = new System.Windows.Forms.Label();
             this.labelUsername = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxSettings_Password = new System.Windows.Forms.TextBox();
             this.tabControlEmployee.SuspendLayout();
             this.tabPageServiceReportList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxServiceReportList_CarPicture)).BeginInit();
@@ -602,6 +604,8 @@ namespace OOP_CourseWork
             this.tabPageSettings.BackgroundImage = global::OOP_CourseWork.Properties.Resources.Background;
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabPageSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPageSettings.Controls.Add(this.label6);
+            this.tabPageSettings.Controls.Add(this.textBoxSettings_Password);
             this.tabPageSettings.Controls.Add(this.labelSettings_TotalSalaryPayed);
             this.tabPageSettings.Controls.Add(this.label1);
             this.tabPageSettings.Controls.Add(this.buttonSettings_Save);
@@ -622,6 +626,29 @@ namespace OOP_CourseWork
             this.tabPageSettings.Text = "Настройки ";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
+            // labelSettings_TotalSalaryPayed
+            // 
+            this.labelSettings_TotalSalaryPayed.BackColor = System.Drawing.Color.Transparent;
+            this.labelSettings_TotalSalaryPayed.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSettings_TotalSalaryPayed.ForeColor = System.Drawing.Color.SeaGreen;
+            this.labelSettings_TotalSalaryPayed.Location = new System.Drawing.Point(780, 547);
+            this.labelSettings_TotalSalaryPayed.Name = "labelSettings_TotalSalaryPayed";
+            this.labelSettings_TotalSalaryPayed.Size = new System.Drawing.Size(202, 42);
+            this.labelSettings_TotalSalaryPayed.TabIndex = 28;
+            this.labelSettings_TotalSalaryPayed.Text = "0";
+            this.labelSettings_TotalSalaryPayed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Location = new System.Drawing.Point(780, 522);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(202, 25);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Всего выплачено Вам:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // buttonSettings_Save
             // 
             this.buttonSettings_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -637,11 +664,11 @@ namespace OOP_CourseWork
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(795, 324);
+            this.label3.Location = new System.Drawing.Point(669, 374);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(169, 75);
+            this.label3.Size = new System.Drawing.Size(431, 25);
             this.label3.TabIndex = 26;
-            this.label3.Text = "Номер карты или\r\nбанковского счёта\r\nдля выплат:";
+            this.label3.Text = "Номер карты или банковского счёта для выплат:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // textBoxSettings_CardNumber
@@ -660,7 +687,7 @@ namespace OOP_CourseWork
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(755, 179);
+            this.label5.Location = new System.Drawing.Point(756, 159);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(262, 25);
             this.label5.TabIndex = 21;
@@ -672,7 +699,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_NewPasswordConfirmation.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_NewPasswordConfirmation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_NewPasswordConfirmation.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_NewPasswordConfirmation.Location = new System.Drawing.Point(729, 207);
+            this.textBoxSettings_NewPasswordConfirmation.Location = new System.Drawing.Point(730, 187);
             this.textBoxSettings_NewPasswordConfirmation.Name = "textBoxSettings_NewPasswordConfirmation";
             this.textBoxSettings_NewPasswordConfirmation.Size = new System.Drawing.Size(299, 31);
             this.textBoxSettings_NewPasswordConfirmation.TabIndex = 2;
@@ -684,7 +711,7 @@ namespace OOP_CourseWork
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(809, 101);
+            this.label4.Location = new System.Drawing.Point(810, 81);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(147, 25);
             this.label4.TabIndex = 19;
@@ -696,7 +723,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_NewPassword.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_NewPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_NewPassword.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_NewPassword.Location = new System.Drawing.Point(729, 128);
+            this.textBoxSettings_NewPassword.Location = new System.Drawing.Point(730, 108);
             this.textBoxSettings_NewPassword.Name = "textBoxSettings_NewPassword";
             this.textBoxSettings_NewPassword.Size = new System.Drawing.Size(299, 31);
             this.textBoxSettings_NewPassword.TabIndex = 1;
@@ -707,7 +734,7 @@ namespace OOP_CourseWork
             // buttonSettings_ChangePassword
             // 
             this.buttonSettings_ChangePassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSettings_ChangePassword.Location = new System.Drawing.Point(796, 259);
+            this.buttonSettings_ChangePassword.Location = new System.Drawing.Point(797, 239);
             this.buttonSettings_ChangePassword.Name = "buttonSettings_ChangePassword";
             this.buttonSettings_ChangePassword.Size = new System.Drawing.Size(168, 47);
             this.buttonSettings_ChangePassword.TabIndex = 3;
@@ -719,7 +746,7 @@ namespace OOP_CourseWork
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(804, 25);
+            this.label2.Location = new System.Drawing.Point(805, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 25);
             this.label2.TabIndex = 17;
@@ -731,7 +758,7 @@ namespace OOP_CourseWork
             this.textBoxSettings_OldPassword.BackColor = System.Drawing.Color.AliceBlue;
             this.textBoxSettings_OldPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxSettings_OldPassword.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxSettings_OldPassword.Location = new System.Drawing.Point(729, 53);
+            this.textBoxSettings_OldPassword.Location = new System.Drawing.Point(730, 33);
             this.textBoxSettings_OldPassword.Name = "textBoxSettings_OldPassword";
             this.textBoxSettings_OldPassword.Size = new System.Drawing.Size(299, 31);
             this.textBoxSettings_OldPassword.TabIndex = 0;
@@ -762,29 +789,6 @@ namespace OOP_CourseWork
             this.toolTipSettings_Password.ReshowDelay = 50;
             this.toolTipSettings_Password.ToolTipTitle = "Ваш текущий пароль";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(780, 522);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 25);
-            this.label1.TabIndex = 27;
-            this.label1.Text = "Всего выплачено Вам:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labelSettings_TotalSalaryPayed
-            // 
-            this.labelSettings_TotalSalaryPayed.BackColor = System.Drawing.Color.Transparent;
-            this.labelSettings_TotalSalaryPayed.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSettings_TotalSalaryPayed.ForeColor = System.Drawing.Color.SeaGreen;
-            this.labelSettings_TotalSalaryPayed.Location = new System.Drawing.Point(780, 547);
-            this.labelSettings_TotalSalaryPayed.Name = "labelSettings_TotalSalaryPayed";
-            this.labelSettings_TotalSalaryPayed.Size = new System.Drawing.Size(202, 42);
-            this.labelSettings_TotalSalaryPayed.TabIndex = 28;
-            this.labelSettings_TotalSalaryPayed.Text = "0";
-            this.labelSettings_TotalSalaryPayed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // labelUsernameText
             // 
             this.labelUsernameText.AutoSize = true;
@@ -808,6 +812,30 @@ namespace OOP_CourseWork
             this.labelUsername.Text = "User";
             this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(805, 312);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(123, 25);
+            this.label6.TabIndex = 30;
+            this.label6.Text = "Ваш пароль: ";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBoxSettings_Password
+            // 
+            this.textBoxSettings_Password.BackColor = System.Drawing.Color.AliceBlue;
+            this.textBoxSettings_Password.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxSettings_Password.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxSettings_Password.Location = new System.Drawing.Point(730, 340);
+            this.textBoxSettings_Password.Name = "textBoxSettings_Password";
+            this.textBoxSettings_Password.Size = new System.Drawing.Size(299, 31);
+            this.textBoxSettings_Password.TabIndex = 29;
+            this.textBoxSettings_Password.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxSettings_Password.UseSystemPasswordChar = true;
+            this.textBoxSettings_Password.TextChanged += new System.EventHandler(this.textBoxSettings_Password_TextChanged);
+            // 
             // EmployeeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -826,7 +854,7 @@ namespace OOP_CourseWork
             this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "EmployeeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CarSharingBY - администратор";
+            this.Text = "CarSharingBY - сотрудник";
             this.Load += new System.EventHandler(this.EmployeeForm_Load);
             this.tabControlEmployee.ResumeLayout(false);
             this.tabPageServiceReportList.ResumeLayout(false);
@@ -908,6 +936,8 @@ namespace OOP_CourseWork
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelUsernameText;
         private System.Windows.Forms.Label labelUsername;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBoxSettings_Password;
     }
 }
 
