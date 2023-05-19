@@ -293,6 +293,15 @@ namespace OOP_CourseWork
                     return;
                 }
 
+                if (user.Role == RolesContainer.Admin)
+                {
+                    buttonUsersManagement_ActivateThisAccount.Enabled = false;
+                }
+                else
+                {
+                    buttonUsersManagement_ActivateThisAccount.Enabled = true;
+                }
+
                 if ((user.Role == RolesContainer.Client && !((Client)user).AccountDeactivated) ||
                     (user.Role == RolesContainer.Employee && ((Employee)user).IsWorkingNow))
                 {

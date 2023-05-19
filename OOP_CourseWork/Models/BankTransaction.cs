@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace OOP_CourseWork.Models
 {
@@ -18,7 +19,7 @@ namespace OOP_CourseWork.Models
         private DateTime _payedTime;
         private DateTime _cancelledTime;
         private double   _totalAmount;
-        private int      _totalTries;
+        private int      _totalTries;   
         private bool     _isFinished;
         private bool     _isCancelled;
 

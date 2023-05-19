@@ -349,6 +349,18 @@ namespace OOP_CourseWork
 
             if (result == DialogResult.Yes)
             {
+                if (textBoxSettings_Password.Text == "")
+                {
+                    MessageBox.Show("Для того, чтобы деактивировать аккаунт, Вам нужно ввести свой текущий пароль в поле \"Ваш пароль\".", "Одну секунду!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                if (!SaveLoadControl.CurrentUser.IsPasswordCorrect(textBoxSettings_Password.Text))
+                {
+                    MessageBox.Show("Вы ввели неверный пароль в поле \"Ваш пароль\"! Невозможно деактивировать аккаунт!", "Ошибка деактивации!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 //Отменяем текущие заказы, если они есть у пользователя
                 foreach (var order in SaveLoadControl.Orders.Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.Now)) order.Cancel();
                 //Деактивация аккаунта
@@ -357,7 +369,8 @@ namespace OOP_CourseWork
                 MessageBox.Show("Ваш аккаунт был деактивирован. Приложение будет перезапущено.", "Успешно.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 SaveLoadControl.SaveJSON();
-                Application.Restart();
+                Environment.Exit(0);
+                //Application.Restart();
             }
         }
 
@@ -405,6 +418,9 @@ namespace OOP_CourseWork
                 MessageBox.Show("Проверьте введённые данные на корректность.", "Ошибка при попытке оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            var result = MessageBox.Show("Вы уверены, что хотите пополнить свой баланс?", "Вы уверены?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) return;
 
             if (((Client)SaveLoadControl.CurrentUser).BalanceDeposit(Math.Round(double.Parse(textBoxPayments_Cost.Text.Replace(".", ",")), 2), textBoxPayments_SecretCode.Text))
             {
