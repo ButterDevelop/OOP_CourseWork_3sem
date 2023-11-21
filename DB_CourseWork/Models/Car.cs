@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DB_CourseWork.Models
 {
-    internal class Car
+    public class Car
     {
         private int      _id;
         private string   _brand;
@@ -20,12 +20,12 @@ namespace DB_CourseWork.Models
 
         public Car()
         {
-            _id = -1;
+            _id = 0;
             _brand = string.Empty;
             _model = _carLicensePlate = string.Empty;
-            _productionYear = DateTime.MinValue;
-            _buyTime = DateTime.MinValue;
-            _lastServiceTime = DateTime.MinValue;
+            _productionYear = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            _buyTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            _lastServiceTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _pricePerHour = 0;
             _locationX = 0;
             _locationY = 0;
@@ -35,7 +35,7 @@ namespace DB_CourseWork.Models
         public Car(string brand, string model, string carLicensePlate, double pricePerHour, 
                    DateTime productionYear, DateTime buyTime, DateTime lastServiceTime, double locationX, double locationY, bool isHidden)
         {
-            _id = -1;
+            _id = 0;
             _brand = brand;
             _model = model;
             _carLicensePlate = carLicensePlate;
@@ -184,6 +184,7 @@ namespace DB_CourseWork.Models
         {
             get
             {
+                if (DatabaseContext.DbContext == null) return false;
                 return DatabaseContext.DbContext.ServiceReports.GetAll().FirstOrDefault(x => !x.IsFinished && x.ServicedCarId == _id) != null;
             }
         }
@@ -192,6 +193,7 @@ namespace DB_CourseWork.Models
         {
             get
             {
+                if (DatabaseContext.DbContext == null) return false;
                 if (DatabaseContext.DbContext.Orders.GetAll().FirstOrDefault(x => x.OrderedCarId == Id) is null) return false;
                 return DatabaseContext.DbContext.Orders.GetAll().FirstOrDefault(x => x.OrderedCarId == Id && !x.IsCancelled && x.OrderBookingTime.AddHours(x.OrderHours) > DateTime.Now) != null;
             }

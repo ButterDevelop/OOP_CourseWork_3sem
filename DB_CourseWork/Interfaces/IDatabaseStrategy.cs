@@ -4,8 +4,6 @@ namespace DB_CourseWork.Interfaces
 {
     internal interface IDatabaseStrategy<T>
     {
-        void Connect();
-
         List<T> GetAll();
 
         T Get(int id);

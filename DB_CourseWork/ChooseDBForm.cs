@@ -1,4 +1,5 @@
-﻿using DB_CourseWork.Models;
+﻿using DB_CourseWork.Controls;
+using DB_CourseWork.Models;
 using System;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace DB_CourseWork
 {
     partial class ChooseDBForm : Form
     {
-        private DbType _chosenDbType;
+        private bool _fullCloseClicked = true;
 
         public ChooseDBForm()
         {
@@ -15,41 +16,40 @@ namespace DB_CourseWork
 
         private void ChooseDBForm_Load(object sender, EventArgs e)
         {
-            this.FormClosing += ChooseDBForm_FormClosing;
             comboBoxDbType.SelectedIndex = 0;
-            _chosenDbType = DbType.None;
+
+            this.FormClosing += ChooseDBForm_FormClosing;
         }
 
         private void ChooseDBForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0);
+            if (_fullCloseClicked)
+            {
+                e.Cancel = true;
+                Environment.Exit(0);
+            }
         }
 
         private void comboBoxDbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBoxDbType.Text.ToLower())
             {
-                case "csv":   _chosenDbType = DbType.CSV;   break;
-                case "mongo": _chosenDbType = DbType.Mongo; break;
-                case "sql":   _chosenDbType = DbType.SQL;   break;
-                default:      _chosenDbType = DbType.None;  break;
+                case "csv":   DatabaseContext.DatabaseTypeName = "csv";   DatabaseContext.ChosenDbType = DbType.CSV;   break;
+                case "mongo": DatabaseContext.DatabaseTypeName = "mongo"; DatabaseContext.ChosenDbType = DbType.Mongo; break;
+                case "sql":   DatabaseContext.DatabaseTypeName = "sql";   DatabaseContext.ChosenDbType = DbType.SQL;   break;
+                default:      DatabaseContext.DatabaseTypeName = "";      DatabaseContext.ChosenDbType = DbType.None;  break;
             }
-        }
-
-
-        public DbType ChosenDbType 
-        { 
-            get { return _chosenDbType; } 
         }
 
         private void buttonChoose_Click(object sender, EventArgs e)
         {
-            if (_chosenDbType == DbType.None)
+            if (DatabaseContext.ChosenDbType == DbType.None)
             {
                 MessageBox.Show("Вы ничего не выбрали!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            this.Hide();
+            _fullCloseClicked = false;
+            this.Close();
         }
     }
 }

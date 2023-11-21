@@ -10,16 +10,36 @@ namespace DB_CourseWork.Controls
     {
         public static void WriteToFile<T>(string path, IEnumerable<T> records)
         {
-            var writer = new StreamWriter(path);
-            var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture));
-            csv.WriteRecords(records);
+            if (!File.Exists(path))
+            {
+                using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 4096, FileOptions.None))
+                {
+                }
+            }
+            using (var writer = new StreamWriter(path))
+            {
+                using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    csv.WriteRecords(records);
+                }
+            }
         }
 
         public static List<T> ReadFromFile<T>(string path)
         {
-            var reader = new StreamReader(path);
-            var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-            return new List<T>(csv.GetRecords<T>());
+            if (!File.Exists(path))
+            {
+                using (var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 4096, FileOptions.None))
+                {
+                }
+            }
+            using (var reader = new StreamReader(path))
+            {
+                using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+                {
+                    return new List<T>(csv.GetRecords<T>());
+                }
+            }
         }
     }
 }

@@ -48,7 +48,10 @@ namespace DB_CourseWork
             var result = MessageBox.Show("Вы уверены, что хотите выйти из программы?", "Точно выйти?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Environment.Exit(0);
+                BeginInvoke(new Action(() =>
+                {
+                    Environment.Exit(0);
+                }));
             } 
             else
             {
@@ -217,21 +220,22 @@ namespace DB_CourseWork
         {
             listViewServiceReportList.Items.Clear();
 
-            var reports = _dbContext.ServiceReports.GetAll().Where(x => x.WorkerId == -1 || x.WorkerId == _dbContext.CurrentUser.Id).OrderByDescending(x => x.StartedDate).ToArray();
+            var reports = _dbContext.ServiceReports.GetAll().Where(x => !x.WorkerId.HasValue || x.WorkerId == _dbContext.CurrentUser.Id).OrderByDescending(x => x.StartedDate).ToArray();
 
             int counter = reports.Length;
             foreach (var report in reports)
             {
-                var reportWorker = report.WorkerId == -1 ? null : _dbContext.Employees.Get(report.WorkerId);
+                var reportWorker = !report.WorkerId.HasValue ? null : _dbContext.Employees.Get(report.WorkerId.Value);
 
                 string[] arr = new string[11];
                 arr[0] = ""; 
                 arr[1] = report.Id.ToString();
-                arr[2] = report.WorkerId == -1 ? "Пока никто не взялся" : reportWorker.FullName.ToString();
-                arr[3] = report.WorkerId == -1 ? "Пока никто не взялся" : Employee.SalaryPerDay.ToString("N2").Replace(",", ".");
+                arr[2] = !report.WorkerId.HasValue ? "Пока никто не взялся" : reportWorker.FullName.ToString();
+                arr[3] = !report.WorkerId.HasValue ? "Пока никто не взялся" : Employee.SalaryPerDay.ToString("N2").Replace(",", ".");
                 arr[4] = report.StartedDate.ToString();
                 arr[5] = report.PlannedCompletionDays == 0 ? "Не выставлено" : report.PlannedCompletionDays.ToString();
-                arr[6] = report.FinishedDate == DateTime.MinValue ? "Не выставлено" : report.FinishedDate.ToString();
+                arr[6] = report.FinishedDate == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) 
+                                                ? "Не выставлено" : report.FinishedDate.ToLocalTime().ToString();
                 arr[7] = report.AdditionalCost.ToString("N2").Replace(",", ".");
                 arr[8] = report.Cost.ToString("N2").Replace(",", ".");
                 arr[9] = report.IsStarted ? "Да" : "Нет";
@@ -265,7 +269,7 @@ namespace DB_CourseWork
                 textBoxServiceReportList_Description.Text = report.Description;
                 textBoxServiceReportList_EmployeeReportString.Text = report.EmployeeReport;
 
-                if (!(report.WorkerId == -1) && !report.IsFinished)
+                if (report.WorkerId.HasValue && !report.IsFinished)
                 {
                     buttonMakeServiceReport_EditOrder.Enabled = true;
                     buttonMakeServiceReport_EndOrder.Enabled = true;
@@ -276,7 +280,7 @@ namespace DB_CourseWork
                     buttonMakeServiceReport_EndOrder.Enabled = false;
                 }
 
-                if (report.WorkerId == -1)
+                if (!report.WorkerId.HasValue)
                 {
                     buttonMakeServiceReport_TakeOrder.Enabled = true;
                 }
@@ -292,7 +296,8 @@ namespace DB_CourseWork
                 textBoxServiceReportList_ProductionYear.Text  = servicedCar.ProductionYear.ToString("yyyy");
                 textBoxServiceReportList_PricePerHour.Text    = servicedCar.PricePerHour.ToString("N2").Replace(",", ".");
                 textBoxServiceReportList_CarLicensePlate.Text = servicedCar.CarLicensePlate;
-                textBoxServiceReportList_LastServiceDate.Text = servicedCar.LastServiceTime == DateTime.MinValue ? "Не выставлено" : servicedCar.LastServiceTime.ToString("d");
+                textBoxServiceReportList_LastServiceDate.Text = servicedCar.LastServiceTime == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) 
+                                                                ? "Не выставлено" : servicedCar.LastServiceTime.ToLocalTime().ToString("d");
             } 
             else
             {

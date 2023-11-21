@@ -1,6 +1,6 @@
 ﻿namespace DB_CourseWork.Models
 {
-    internal enum RolesContainer
+    public enum RolesContainer
     {
         Client = 1,
         Employee = 2,

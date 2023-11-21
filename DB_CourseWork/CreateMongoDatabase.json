@@ -1,0 +1,392 @@
+// Создание коллекции Users
+db.createCollection("Admins", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["UserName", "Salt", "HashedPassword", "FullName", "Email", "Phone", "Role", "IsAccountSetupCompleted", "AccountDeactivated", "TotalCarsServiced"],
+            properties: {
+                UserName: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                Salt: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                HashedPassword: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                FullName: {
+                    bsonType: "string"
+                },
+                Email: {
+                    bsonType: "string"
+                },
+                Phone: {
+                    bsonType: "string"
+                },
+                Role: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                },
+                IsAccountSetupCompleted: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                AccountDeactivated: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+				TotalCarsServiced: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции Clients
+db.createCollection("Clients", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["UserName", "Salt", "HashedPassword", "FullName", "Email", "Phone", "Role", "IsAccountSetupCompleted", "AccountDeactivated", "DriverLicense", "Passport", "CardNumber", "Balance", "SumRating", "OrderCount"],
+            properties: {
+                UserName: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                Salt: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                HashedPassword: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                FullName: {
+                    bsonType: "string"
+                },
+                Email: {
+                    bsonType: "string"
+                },
+                Phone: {
+                    bsonType: "string"
+                },
+                Role: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                },
+                IsAccountSetupCompleted: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                AccountDeactivated: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                DriverLicense: {
+                    bsonType: "string"
+                },
+                Passport: {
+                    bsonType: "string"
+                },
+                CardNumber: {
+                    bsonType: "string"
+                },
+                Balance: {
+                    bsonType: "double"
+                },
+                SumRating: {
+                    bsonType: "double"
+                },
+                OrderCount: {
+                    bsonType: "int"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции Employees
+db.createCollection("Employees", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["UserName", "Salt", "HashedPassword", "FullName", "Email", "Phone", "Role", "IsAccountSetupCompleted", "AccountDeactivated", "OrderProccessed", "DaysWorked", "DateHired", "DateFired", "DateLastSalaryPayed", "BankAccountNumber", "TotalSalaryPayed", "IsWorkingNow"],
+            properties: {
+                UserName: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                Salt: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                HashedPassword: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                FullName: {
+                    bsonType: "string"
+                },
+                Email: {
+                    bsonType: "string"
+                },
+                Phone: {
+                    bsonType: "string"
+                },
+                Role: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                },
+                IsAccountSetupCompleted: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                AccountDeactivated: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                OrderProccessed: {
+                    bsonType: "int"
+                },
+                DaysWorked: {
+                    bsonType: "int"
+                },
+                DateHired: {
+                    bsonType: "date"
+                },
+                DateFired: {
+                    bsonType: "date"
+                },
+                DateLastSalaryPayed: {
+                    bsonType: "date"
+                },
+                BankAccountNumber: {
+                    bsonType: "string"
+                },
+                TotalSalaryPayed: {
+                    bsonType: "double"
+                },
+                IsWorkingNow: {
+                    bsonType: "bool"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции Orders
+db.createCollection("Orders", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["OrderCreatedTime", "OrderHours", "IsCancelled"],
+            properties: {
+                OrderCreatedTime: {
+                    bsonType: "date",
+                    description: "must be a date and is required"
+                },
+                OrderBookingTime: {
+                    bsonType: "date"
+                },
+                OrderCancelledTime: {
+                    bsonType: "date"
+                },
+                OrderedCarId: {
+                    bsonType: "int"
+                },
+                OrderHours: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                },
+                OrderPaymentId: {
+                    bsonType: "int"
+                },
+				OrderExtendPaymentsIdsString: {
+                    bsonType: "string"
+                },
+                IsCancelled: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции Payments
+db.createCollection("Payments", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["CreatedTime", "Cost", "IsPayed", "IsRefunded"],
+            properties: {
+                CreatedTime: {
+                    bsonType: "date",
+                    description: "must be a date and is required"
+                },
+                PayedTime: {
+                    bsonType: "date"
+                },
+                UserId: {
+                    bsonType: "int"
+                },
+                Cost: {
+                    bsonType: "double",
+                    description: "must be a double and is required"
+                },
+                IsPayed: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                IsRefunded: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции Cars
+db.createCollection("Cars", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["Brand", "Model", "CarLicensePlate", "PricePerHour", "IsHidden"],
+            properties: {
+                Brand: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                Model: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                CarLicensePlate: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                PricePerHour: {
+                    bsonType: "double",
+                    description: "must be a double and is required"
+                },
+                ProductionYear: {
+                    bsonType: "date"
+                },
+                BuyTime: {
+                    bsonType: "date"
+                },
+                LastServiceTime: {
+                    bsonType: "date"
+                },
+                LocationX: {
+                    bsonType: "double"
+                },
+                LocationY: {
+                    bsonType: "double"
+                },
+                IsHidden: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции ServiceReports
+db.createCollection("ServiceReports", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["Description", "IsStarted", "IsFinished"],
+            properties: {
+                Description: {
+                    bsonType: "string",
+                    description: "must be a string and is required"
+                },
+                StartedDate: {
+                    bsonType: "date"
+                },
+                FinishedDate: {
+                    bsonType: "date"
+                },
+                AdditionalCost: {
+                    bsonType: "double"
+                },
+                IsStarted: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                IsFinished: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                PlannedCompletionDays: {
+                    bsonType: "int"
+                },
+                WorkerId: {
+                    bsonType: ["int", "null"]
+                },
+                ServicedCarId: {
+                    bsonType: "int"
+                },
+                EmployeeReport: {
+                    bsonType: "string"
+                }
+            }
+        }
+    }
+});
+
+// Создание коллекции BankTransactions
+db.createCollection("BankTransactions", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["CreatedTime", "TotalAmount", "TotalTries", "IsFinished", "IsCancelled"],
+            properties: {
+                FromCardNumberOrBankAccountNumber: {
+                    bsonType: "string"
+                },
+                ToCardNumberOrBankAccountNumber: {
+                    bsonType: "string"
+                },
+                UserId: {
+                    bsonType: ["int", "null"]
+                },
+                CreatedTime: {
+                    bsonType: "date",
+                    description: "must be a date and is required"
+                },
+                PayedTime: {
+                    bsonType: "date"
+                },
+                CancelledTime: {
+                    bsonType: "date"
+                },
+                TotalAmount: {
+                    bsonType: "double",
+                    description: "must be a double and is required"
+                },
+                TotalTries: {
+                    bsonType: "int",
+                    description: "must be an integer and is required"
+                },
+                IsFinished: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                },
+                IsCancelled: {
+                    bsonType: "bool",
+                    description: "must be a boolean and is required"
+                }
+            }
+        }
+    }
+});

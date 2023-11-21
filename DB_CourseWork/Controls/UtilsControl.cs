@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace DB_CourseWork.Controls
@@ -40,18 +38,24 @@ namespace DB_CourseWork.Controls
 
         public static void StartNeccesaryForm()
         {
-            ChooseDBForm chooseDBForm = new ChooseDBForm();
-            Application.Run(chooseDBForm);
-            DbType chosenDbType = chooseDBForm.ChosenDbType;
-            chooseDBForm.Close();
+            Application.Run(new ChooseDBForm());
 
-            DatabaseContext dbContext = DatabaseContext.GenerateDBContext(chosenDbType);
+            if (DatabaseContext.ChosenDbType == DbType.None)
+            {
+                Environment.Exit(0);
+            }
+
+            DatabaseContext dbContext = DatabaseContext.GenerateDBContext(DatabaseContext.ChosenDbType);
             if (dbContext == null)
             {
                 MessageBox.Show("Не удалось выбрать базу данных!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(0);
             }
             DatabaseContext.DbContext = dbContext;
+
+            //MigrateOldData.LoadJSON();
+            //MigrateOldData.Migrate();
+            //Environment.Exit(0);
 
             Application.Run(new LoginForm(dbContext));
 
@@ -90,22 +94,22 @@ namespace DB_CourseWork.Controls
 
         public static Dictionary<int, Image> LoadCarsOrderImages()
         {
-            Dictionary<int, Image> list = new Dictionary<int, Image>();
+            Dictionary<int, Image> dict = new Dictionary<int, Image>();
             foreach (var car in DatabaseContext.DbContext.Cars.GetAll())
             {
                 Image image;
                 try
                 {
-                    image = LoadImageFromFileSafely($"images\\car_{car.Id}.png");
+                    image = LoadImageFromFileSafely($"images\\{DatabaseContext.DatabaseTypeName}\\car_{car.Id}.png");
                 }
                 catch
                 {
                     image = (Image)Properties.Resources.TheImageHaveDisappeared.Clone();
                 }
-                list.Add(car.Id, image);
+                dict.Add(car.Id, image);
             }
 
-            return list;
+            return dict;
         }
 
         public static Image LoadImageFromFileSafely(string fileName)

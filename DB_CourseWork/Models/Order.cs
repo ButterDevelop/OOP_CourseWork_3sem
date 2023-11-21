@@ -1,10 +1,11 @@
 ﻿using DB_CourseWork.Controls;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DB_CourseWork.Models
 {
-    internal class Order
+    public class Order
     {
         private int           _id;
         private DateTime      _orderCreatedTime;
@@ -13,39 +14,39 @@ namespace DB_CourseWork.Models
         private int           _orderedCarId;
         private int           _orderedHours;
         private int           _orderPaymentId;
-        private List<int>     _orderExtendPaymentsIds;
+        private string        _orderExtendPaymentsIdsString;
         private bool          _isCancelled;
 
         public Order()
         {
-            _id = -1;
-            _orderCreatedTime = DateTime.Now;
+            _id = 0;
+            _orderCreatedTime = DateTime.UtcNow;
             _orderBookingTime = DateTime.MaxValue;
             _orderCancelledTime = DateTime.MaxValue;
             _orderedHours = 0;
-            _orderedCarId = -1;
-            _orderPaymentId = -1;
-            _orderExtendPaymentsIds = new List<int>();
+            _orderedCarId = 0;
+            _orderPaymentId = 0;
+            _orderExtendPaymentsIdsString = string.Empty;
             _isCancelled = false;
         }
 
         public Order(Payment payment, Car orderedCar, Client user, DateTime orderBookingTime, int orderedHours)
         {
-            _id = -1;
-            _orderCreatedTime = DateTime.Now;
+            _id = 0;
+            _orderCreatedTime = DateTime.UtcNow;
             _orderBookingTime = orderBookingTime;
             _orderCancelledTime = DateTime.MaxValue;
             _orderedCarId = orderedCar.Id;
             _orderedHours = orderedHours;
             DatabaseContext.DbContext.Payments.Add(payment);
-            _orderExtendPaymentsIds = new List<int>();
+            _orderExtendPaymentsIdsString = string.Empty;
             _isCancelled = false;
         }
 
         public Order(Car orderedCar, Client user, DateTime orderBookingTime, int orderedHours)
         {
-            _id = -1;
-            _orderCreatedTime = DateTime.Now;
+            _id = 0;
+            _orderCreatedTime = DateTime.UtcNow;
             _orderBookingTime = orderBookingTime;
             _orderCancelledTime = DateTime.MaxValue;
             _orderedCarId = orderedCar.Id;
@@ -54,22 +55,24 @@ namespace DB_CourseWork.Models
             var _orderPayment = new Payment(user, orderedHours * orderedCar.PricePerHour);
             DatabaseContext.DbContext.Payments.Add(_orderPayment);
 
-            _orderExtendPaymentsIds = new List<int>();
+            _orderExtendPaymentsIdsString = string.Empty;
             _isCancelled = false;
         }
 
         public Order(Car orderedCar, DateTime orderCreatedTime, DateTime orderBookingTime, 
                      DateTime orderCancelledTime, Payment orderPayment, int orderedHours, List<Payment> orderExtendPayments, bool isCancelled)
         {
-            _id = -1;
+            _id = 0;
             _orderCreatedTime = orderCreatedTime;
             _orderBookingTime = orderBookingTime;
             _orderCancelledTime = orderCancelledTime;
             _orderedCarId = orderedCar.Id;
             _orderedCarId = orderPayment.Id;
             _orderedHours = orderedHours;
-            _orderExtendPaymentsIds = new List<int>();
-            foreach (var payment in orderExtendPayments) _orderExtendPaymentsIds.Add(payment.Id);
+            foreach (var payment in orderExtendPayments)
+            {
+                _orderExtendPaymentsIdsString += payment.Id.ToString() + "_";
+            }
             _isCancelled = isCancelled;
         }
 
@@ -157,15 +160,15 @@ namespace DB_CourseWork.Models
             }
         }
 
-        public List<int> OrderExtendPaymentsIds
+        public string OrderExtendPaymentsIdsString
         {
             get
             {
-                return _orderExtendPaymentsIds;
+                return _orderExtendPaymentsIdsString;
             }
             set
             {
-                _orderExtendPaymentsIds = value;
+                _orderExtendPaymentsIdsString = value;
             }
         }
 
@@ -193,7 +196,8 @@ namespace DB_CourseWork.Models
                 DatabaseContext.DbContext.Payments.Update(orderPayment);
             }
 
-            foreach (var paymentId in _orderExtendPaymentsIds)
+            var orderExtendPaymentsIds = GetOrderExtendPaymentsIdsFromString(_orderExtendPaymentsIdsString);
+            foreach (var paymentId in orderExtendPaymentsIds)
             {
                 var payment = DatabaseContext.DbContext.Payments.Get(paymentId);
                 if (payment.IsPayed)
@@ -224,10 +228,28 @@ namespace DB_CourseWork.Models
 
             DatabaseContext.DbContext.Payments.Add(payment);
 
-            _orderExtendPaymentsIds.Add(payment.Id);
+            _orderExtendPaymentsIdsString += payment.Id.ToString() + "_";
             _orderedHours += hours;
 
             return true;
+        }
+
+
+        public static string GetStringFromOrderExtendPaymentsIds(List<int> ids)
+        {
+            string result = "";
+            foreach (var id in ids)
+            {
+                result += id.ToString() + "_";
+            }
+
+            return result;
+        }
+
+        public static List<int> GetOrderExtendPaymentsIdsFromString(string orderExtendPaymentsIdsString)
+        {
+            var splittedIds = orderExtendPaymentsIdsString.Split(new char[1] { '_' }, StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToList();
+            return splittedIds;
         }
     }
 }

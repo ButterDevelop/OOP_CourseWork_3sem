@@ -3,7 +3,7 @@ using System;
 
 namespace DB_CourseWork.Models
 {
-    internal class Payment
+    public class Payment
     {
         private int      _id;
         private DateTime _createdTime;
@@ -15,10 +15,10 @@ namespace DB_CourseWork.Models
 
         public Payment()
         {
-            _id = -1;
-            _createdTime = DateTime.Now;
-            _payedTime = DateTime.MinValue;
-            _userId = -1;
+            _id = 0;
+            _createdTime = DateTime.UtcNow;
+            _payedTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            _userId = 0;
             _cost = 0;
             _isPayed = false;
             _isRefunded = false;
@@ -26,9 +26,9 @@ namespace DB_CourseWork.Models
 
         public Payment(Client user, double cost)
         {
-            _id = -1;
-            _createdTime = DateTime.Now;
-            _payedTime = DateTime.MinValue;
+            _id = 0;
+            _createdTime = DateTime.UtcNow;
+            _payedTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _userId = user.Id;
             _cost = cost;
             _isPayed = false;
@@ -37,7 +37,7 @@ namespace DB_CourseWork.Models
 
         public Payment(DateTime createdTime, DateTime payedTime, Client user, double cost, bool isPayed, bool isRefunded)
         {
-            _id = -1;
+            _id = 0;
             _createdTime = createdTime;
             _payedTime = payedTime;
             _userId = user.Id;

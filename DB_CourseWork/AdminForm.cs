@@ -1,9 +1,7 @@
 ﻿using DB_CourseWork.Controls;
 using DB_CourseWork.Models;
-using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition.Primitives;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -78,8 +76,12 @@ namespace DB_CourseWork
             var result = MessageBox.Show("Вы уверены, что хотите выйти из программы?", "Точно выйти?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Environment.Exit(0);
-            } else
+                BeginInvoke(new Action(() =>
+                {
+                    Environment.Exit(0);
+                }));
+            } 
+            else
             {
                 e.Cancel = true;
             }
@@ -639,8 +641,8 @@ namespace DB_CourseWork
                 arr[6] = car.CarLicensePlate;
                 arr[7] = car.PricePerHour.ToString("N2").Replace(",", ".");
                 arr[8] = car.ProductionYear.ToString("yyyy");
-                arr[9] = car.BuyTime.ToString();
-                arr[10] = car.LastServiceTime == DateTime.MinValue ? "Не выставлено" : car.LastServiceTime.ToString();
+                arr[9] = car.BuyTime.ToLocalTime().ToString();
+                arr[10] = car.LastServiceTime == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) ? "Не выставлено" : car.LastServiceTime.ToLocalTime().ToString();
 
                 ListViewItem item = new ListViewItem(arr);
                 item.Tag = car.Id;
@@ -903,15 +905,36 @@ namespace DB_CourseWork
                                  textBoxMakeMakeServiceReport_NewCarModel.Text,
                                  textBoxMakeMakeServiceReport_NewCarLicensePlate.Text,
                                  double.Parse(textBoxMakeMakeServiceReport_NewCarPricePerHour.Text.Replace(".", ",")),
-                                 new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1),
-                                 DateTime.Now,
-                                 DateTime.MinValue,
+                                 new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                                 DateTime.UtcNow,
+                                 new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                                  0, 0, true);
 
+
+            if (!(_dbContext.Cars.GetAll().FirstOrDefault(c => c.Brand == newCar.Brand &&
+                                                          c.Model == newCar.Model &&
+                                                          c.CarLicensePlate == newCar.CarLicensePlate &&
+                                                          c.ProductionYear == newCar.ProductionYear &&
+                                                          c.LastServiceTime == newCar.LastServiceTime &&
+                                                          c.IsHidden == newCar.IsHidden
+                                                     ) is null))
+            {
+                MessageBox.Show("Указанная машина уже существует! Невозможно добавить!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Добавить"))
             {
                 _dbContext.Cars.Add(newCar);
+                newCar = _dbContext.Cars.GetAll().FirstOrDefault(c => c.Brand == newCar.Brand && 
+                                                                      c.Model == newCar.Model &&
+                                                                      c.CarLicensePlate == newCar.CarLicensePlate &&
+                                                                      c.ProductionYear == newCar.ProductionYear &&
+                                                                      c.LastServiceTime == newCar.LastServiceTime &&
+                                                                      c.LocationX == newCar.LocationX &&
+                                                                      c.LocationY == newCar.LocationY &&
+                                                                      c.IsHidden == newCar.IsHidden
+                                                                 );
             }
 
             try
@@ -919,7 +942,7 @@ namespace DB_CourseWork
                 Image image = new Bitmap(UtilsControl.LoadImageFromFileSafely(AddNewCarImagePath), pictureBoxMakeServiceReport_AddNewCarPicture.Size);
                 if (comboBoxMakeServiceReport_AddOrEditCarMode.Text.Contains("Добавить"))
                 {
-                    string path = $"images\\car_{newCar.Id}.png";
+                    string path = $"images\\{DatabaseContext.DatabaseTypeName}\\car_{newCar.Id}.png";
                     image.Save(path);
                     CarsOrderImages.Add(newCar.Id, UtilsControl.LoadImageFromFileSafely(path));
                 }
@@ -937,7 +960,7 @@ namespace DB_CourseWork
                     CarsOrderImages[carId] = UtilsControl.LoadImageFromFileSafely(path);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Не удалось загрузить заданную Вами фотографию!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -955,7 +978,7 @@ namespace DB_CourseWork
                 carToUpdate.Model = textBoxMakeMakeServiceReport_NewCarModel.Text;
                 carToUpdate.CarLicensePlate = textBoxMakeMakeServiceReport_NewCarLicensePlate.Text;
                 carToUpdate.PricePerHour = double.Parse(textBoxMakeMakeServiceReport_NewCarPricePerHour.Text.Replace(".", ","));
-                carToUpdate.ProductionYear = new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1);
+                carToUpdate.ProductionYear = new DateTime(int.Parse(textBoxMakeMakeServiceReport_NewCarProductionYear.Text), 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 _dbContext.Cars.Update(carToUpdate);
 
                 listViewMakeServiceReport.SelectedItems.Clear();
@@ -1185,16 +1208,17 @@ namespace DB_CourseWork
             int counter = reports.Length;
             foreach (var report in reports)
             {
-                var reportWorker = report.WorkerId == -1 ? null : _dbContext.Employees.Get(report.WorkerId);
+                var reportWorker = !report.WorkerId.HasValue ? null : _dbContext.Employees.Get(report.WorkerId.Value);
 
                 string[] arr = new string[11];
                 arr[0] = ""; 
                 arr[1] = report.Id.ToString();
-                arr[2] = report.WorkerId == -1 ? "Пока никто не взялся" : reportWorker.FullName.ToString();
-                arr[3] = report.WorkerId == -1 ? "Пока никто не взялся" : Employee.SalaryPerDay.ToString("N2").Replace(",", ".");
-                arr[4] = report.StartedDate.ToString();
+                arr[2] = !report.WorkerId.HasValue ? "Пока никто не взялся" : reportWorker.FullName.ToString();
+                arr[3] = !report.WorkerId.HasValue ? "Пока никто не взялся" : Employee.SalaryPerDay.ToString("N2").Replace(",", ".");
+                arr[4] = report.StartedDate.ToLocalTime().ToString();
                 arr[5] = report.PlannedCompletionDays == 0 ? "Не выставлено" : report.PlannedCompletionDays.ToString();
-                arr[6] = report.FinishedDate == DateTime.MinValue ? "Не выставлено" : report.FinishedDate.ToString();
+                arr[6] = report.FinishedDate == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                                ? "Не выставлено" : report.FinishedDate.ToLocalTime().ToString();
                 arr[7] = report.AdditionalCost.ToString("N2").Replace(",", ".");
                 arr[8] = report.Cost.ToString("N2").Replace(",", ".");
                 arr[9] = report.IsStarted ? "Да" : "Нет";
@@ -1235,7 +1259,8 @@ namespace DB_CourseWork
                 textBoxServiceReportList_ProductionYear.Text  = servicedCar.ProductionYear.ToString("yyyy");
                 textBoxServiceReportList_PricePerHour.Text    = servicedCar.PricePerHour.ToString("N2").Replace(",", ".");
                 textBoxServiceReportList_CarLicensePlate.Text = servicedCar.CarLicensePlate;
-                textBoxServiceReportList_LastServiceDate.Text = servicedCar.LastServiceTime == DateTime.MinValue ? "Не выставлено" : servicedCar.LastServiceTime.ToString("d");
+                textBoxServiceReportList_LastServiceDate.Text = servicedCar.LastServiceTime == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                                                ? "Не выставлено" : servicedCar.LastServiceTime.ToLocalTime().ToString("d");
             } 
             else
             {

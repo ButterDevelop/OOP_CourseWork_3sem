@@ -3,7 +3,7 @@ using DB_CourseWork.Controls;
 
 namespace DB_CourseWork.Models
 {
-    internal class Client : User
+    public class Client : User
     {
         private string _driverLicense;
         private string _passport;

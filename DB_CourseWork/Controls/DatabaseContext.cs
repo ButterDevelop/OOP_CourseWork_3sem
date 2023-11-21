@@ -1,4 +1,5 @@
 ﻿using DB_CourseWork.DbRepositories.Csv;
+using DB_CourseWork.DbRepositories.Mongo;
 using DB_CourseWork.DbRepositories.Sql;
 using DB_CourseWork.Interfaces;
 using DB_CourseWork.Models;
@@ -9,6 +10,8 @@ namespace DB_CourseWork.Controls
     class DatabaseContext
     {
         public static DatabaseContext DbContext;
+        public static string DatabaseTypeName = "";
+        public static DbType ChosenDbType = DbType.None;
 
         public IClientStrategy Clients { get; set; }
         public IEmployeeStrategy Employees { get; set; }
@@ -51,17 +54,21 @@ namespace DB_CourseWork.Controls
                 case DbType.CSV:   return new DatabaseContext(new CsvClientRepository(), new CsvEmployeeRepository(), new CsvAdminRepository(), 
                                                               new CsvCarRepository(),    new CsvOrderRepository(),    new CsvPaymentRepository(), 
                                                               new CsvBankTransactionRepository(), new CsvServiceReportRepository()); 
-                /*
-                case DbType.Mongo: return new DatabaseContext(new MongoClientRepository(), new MongoEmployeeRepository(), new MongoAdminRepository(),
-                                                              new MongoCarRepository(),    new MongoOrderRepository(),    new MongoPaymentRepository(), 
-                                                              new MongoBankTransactionRepository(), new MongoServiceReportRepository());
-                */
-                case DbType.SQL:   string connectionString = Config.SQL_CONNECTION_STRING;
-                                   return new DatabaseContext(new SqlClientRepository(connectionString), new SqlEmployeeRepository(connectionString), 
-                                                              new SqlAdminRepository(connectionString), new SqlCarRepository(connectionString), 
-                                                              new SqlOrderRepository(connectionString), new SqlPaymentRepository(connectionString),
-                                                              new SqlBankTransactionRepository(connectionString), 
-                                                              new SqlServiceReportRepository(connectionString));
+                case DbType.Mongo: string mongoConnectionString = Config.MONGO_CONNECTION_STRING, mongoDatabaseName = Config.MONGO_DATABASE_NAME;
+                                   return new DatabaseContext(new MongoClientRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoEmployeeRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoAdminRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoCarRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoOrderRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoPaymentRepository(mongoConnectionString, mongoDatabaseName),
+                                                              new MongoBankTransactionRepository(mongoConnectionString, mongoDatabaseName), 
+                                                              new MongoServiceReportRepository(mongoConnectionString, mongoDatabaseName));
+                case DbType.SQL:   string sqlConnectionString = Config.SQL_CONNECTION_STRING;
+                                   return new DatabaseContext(new SqlClientRepository(sqlConnectionString), new SqlEmployeeRepository(sqlConnectionString), 
+                                                              new SqlAdminRepository(sqlConnectionString), new SqlCarRepository(sqlConnectionString), 
+                                                              new SqlOrderRepository(sqlConnectionString), new SqlPaymentRepository(sqlConnectionString),
+                                                              new SqlBankTransactionRepository(sqlConnectionString), 
+                                                              new SqlServiceReportRepository(sqlConnectionString));
             }
             return null;
         }

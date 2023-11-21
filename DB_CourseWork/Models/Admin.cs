@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DB_CourseWork.Models
 {
-    internal class Admin : User
+    public class Admin : User
     {
         private int _totalCarsServiced;
 
@@ -57,7 +57,7 @@ namespace DB_CourseWork.Models
         public double GetPotentionalFinancialReport(DateTime date1, DateTime date2)
         {
             var serviceTransactions = DatabaseContext.DbContext.ServiceReports.GetAll().Where(x => x.StartedDate >= date1 &&
-                                                                                x.FinishedDate == DateTime.MinValue && 
+                                                                                x.FinishedDate == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) && 
                                                                                 x.StartedDate.AddDays(x.PlannedCompletionDays) <= date2);
 
             return GetFinancialReport(date1, date2) - serviceTransactions.Sum(x => x.Cost);

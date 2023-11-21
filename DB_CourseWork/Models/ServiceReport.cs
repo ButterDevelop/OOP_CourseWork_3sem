@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using DB_CourseWork.Controls;
+﻿using DB_CourseWork.Controls;
+using Newtonsoft.Json;
 using System;
 
 namespace DB_CourseWork.Models
 {
-    internal class ServiceReport
+    public class ServiceReport
     {
         private int _id;
         private string _description;
@@ -14,41 +14,43 @@ namespace DB_CourseWork.Models
         private bool _isStarted;
         private bool _isFinished;
         private int _plannedCompletionDays;
-        private int _workerId;
+        private int? _workerId;
         private int _servicedCarId;
         private string _employeeReport;
 
         public ServiceReport() 
         {
-            _id = -1;
+            _id = 0;
             _description = string.Empty;
-            _startedDate = DateTime.Now;
-            _finishedDate = DateTime.MinValue;
+            _startedDate = DateTime.UtcNow;
+            _finishedDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _additionalCost = 0;
             _isStarted = false;
             _isFinished = false;
             _plannedCompletionDays = 0;
-            _workerId = -1;
-            _servicedCarId = -1;
+            _workerId = null;
+            _servicedCarId = 0;
+            _employeeReport = string.Empty;
         }
 
         public ServiceReport(string description, Car servicedCar)
         {
-            _id = -1;
+            _id = 0;
             _description = description;
-            _startedDate = DateTime.Now;
-            _finishedDate = DateTime.MinValue;
+            _startedDate = DateTime.UtcNow;
+            _finishedDate = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _additionalCost = 0;
             _isStarted = false;
             _isFinished = false;
             _plannedCompletionDays = 0;
-            _workerId = -1;
+            _workerId = null;
             _servicedCarId = servicedCar.Id;
+            _employeeReport = string.Empty;
         }
 
         public ServiceReport(string description, DateTime startedDate, DateTime finishedDate, double additionalCost, bool isStarted, bool isFinished, int plannedCompletionDays, Employee worker, Car servicedCar)
         {
-            _id = -1;
+            _id = 0;
             _description = description;
             _startedDate = startedDate;
             _finishedDate = finishedDate;
@@ -58,6 +60,7 @@ namespace DB_CourseWork.Models
             _plannedCompletionDays = plannedCompletionDays;
             _workerId = worker.Id;
             _servicedCarId = servicedCar.Id;
+            _employeeReport = string.Empty;
         }
 
         public int Id
@@ -89,7 +92,7 @@ namespace DB_CourseWork.Models
         {
             get
             {
-                if (_workerId == -1) return 0;
+                if (!_workerId.HasValue) return 0;
                 return (_plannedCompletionDays * Employee.SalaryPerDay) + _additionalCost;
             }
         }
@@ -166,7 +169,7 @@ namespace DB_CourseWork.Models
             }
         }
 
-        public int WorkerId
+        public int? WorkerId
         {
             get
             {
@@ -218,7 +221,7 @@ namespace DB_CourseWork.Models
             servicedCar.LastServiceTime = DateTime.Now;
             DatabaseContext.DbContext.Cars.Update(servicedCar);
 
-            var worker = DatabaseContext.DbContext.Employees.Get(WorkerId);
+            var worker = DatabaseContext.DbContext.Employees.Get(WorkerId.HasValue ? WorkerId.Value : 0);
 
             worker.DaysWorked += _plannedCompletionDays;
             worker.OrderProccessed += 1;

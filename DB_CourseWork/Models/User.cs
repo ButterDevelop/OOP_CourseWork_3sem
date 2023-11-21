@@ -3,7 +3,7 @@ using System;
 
 namespace DB_CourseWork.Models
 {
-    internal class User
+    public class User
     {
         private int            _id;
         private string         _username;
@@ -18,7 +18,7 @@ namespace DB_CourseWork.Models
 
         public User() 
         {
-            _id = -1;
+            _id = 0;
             _username = _salt = _hashedPassword = _fullname = _email = _phone = string.Empty;
             _accountDeactivated = false;
             _isAccountSetupCompleted = false;
@@ -27,7 +27,7 @@ namespace DB_CourseWork.Models
 
         public User(string username, string salt, string hashedPassword, string fullname, string email, string phone, RolesContainer role, bool isAccountSetupCompleted, bool accountDeactivated)
         {
-            _id = -1;
+            _id = 0;
             _username = username;
             _salt = salt;
             _hashedPassword = hashedPassword;
@@ -41,7 +41,7 @@ namespace DB_CourseWork.Models
 
         public User(string username, string password, string fullname, string email, string phone, RolesContainer role)
         {
-            _id = -1;
+            _id = 0;
             _username = username;
             _salt = Convert.ToBase64String(CryptographyControl.GenerateSalt());
             _hashedPassword = CryptographyControl.HashPasswordWithSalt(password, _salt);

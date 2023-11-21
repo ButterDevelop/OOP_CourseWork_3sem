@@ -2,7 +2,7 @@
 CREATE TABLE Users (
     Id INT PRIMARY KEY IDENTITY,
     Username NVARCHAR(50) NOT NULL,
-    Salt NVARCHAR(50) NOT NULL,
+    Salt NVARCHAR(255) NOT NULL,
     HashedPassword NVARCHAR(255) NOT NULL,
     Fullname NVARCHAR(100),
     Email NVARCHAR(100),
@@ -40,7 +40,7 @@ CREATE TABLE Employees (
     DateFired DATETIME,
     DateLastSalaryPayed DATETIME,
     BankAccountNumber NVARCHAR(50),
-    TotalSalaryPayed FLOAT,
+    TotalSalaryPaid FLOAT,
     IsWorkingNow BIT,
     FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
@@ -70,7 +70,7 @@ CREATE TABLE ServiceReports (
     IsStarted BIT,
     IsFinished BIT,
     PlannedCompletionDays INT,
-    WorkerId INT,
+    WorkerId INT NULL,
     ServicedCarId INT,
     EmployeeReport NVARCHAR(255),
     FOREIGN KEY (WorkerId) REFERENCES Employees(UserId),
@@ -98,6 +98,7 @@ CREATE TABLE Orders (
     OrderedCarId INT,
     OrderedHours INT NOT NULL,
     OrderPaymentId INT,
+	OrderExtendPaymentsIdsString NVARCHAR(255) NULL,
     IsCancelled BIT NOT NULL,
     FOREIGN KEY (OrderedCarId) REFERENCES Cars(Id),
     FOREIGN KEY (OrderPaymentId) REFERENCES Payments(Id)
@@ -108,7 +109,7 @@ CREATE TABLE BankTransactions (
     Id INT PRIMARY KEY IDENTITY,
     FromCardNumberOrBankAccountNumber NVARCHAR(50),
     ToCardNumberOrBankAccountNumber NVARCHAR(50),
-    UserId INT,
+    UserId INT NULL,
     CreatedTime DATETIME NOT NULL,
     PayedTime DATETIME,
     CancelledTime DATETIME,

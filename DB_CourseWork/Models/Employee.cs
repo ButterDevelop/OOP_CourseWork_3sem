@@ -4,7 +4,7 @@ using System;
 
 namespace DB_CourseWork.Models
 {
-    internal class Employee : User
+    public class Employee : User
     {
         public static double SalaryPerDay = 100;
 
@@ -20,8 +20,8 @@ namespace DB_CourseWork.Models
         public Employee() : base() 
         {
             _ordersProccessed = _daysWorked = 0;
-            _dateHired = DateTime.Now;
-            _dateFired = DateTime.MinValue;
+            _dateHired = DateTime.UtcNow;
+            _dateFired = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _bankAccountNumber = string.Empty;
             _totalSalaryPayed = 0;
             _isWorkingNow = true;
@@ -31,8 +31,8 @@ namespace DB_CourseWork.Models
                                           user.Phone, RolesContainer.Employee, user.IsAccountSetupCompleted, user.AccountDeactivated)
         {
             _ordersProccessed = _daysWorked = 0;
-            _dateHired = DateTime.Now;
-            _dateFired = DateTime.MinValue;
+            _dateHired = DateTime.UtcNow;
+            _dateFired = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _bankAccountNumber = string.Empty;
             _totalSalaryPayed = 0;
             _isWorkingNow = true;
@@ -42,8 +42,8 @@ namespace DB_CourseWork.Models
             : base(username, password, fullname, email, phone, RolesContainer.Employee)
         {
             _ordersProccessed = _daysWorked = 0;
-            _dateHired = DateTime.Now;
-            _dateFired = DateTime.MinValue;
+            _dateHired = DateTime.UtcNow;
+            _dateFired = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             _bankAccountNumber = string.Empty;
             _totalSalaryPayed = 0;
             _isWorkingNow = true;

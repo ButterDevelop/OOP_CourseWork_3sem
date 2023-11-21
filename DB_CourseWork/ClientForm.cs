@@ -78,7 +78,10 @@ namespace DB_CourseWork
             var result = MessageBox.Show("Вы уверены, что хотите выйти из программы?", "Точно выйти?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Environment.Exit(0);
+                BeginInvoke(new Action(() =>
+                {
+                    Environment.Exit(0);
+                }));
             } 
             else
             {
@@ -371,7 +374,7 @@ namespace DB_CourseWork
                 }
 
                 //Отменяем текущие заказы, если они есть у пользователя
-                foreach (var order in _dbContext.Orders.GetAll().Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.Now))
+                foreach (var order in _dbContext.Orders.GetAll().Where(x => !x.IsCancelled && x.OrderBookingTime >= DateTime.UtcNow))
                 {
                     order.Cancel();
                     _dbContext.Orders.Update(order);
@@ -458,21 +461,21 @@ namespace DB_CourseWork
         {
             listViewPayments.Items.Clear();
 
-            var payments = _dbContext.BankTransactions.GetAll().Where(x => x.UserId != -1 && _dbContext.Clients.Get(x.UserId).UserName == _dbContext.CurrentUser.UserName)
+            var payments = _dbContext.BankTransactions.GetAll().Where(x => x.UserId.HasValue && _dbContext.Clients.Get(x.UserId.Value).UserName == _dbContext.CurrentUser.UserName)
                                                                .OrderByDescending(x => x.CreatedTime);
             foreach (var pay in payments)
             {
                 string[] arr = new string[6];
                 arr[0] = string.Empty;
-                arr[1] = pay.UserId == -1 ? pay.ToCardNumberOrBankAccountNumber : pay.FromCardNumberOrBankAccountNumber;
+                arr[1] = !pay.UserId.HasValue ? pay.ToCardNumberOrBankAccountNumber : pay.FromCardNumberOrBankAccountNumber;
                 arr[2] = pay.CreatedTime.ToString();
-                arr[3] = (pay.IsCancelled ? "?" : (pay.UserId == -1 ? "+" : "-")) + pay.TotalAmount.ToString().Replace(",", ".");
+                arr[3] = (pay.IsCancelled ? "?" : (!pay.UserId.HasValue ? "+" : "-")) + pay.TotalAmount.ToString().Replace(",", ".");
                 arr[4] = pay.IsFinished ? "Да" : "Нет";
                 arr[5] = pay.IsCancelled ? "Да" : "Нет";
 
                 ListViewItem item = new ListViewItem(arr);
                 item.UseItemStyleForSubItems = false;
-                item.SubItems[3].ForeColor = pay.IsCancelled ? Color.DarkGray : (pay.UserId == -1 ? Color.Green : Color.DarkRed);
+                item.SubItems[3].ForeColor = pay.IsCancelled ? Color.DarkGray : (!pay.UserId.HasValue ? Color.Green : Color.DarkRed);
                 item.SubItems[4].ForeColor = pay.IsFinished ? Color.Green : Color.DarkRed;
                 item.SubItems[5].ForeColor = pay.IsCancelled ? Color.Green : Color.DarkRed;
                 listViewPayments.Items.Add(item);
@@ -725,7 +728,7 @@ namespace DB_CourseWork
             }
 
             if (_dbContext.Orders.GetAll().Count(x => DatabaseContext.DbContext.Payments.Get(x.OrderPaymentId).UserId == _dbContext.CurrentUser.Id 
-                                                 && DatabaseContext.DbContext.Payments.Get(x.OrderPaymentId).CreatedTime >= DateTime.Now.AddHours(-1)) >= 3)
+                                                 && DatabaseContext.DbContext.Payments.Get(x.OrderPaymentId).CreatedTime >= DateTime.UtcNow.AddHours(-1)) >= 3)
             {
                 MessageBox.Show("Вы сделали слишком много заказов за последний час! Подождите немного!", "Вы сделали 3 заказа за последний час.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -753,11 +756,11 @@ namespace DB_CourseWork
             }
 
             DateTime bookingDateTime = new DateTime(dateTimePickerMakeAnOrder_BookingDate.Value.Year,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Month,
-                                                                  dateTimePickerMakeAnOrder_BookingDate.Value.Day,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
-                                                                  dateTimePickerMakeAnOrder_BookingTime.Value.Second);
+                                                    dateTimePickerMakeAnOrder_BookingDate.Value.Month,
+                                                    dateTimePickerMakeAnOrder_BookingDate.Value.Day,
+                                                    dateTimePickerMakeAnOrder_BookingTime.Value.Hour,
+                                                    dateTimePickerMakeAnOrder_BookingTime.Value.Minute,
+                                                    dateTimePickerMakeAnOrder_BookingTime.Value.Second);
             if ((bookingDateTime - DateTime.Now).TotalMinutes < 30) bookingDateTime = DateTime.Now.AddMinutes(30);
 
             Payment payment = new Payment((Client)_dbContext.CurrentUser, hours * car.PricePerHour);
@@ -766,7 +769,7 @@ namespace DB_CourseWork
                 MessageBox.Show("Заказ НЕ был создан, его не удалось оплатить! Кажется, у Вас недостаточно средств на балансе.", "Ошибка оплаты!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Order order = new Order(payment, car, (Client)_dbContext.CurrentUser, bookingDateTime, hours);
+            Order order = new Order(payment, car, (Client)_dbContext.CurrentUser, bookingDateTime.ToUniversalTime(), hours);
             _dbContext.Orders.Add(order);
 
             RefreshBalanceNumber();
@@ -796,10 +799,10 @@ namespace DB_CourseWork
                 string[] arr = new string[7];
                 arr[0] = "";
                 arr[1] = (counter--).ToString();
-                arr[2] = order.OrderBookingTime.ToString();
+                arr[2] = order.OrderBookingTime.ToLocalTime().ToString();
                 arr[3] = order.OrderHours.ToString();
-                arr[4] = order.OrderBookingTime.AddHours(order.OrderHours).ToString();
-                arr[5] = order.IsCancelled ? "Отменён" : (order.OrderBookingTime.AddHours(order.OrderHours) <= DateTime.Now ? "Закончен" : "Активен");
+                arr[4] = order.OrderBookingTime.AddHours(order.OrderHours).ToLocalTime().ToString();
+                arr[5] = order.IsCancelled ? "Отменён" : (order.OrderBookingTime.AddHours(order.OrderHours) <= DateTime.UtcNow ? "Закончен" : "Активен");
                 arr[6] = orderPayment.Cost.ToString("N2").Replace(",", ".");
 
                 ListViewItem item = new ListViewItem(arr);
@@ -827,12 +830,12 @@ namespace DB_CourseWork
                 var order = _dbContext.Orders.GetAll().FirstOrDefault(x => x.Id == orderId);
                 if (order is null) return;
 
-                if (!order.IsCancelled && order.OrderBookingTime > DateTime.Now)
+                if (!order.IsCancelled && order.OrderBookingTime > DateTime.UtcNow)
                     buttonOrderList_CancelOrder.Enabled = true;
                 else
                     buttonOrderList_CancelOrder.Enabled = false;
 
-                if (!order.IsCancelled && order.OrderBookingTime.AddHours(order.OrderHours) >= DateTime.Now)
+                if (!order.IsCancelled && order.OrderBookingTime.AddHours(order.OrderHours) >= DateTime.UtcNow)
                 {
                     buttonOrderList_OpenCarLocationMap.Enabled = true;
                     buttonOrderList_ExtendTheOrder.Enabled = true;
@@ -850,7 +853,7 @@ namespace DB_CourseWork
                 textBoxOrderList_ProductionYear.Text  = orderedCar.ProductionYear.ToString("yyyy");
                 textBoxOrderList_PricePerHour.Text    = orderedCar.PricePerHour.ToString("N2").Replace(",", ".");
                 textBoxOrderList_CarLicensePlate.Text = orderedCar.CarLicensePlate;
-                textBoxOrderList_LastServiceDate.Text = orderedCar.LastServiceTime == DateTime.MinValue ? "Пока не было" : orderedCar.LastServiceTime.ToString("d");
+                textBoxOrderList_LastServiceDate.Text = orderedCar.LastServiceTime == new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) ? "Пока не было" : orderedCar.LastServiceTime.ToString("d");
             } 
             else
             {
@@ -895,7 +898,7 @@ namespace DB_CourseWork
                 return;
             }
 
-            if (order.OrderBookingTime <= DateTime.Now)
+            if (order.OrderBookingTime <= DateTime.UtcNow)
             {
                 MessageBox.Show("Время брони наступило, заказ уже открыт! Невозможно отменить его!", "Невозможно отменить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 buttonOrderList_CancelOrder.Enabled = false;
@@ -923,7 +926,7 @@ namespace DB_CourseWork
             var order = _dbContext.Orders.GetAll().FirstOrDefault(x => x.Id == orderId);
             if (order is null) return;
 
-            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
+            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.UtcNow)
             {
                 MessageBox.Show("Заказ уже закончен или отменён! Невозможно продлить его!", "Невозможно продлить заказ!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 buttonOrderList_ExtendTheOrder.Enabled = false;
@@ -970,7 +973,7 @@ namespace DB_CourseWork
             var order = _dbContext.Orders.GetAll().FirstOrDefault(x => x.Id == orderId);
             if (order is null) return;
 
-            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.Now)
+            if (order.IsCancelled || order.OrderBookingTime.AddHours(order.OrderHours) < DateTime.UtcNow)
             {
                 MessageBox.Show("Заказ уже закончен или отменён! Невозможно просмотреть местоположение автомобиля!", "Невозможно найти автомобиль!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 buttonOrderList_OpenCarLocationMap.Enabled = false;
