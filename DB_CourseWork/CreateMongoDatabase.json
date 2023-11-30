@@ -1,4 +1,4 @@
-// Создание коллекции Users
+// Создание коллекции Admins
 db.createCollection("Admins", {
     validator: {
         $jsonSchema: {
