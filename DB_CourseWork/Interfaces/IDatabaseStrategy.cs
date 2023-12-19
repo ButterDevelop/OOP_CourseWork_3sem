@@ -14,5 +14,4 @@ namespace DB_CourseWork.Interfaces
 
         void Delete(int id);
     }
-
 }
